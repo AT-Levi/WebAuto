@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: WebAuto
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/webauto
+    username: postgres
+    password: root123
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show_sql: true
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+
+# JWT Configuration
+jwt:
+  secret: YourSecretKeyForJWT
+  expiration: 36000000
+
+# Server
+server:
+  port: 8080
