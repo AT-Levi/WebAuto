@@ -19,7 +19,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
 public class BlogPost extends BaseEntity{
-
     private String title;
     private String content;
     private String author;
