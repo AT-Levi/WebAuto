@@ -39,8 +39,8 @@ public class Car extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private EngineType engineType;
 
-    @Enumerated(EnumType.STRING)
-    private CarType carType;
+
+    private Long carTypeId;
 
     private Long mileage;
 
