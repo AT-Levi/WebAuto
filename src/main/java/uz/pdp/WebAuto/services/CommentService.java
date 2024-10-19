@@ -1,4 +1,4 @@
-package uz.pdp.WebAuto.service;
+package uz.pdp.WebAuto.services;
 
 public class CommentService {
 }

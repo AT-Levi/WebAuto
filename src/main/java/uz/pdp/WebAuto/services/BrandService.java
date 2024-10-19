@@ -1,4 +1,4 @@
-package uz.pdp.WebAuto.service;
+package uz.pdp.WebAuto.services;
 
 import uz.pdp.WebAuto.entity.car.Brand;
 import uz.pdp.WebAuto.repository.BrandRepository;

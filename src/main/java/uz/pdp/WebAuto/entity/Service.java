@@ -1,6 +1,5 @@
-package uz.pdp.WebAuto.entity.service;
+package uz.pdp.WebAuto.entity;
 
-import uz.pdp.WebAuto.entity.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;

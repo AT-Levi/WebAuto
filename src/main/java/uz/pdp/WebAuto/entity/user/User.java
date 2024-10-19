@@ -25,6 +25,9 @@ public class User extends BaseEntity {
     @NotBlank(message = "Password cannot be empty")
     private String password;
 
+    @Column(name = "full_name", nullable = false)
+    private String fullName;
+
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private UserRole role = UserRole.USER;
@@ -37,4 +40,7 @@ public class User extends BaseEntity {
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email cannot be empty")
     private String email;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
 }

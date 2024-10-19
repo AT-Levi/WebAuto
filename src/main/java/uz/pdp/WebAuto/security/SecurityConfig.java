@@ -1,7 +1,8 @@
 package uz.pdp.WebAuto.security;
 
 import lombok.RequiredArgsConstructor;
-import uz.pdp.WebAuto.service.CustomUserDetailsService;
+import uz.pdp.WebAuto.filters.JwtRequestFilter;
+import uz.pdp.WebAuto.services.custom.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

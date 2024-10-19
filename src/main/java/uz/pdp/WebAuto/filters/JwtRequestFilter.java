@@ -1,6 +1,6 @@
-package uz.pdp.WebAuto.security;
+package uz.pdp.WebAuto.filters;
 
-import uz.pdp.WebAuto.service.CustomUserDetailsService;
+import uz.pdp.WebAuto.services.custom.CustomUserDetailsService;
 import uz.pdp.WebAuto.util.JwtTokenUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
