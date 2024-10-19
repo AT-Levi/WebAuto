@@ -1,6 +1,6 @@
 package com.example.WebAuto.service;
 
-import com.example.WebAuto.entity.User;
+import com.example.WebAuto.entity.user.User;
 import com.example.WebAuto.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

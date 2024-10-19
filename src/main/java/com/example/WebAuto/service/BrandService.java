@@ -1,6 +1,6 @@
 package com.example.WebAuto.service;
 
-import com.example.WebAuto.entity.Brand;
+import com.example.WebAuto.entity.car.Brand;
 import com.example.WebAuto.repository.BrandRepository;
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,6 @@
-package com.example.WebAuto.entity;
+package com.example.WebAuto.entity.user;
 
+import com.example.WebAuto.entity.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Address extends BaseEntity{
+public class Address extends BaseEntity {
     private String street;
 
     private String city;
