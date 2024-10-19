@@ -22,17 +22,21 @@ public abstract class BaseEntity {
     private Long id;
 
     @CreatedDate
+    @JoinColumn(name = "created_at")
     private LocalDateTime createdAt;
 
     @CreatedBy
+    @JoinColumn(name = "created_by", updatable = false)
     private Long createdBy;
 
     @Version
     private Long version;
 
     @LastModifiedBy
+    @Column(name = "updated_by")
     private Long updatedBy;
 
     @LastModifiedDate
+    @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 }

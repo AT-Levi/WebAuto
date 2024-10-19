@@ -1,8 +1,6 @@
 package com.example.WebAuto.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,17 +14,18 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class Comment extends BaseEntity{
+public class Comment extends BaseEntity {
 
     @Column(nullable = false)
     private String text;
 
-    @Column(nullable = false)
-    private Long ownerId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "owner_id", nullable = false)
+    private User ownerId;
 
-    @Column(nullable = false)
+    @Column(name = "object_type", nullable = false)
     private String objectType;
 
-    @Column(nullable = false)
+    @Column(name = "object_id", nullable = false)
     private Long objectId;
 }

@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "services")
 @Getter
@@ -16,10 +18,10 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class Service extends BaseEntity{
+public class Service extends BaseEntity {
 
     private String name;
     private String description;
-    private double price;
+    private BigDecimal price;
 
 }

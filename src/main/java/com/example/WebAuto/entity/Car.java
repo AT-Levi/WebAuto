@@ -31,16 +31,19 @@ public class Car extends BaseEntity {
     private String warranty;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "fuel_type")
     private FuelType fuelType;
 
     @Enumerated(EnumType.STRING)
     private TransmissionType transmission;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "engine_type")
     private EngineType engineType;
 
-
-    private Long carTypeId;
+    @OneToOne
+    @JoinColumn(name = "car_type_id")
+    private CarType carTypeId;
 
     private Long mileage;
 
@@ -53,6 +56,6 @@ public class Car extends BaseEntity {
 
     private double price;
 
-    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
-    private List<Image> imgUrls;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Image> images;
 }

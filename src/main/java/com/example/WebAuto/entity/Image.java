@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-
 @Entity
 @Table(name = "images")
 @Getter
@@ -21,7 +20,4 @@ import lombok.experimental.SuperBuilder;
 public class Image extends BaseEntity{
     private String url;
 
-    @ManyToOne
-    @JoinColumn(name = "car_id", nullable = false)
-    private Car car;
 }
