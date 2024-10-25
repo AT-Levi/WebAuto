@@ -1,16 +1,13 @@
 package uz.pdp.WebAuto.services;
 
 import org.springframework.stereotype.Service;
-import uz.pdp.WebAuto.dtos.AuthenticationDto;
-import uz.pdp.WebAuto.dtos.Tokens;
+import uz.pdp.WebAuto.dto.AuthenticationDto;
+import uz.pdp.WebAuto.dto.Tokens;
 import uz.pdp.WebAuto.entity.user.User;
 import uz.pdp.WebAuto.exception.UserNotFoundException;
 import uz.pdp.WebAuto.repository.RefreshTokenRepository;
 import uz.pdp.WebAuto.repository.UserRepository;
 import uz.pdp.WebAuto.util.JwtTokenUtil;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class RefreshTokenService {

@@ -1,4 +1,4 @@
-package uz.pdp.WebAuto.dtos;
+package uz.pdp.WebAuto.dto;
 
 public record AuthUserDto(
         String username,
