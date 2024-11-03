@@ -1,5 +1,6 @@
 package uz.pdp.WebAuto.services;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import uz.pdp.WebAuto.dto.AuthenticationDto;
 import uz.pdp.WebAuto.dto.Tokens;
@@ -8,6 +9,8 @@ import uz.pdp.WebAuto.exception.UserNotFoundException;
 import uz.pdp.WebAuto.repository.RefreshTokenRepository;
 import uz.pdp.WebAuto.repository.UserRepository;
 import uz.pdp.WebAuto.util.JwtTokenUtil;
+
+import java.util.Optional;
 
 @Service
 public class RefreshTokenService {
@@ -39,14 +42,14 @@ public class RefreshTokenService {
     }
 
     private void deleteWithUserId(Long userId) {
-        refreshTokenRepository.deleteWithUserId(userId);
+        refreshTokenRepository.deleteByUserId(userId);
     }
-
     private Long getUserIdWithUsernameOrEmail(String usernameOrEmail) {
-        User user = userRepository.findByUsernameOrEmail(usernameOrEmail);
-
-        return user.getId();
+        return userRepository.findByUsernameOrEmail(usernameOrEmail)
+                .map(User::getId)
+                .orElseThrow(() -> new UsernameNotFoundException("Пользователь с именем пользователя или email " + usernameOrEmail + " не найден"));
     }
+
 
 
 }

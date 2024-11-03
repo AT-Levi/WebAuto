@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AwsS3Config {
+
     @Value("${aws.access.key}")
     private String ACCESS_KEY;
     @Value("${aws.secret.key}")
@@ -18,6 +19,7 @@ public class AwsS3Config {
     private String BUCKET_NAME;
     @Value("${aws.region}")
     private String REGION;
+
 
     public AwsS3Config() {
     }

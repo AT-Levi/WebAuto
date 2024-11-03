@@ -6,5 +6,6 @@ import uz.pdp.WebAuto.entity.RefreshToken;
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
 
 
-    void deleteWithUserId(Long userId);
+    void deleteByUserId(Long userId);
+
 }
