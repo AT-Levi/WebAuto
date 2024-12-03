@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import uz.pdp.WebAuto.dtos.AuthUserDTO;
 import uz.pdp.WebAuto.dtos.UserDataDTO;
 import uz.pdp.WebAuto.entity.Role;
-import uz.pdp.WebAuto.entity.user.AuthUser;
+import uz.pdp.WebAuto.entity.AuthUser;
 import uz.pdp.WebAuto.enums.UserRoleName;
 import uz.pdp.WebAuto.handler.exception.UserDeletedException;
 import uz.pdp.WebAuto.handler.exception.UserNotFoundException;

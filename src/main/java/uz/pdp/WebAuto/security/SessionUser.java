@@ -1,6 +1,6 @@
 package uz.pdp.WebAuto.security;
 
-import uz.pdp.WebAuto.entity.user.AuthUser;
+import uz.pdp.WebAuto.entity.AuthUser;
 import uz.pdp.WebAuto.service.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;

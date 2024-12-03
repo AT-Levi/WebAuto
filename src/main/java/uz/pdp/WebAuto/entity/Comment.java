@@ -1,7 +1,6 @@
 package uz.pdp.WebAuto.entity;
 
 import uz.pdp.WebAuto.enums.ObjectType;
-import uz.pdp.WebAuto.entity.user.AuthUser;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -2,7 +2,7 @@ package uz.pdp.WebAuto.service.car;
 
 
 import org.springframework.stereotype.Service;
-import uz.pdp.WebAuto.entity.car.CarType;
+import uz.pdp.WebAuto.entity.CarType;
 import uz.pdp.WebAuto.repository.car.CarTypeRepository;
 
 import java.util.List;

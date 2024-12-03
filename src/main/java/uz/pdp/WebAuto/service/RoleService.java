@@ -3,7 +3,7 @@ package uz.pdp.WebAuto.service;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import uz.pdp.WebAuto.entity.Role;
-import uz.pdp.WebAuto.entity.user.AuthUser;
+import uz.pdp.WebAuto.entity.AuthUser;
 import uz.pdp.WebAuto.enums.UserRoleName;
 import uz.pdp.WebAuto.handler.exception.UserNotFoundException;
 import uz.pdp.WebAuto.repository.RoleRepository;
