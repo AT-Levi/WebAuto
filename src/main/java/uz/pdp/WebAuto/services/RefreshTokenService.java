@@ -6,11 +6,9 @@ import uz.pdp.WebAuto.dto.AuthenticationDto;
 import uz.pdp.WebAuto.dto.Tokens;
 import uz.pdp.WebAuto.entity.user.User;
 import uz.pdp.WebAuto.exception.UserNotFoundException;
-import uz.pdp.WebAuto.repository.RefreshTokenRepository;
-import uz.pdp.WebAuto.repository.UserRepository;
+import uz.pdp.WebAuto.repository.user.RefreshTokenRepository;
+import uz.pdp.WebAuto.repository.user.UserRepository;
 import uz.pdp.WebAuto.util.JwtTokenUtil;
-
-import java.util.Optional;
 
 @Service
 public class RefreshTokenService {

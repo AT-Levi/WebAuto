@@ -1,5 +1,6 @@
-package uz.pdp.WebAuto.entity;
+package uz.pdp.WebAuto.entity.blog;
 
+import uz.pdp.WebAuto.entity.BaseEntity;
 import uz.pdp.WebAuto.enums.ObjectType;
 import uz.pdp.WebAuto.entity.user.User;
 import jakarta.persistence.*;

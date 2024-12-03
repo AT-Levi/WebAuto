@@ -1,5 +1,7 @@
-package uz.pdp.WebAuto.entity;
+package uz.pdp.WebAuto.entity.blog;
 
+import uz.pdp.WebAuto.entity.BaseEntity;
+import uz.pdp.WebAuto.entity.Image;
 import uz.pdp.WebAuto.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;

@@ -2,7 +2,7 @@ package uz.pdp.WebAuto.services.custom;
 
 import lombok.RequiredArgsConstructor;
 import uz.pdp.WebAuto.entity.user.User;
-import uz.pdp.WebAuto.repository.UserRepository;
+import uz.pdp.WebAuto.repository.user.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

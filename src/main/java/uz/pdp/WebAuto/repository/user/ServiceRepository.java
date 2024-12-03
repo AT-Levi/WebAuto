@@ -1,4 +1,4 @@
-package uz.pdp.WebAuto.repository;
+package uz.pdp.WebAuto.repository.user;
 
 import uz.pdp.WebAuto.entity.Service;
 import org.springframework.data.jpa.repository.JpaRepository;

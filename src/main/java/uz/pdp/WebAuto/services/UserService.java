@@ -2,7 +2,7 @@ package uz.pdp.WebAuto.services;
 
 import uz.pdp.WebAuto.dto.AuthenticationDto;
 import uz.pdp.WebAuto.entity.user.User;
-import uz.pdp.WebAuto.repository.UserRepository;
+import uz.pdp.WebAuto.repository.user.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

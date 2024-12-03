@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 @Service
 public class S3StoryService {
     private final AmazonS3 client;
-    @Value("${aws.bucket.name}")
+    @Value("${server.spring.cloud.aws.s3.bucket}")
     private String bucketName;
-    @Value("${public.folder.path}")
+    /*@Value("${public.folder.path}")
     private String publicFolderPath;
-
+*/
     public S3StoryService(AmazonS3 client) {
         this.client = client;
     }

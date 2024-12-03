@@ -3,25 +3,44 @@ spring:
     name: WebAuto
 
   datasource:
-    url: jdbc:postgresql://localhost:1034/webauto
+    url: jdbc:postgresql://localhost:5432/webauto
     username: postgres
-    password: 1234
+    password: 123
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
       ddl-auto: update
-
     properties:
       hibernate:
         format_sql: true
         show_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 10MB
+      max-file-size: 20MB
+      max-request-size: 50MB
 
 # JWT Configuration
 jwt:
-  secret: "dfasfsdflllfe90234324dfsa"
+  secret: "QWERTYUIOPasdfghjkl1234zxcvbnm56789"
   expiration: 36000000
 
 # Server
 server:
   port: 8080
+
+# AWS S3 Configuration
+  spring:
+    cloud:
+      aws:
+        region:
+          static: ap-northeast-1
+        s3:
+          bucket: fastfoodbucket
+        credentials:
+          access-key: AKIAUQ4L3OE7VUEDRTN4
+          secret-key: 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
