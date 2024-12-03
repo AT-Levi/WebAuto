@@ -27,11 +27,11 @@ import java.util.stream.Collectors;
 public class AuthUser extends BaseEntity implements UserDetails {
 
     @Column(nullable = false, unique = true)
-    @NotBlank(message = "Username cannot be empty")
+//    @NotBlank(message = "Username cannot be empty")
     private String username;
 
     @Column(nullable = false)
-    @NotBlank(message = "Password cannot be empty")
+//    @NotBlank(message = "Password cannot be empty")
     private String password;
 
     @Column(name = "first_name")
@@ -60,8 +60,8 @@ public class AuthUser extends BaseEntity implements UserDetails {
     private UserStatus status = UserStatus.ACTIVE;
 
     @Column(nullable = false, unique = true)
-    @Email(message = "Email should be valid")
-    @NotBlank(message = "Email cannot be empty")
+//    @Email(message = "Email should be valid")
+//    @NotBlank(message = "Email cannot be empty")
     private String email;
 
     @Column(name = "phone_number")
