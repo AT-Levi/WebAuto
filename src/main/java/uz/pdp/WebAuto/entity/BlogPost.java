@@ -1,6 +1,6 @@
 package uz.pdp.WebAuto.entity;
 
-import uz.pdp.WebAuto.entity.user.User;
+import uz.pdp.WebAuto.entity.user.AuthUser;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,7 +21,7 @@ public class BlogPost extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id", nullable = false, updatable = false)
-    private User author;
+    private AuthUser author;
 
     private LocalDate date;
 

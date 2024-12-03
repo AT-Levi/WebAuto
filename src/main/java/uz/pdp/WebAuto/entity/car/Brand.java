@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import uz.pdp.WebAuto.entity.user.User;
+import uz.pdp.WebAuto.entity.user.AuthUser;
 
 import java.util.Date;
 
@@ -31,7 +31,7 @@ public class Brand extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
-    private User owner;
+    private AuthUser owner;
 
     private String country;
 
