@@ -2,7 +2,7 @@ package uz.pdp.WebAuto.entity.blog;
 
 import uz.pdp.WebAuto.entity.BaseEntity;
 import uz.pdp.WebAuto.enums.ObjectType;
-import uz.pdp.WebAuto.entity.user.User;
+import uz.pdp.WebAuto.entity.user.AuthUser;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,7 +20,7 @@ public class Comment extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", nullable = false)
-    private User ownerId;
+    private AuthUser ownerId;
 
     @Column(name = "object_type", nullable = false)
     private ObjectType objectType;

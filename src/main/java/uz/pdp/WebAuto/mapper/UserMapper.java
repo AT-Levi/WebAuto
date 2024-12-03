@@ -2,16 +2,23 @@ package uz.pdp.WebAuto.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import uz.pdp.WebAuto.dto.AuthUserDto;
-import uz.pdp.WebAuto.dto.AuthenticationDto;
-import uz.pdp.WebAuto.entity.user.User;
+import org.springframework.security.core.GrantedAuthority;
+import uz.pdp.WebAuto.dtos.*;
+import uz.pdp.WebAuto.entity.user.AuthUser;
+
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Mapper
 public interface UserMapper {
 
     UserMapper USER_MAPPER = Mappers.getMapper(UserMapper.class);
 
-    User toEntity(AuthenticationDto authenticationDto);
+    AuthUser toEntity(AuthenticationDTO authenticationDto);
 
-    User toEntity(AuthUserDto authUserDto);
+    AuthUser toEntity(AuthUserDTO authUserDto);
+
+    UserDataDTO toDto(AuthUser user);
+
 }
