@@ -1,13 +1,10 @@
-package uz.pdp.WebAuto.entity.car;
+package uz.pdp.WebAuto.entity;
 
-import uz.pdp.WebAuto.entity.BaseEntity;
-import uz.pdp.WebAuto.entity.Image;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import uz.pdp.WebAuto.entity.user.AuthUser;
 
 import java.util.Date;
 

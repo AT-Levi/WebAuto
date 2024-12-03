@@ -3,7 +3,7 @@ package uz.pdp.WebAuto.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import uz.pdp.WebAuto.entity.user.AuthUser;
+import uz.pdp.WebAuto.entity.AuthUser;
 
 import java.util.Optional;
 

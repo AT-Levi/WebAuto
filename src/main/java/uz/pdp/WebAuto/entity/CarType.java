@@ -1,7 +1,5 @@
-package uz.pdp.WebAuto.entity.car;
+package uz.pdp.WebAuto.entity;
 
-import uz.pdp.WebAuto.entity.BaseEntity;
-import uz.pdp.WebAuto.entity.Image;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;

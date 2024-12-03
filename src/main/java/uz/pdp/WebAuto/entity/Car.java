@@ -1,7 +1,5 @@
-package uz.pdp.WebAuto.entity.car;
+package uz.pdp.WebAuto.entity;
 
-import uz.pdp.WebAuto.entity.BaseEntity;
-import uz.pdp.WebAuto.entity.Image;
 import uz.pdp.WebAuto.enums.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

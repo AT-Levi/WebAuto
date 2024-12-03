@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import uz.pdp.WebAuto.entity.user.AuthUser;
 import uz.pdp.WebAuto.enums.UserRoleName;
 
 import java.util.Set;

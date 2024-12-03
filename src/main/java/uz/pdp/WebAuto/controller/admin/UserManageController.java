@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import uz.pdp.WebAuto.dtos.UserDataDTO;
-import uz.pdp.WebAuto.entity.user.AuthUser;
+import uz.pdp.WebAuto.entity.AuthUser;
 import uz.pdp.WebAuto.service.UserService;
 
 import java.util.List;

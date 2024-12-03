@@ -1,4 +1,4 @@
-package uz.pdp.WebAuto.entity.user;
+package uz.pdp.WebAuto.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -10,9 +10,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import uz.pdp.WebAuto.entity.Address;
-import uz.pdp.WebAuto.entity.BaseEntity;
-import uz.pdp.WebAuto.entity.Role;
 import uz.pdp.WebAuto.enums.UserStatus;
 
 import java.util.Collection;

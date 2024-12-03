@@ -1,6 +1,6 @@
 package uz.pdp.WebAuto.service.car;
 
-import uz.pdp.WebAuto.entity.car.Brand;
+import uz.pdp.WebAuto.entity.Brand;
 import uz.pdp.WebAuto.repository.car.BrandRepository;
 import org.springframework.stereotype.Service;
 

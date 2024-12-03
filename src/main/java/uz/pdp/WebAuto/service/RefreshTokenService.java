@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import uz.pdp.WebAuto.dtos.AuthUserDTO;
 import uz.pdp.WebAuto.dtos.TokensDTO;
 import uz.pdp.WebAuto.entity.RefreshToken;
-import uz.pdp.WebAuto.entity.user.AuthUser;
+import uz.pdp.WebAuto.entity.AuthUser;
 import uz.pdp.WebAuto.repository.RefreshTokenRepository;
 import uz.pdp.WebAuto.security.CustomUserDetailsService;
 import uz.pdp.WebAuto.security.JwtTokenUtil;
