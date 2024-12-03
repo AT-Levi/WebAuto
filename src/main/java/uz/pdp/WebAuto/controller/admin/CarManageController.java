@@ -3,7 +3,6 @@ package uz.pdp.WebAuto.controller.admin;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.WebAuto.dtos.CreateCarDTO;
-import uz.pdp.WebAuto.entity.car.Car;
 import uz.pdp.WebAuto.service.CarServiceImp;
 import uz.pdp.WebAuto.service.imps.CarService;
 
