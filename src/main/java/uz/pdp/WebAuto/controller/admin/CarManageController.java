@@ -18,7 +18,7 @@ public class CarManageController {
     public CarManageController(CarServiceImp carService) {
         this.carService = carService;
     }
-
+/*
     @GetMapping("/get/{id}")
     public ResponseEntity<Car> getCarById(@PathVariable Long id){
         Car car = carService.get(id).orElseThrow(() -> new RuntimeException("Car not found"));
@@ -35,5 +35,5 @@ public class CarManageController {
     public ResponseEntity<List<Car>> getAllCars(){
         List<Car> allCars = carService.getAllCars();
         return ResponseEntity.ok(allCars);
-    }
+    }*/
 }
