@@ -15,6 +15,8 @@ import java.util.List;
 
 @Configuration
 public class OpenApi {
+
+    // Open API
     @Bean
     public OpenAPI customOpenApi() {
         return new OpenAPI()
