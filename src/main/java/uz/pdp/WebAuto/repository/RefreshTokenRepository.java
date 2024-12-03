@@ -1,4 +1,4 @@
-package uz.pdp.WebAuto.repository.user;
+package uz.pdp.WebAuto.repository;
 
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;

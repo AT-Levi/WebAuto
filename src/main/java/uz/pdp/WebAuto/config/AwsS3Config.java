@@ -1,4 +1,5 @@
 package uz.pdp.WebAuto.config;
+
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
@@ -10,17 +11,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AwsS3Config {
 
-    @Value("${server.spring.cloud.aws.credentials.access-key}")
+    @Value("${aws.access.key}")
     private String ACCESS_KEY;
-
-    @Value("${server.spring.cloud.aws.credentials.secret-key}")
+    @Value("${aws.secret.key}")
     private String SECRET_KEY;
-
-    @Value("${server.spring.cloud.aws.s3.bucket}")
+    @Value("${aws.bucket.name}")
     private String BUCKET_NAME;
-
-    @Value("${server.spring.cloud.aws.region.static}")
+    @Value("${aws.region}")
     private String REGION;
+
 
     public AwsS3Config() {
     }
@@ -34,4 +33,6 @@ public class AwsS3Config {
                 .withRegion(REGION)
                 .build();
     }
+
+
 }
