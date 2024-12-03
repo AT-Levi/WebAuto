@@ -39,8 +39,16 @@ public class SecurityConfig {
             "/user/**",
             "/car/**",
 
-            "/swagger",
-            "/docs"
+            "/auth/**",
+            "/error",
+
+            "/user/get/**",
+            "user/home/**",
+            "category/**",
+
+            "/api-docs/**",
+            "/swagger-ui.html",
+            "/swagger-ui/**"
     };
 
     @Lazy
