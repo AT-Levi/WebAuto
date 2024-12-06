@@ -1,5 +1,6 @@
 package uz.pdp.WebAuto.dtos;
 
+import uz.pdp.WebAuto.entity.Brand;
 import uz.pdp.WebAuto.entity.Image;
 import uz.pdp.WebAuto.entity.CarType;
 import uz.pdp.WebAuto.enums.CarCondition;
@@ -23,7 +24,7 @@ public record CreateCarDTO(
         CarType carTypeId,
         Long mileage,
         CarCondition condition,
-        BrandDTO brand,
+        Brand brand,
         BigDecimal price,
         List<Image> images) {
 }
