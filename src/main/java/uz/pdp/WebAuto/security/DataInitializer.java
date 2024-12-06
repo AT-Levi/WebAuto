@@ -8,8 +8,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import uz.pdp.WebAuto.entity.Role;
-import uz.pdp.WebAuto.entity.AuthUser;
-import uz.pdp.WebAuto.enums.UserRoleName;
+import uz.pdp.WebAuto.entity.User;
+import uz.pdp.WebAuto.enums.UserRole;
 import uz.pdp.WebAuto.repository.RoleRepository;
 import uz.pdp.WebAuto.repository.UserRepository;
 
@@ -26,10 +26,10 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
     @Transactional
     @Override
     public void onApplicationEvent(@NonNull ContextRefreshedEvent event) {
-        Role adminRole = createRoleIfNotFound(UserRoleName.ADMIN, UserRoleName.ADMIN.getDescription());
-        Role userRole = createRoleIfNotFound(UserRoleName.USER, UserRoleName.USER.getDescription());
-        Role dealerRole = createRoleIfNotFound(UserRoleName.DEALER, UserRoleName.DEALER.getDescription());
-        Role superAdminRole = createRoleIfNotFound(UserRoleName.SUPER_ADMIN, UserRoleName.SUPER_ADMIN.getDescription());
+        Role adminRole = createRoleIfNotFound(UserRole.ADMIN, UserRole.ADMIN.getDescription());
+        Role userRole = createRoleIfNotFound(UserRole.USER, UserRole.USER.getDescription());
+        Role dealerRole = createRoleIfNotFound(UserRole.DEALER, UserRole.DEALER.getDescription());
+        Role superAdminRole = createRoleIfNotFound(UserRole.SUPER_ADMIN, UserRole.SUPER_ADMIN.getDescription());
 
         if (userRepository.findByUsername("admin").isEmpty()) {
             HashSet<Role> roles = new HashSet<>();
@@ -38,7 +38,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             roles.add(superAdminRole);
             roles.add(dealerRole);
 
-            AuthUser adminUser = AuthUser.builder()
+            User adminUser = User.builder()
                     .username("admin")
                     .password(passwordEncoder.encode("123"))
                     .email("admin@gmail.com")
@@ -49,7 +49,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         }
     }
 
-    public Role createRoleIfNotFound(UserRoleName roleName, String description) {
+    public Role createRoleIfNotFound(UserRole roleName, String description) {
         return roleRepository.findByName(roleName)
                 .orElseGet(() -> {
                     Role newRole = new Role();

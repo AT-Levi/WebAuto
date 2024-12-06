@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "images")
@@ -11,8 +12,9 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder(toBuilder = true)
 public class Image extends BaseEntity {
+
     @Column(name = "image_url")
     private String imageUrl;
 
@@ -26,4 +28,6 @@ public class Image extends BaseEntity {
     private String mimeType;
 
     private String extension;
+
+    private String prefix;
 }

@@ -1,75 +1,33 @@
 package uz.pdp.WebAuto.service;
 
-import jakarta.transaction.Transactional;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import uz.pdp.WebAuto.dtos.AuthUserDTO;
-import uz.pdp.WebAuto.dtos.UserDataDTO;
-import uz.pdp.WebAuto.entity.Role;
-import uz.pdp.WebAuto.entity.AuthUser;
-import uz.pdp.WebAuto.enums.UserRoleName;
-import uz.pdp.WebAuto.handler.exception.UserDeletedException;
-import uz.pdp.WebAuto.handler.exception.UserNotFoundException;
-import uz.pdp.WebAuto.repository.UserRepository;
+import org.springframework.web.multipart.MultipartFile;
+import uz.pdp.WebAuto.dtos.auth.AuthRequestDTO;
+import uz.pdp.WebAuto.dtos.auth.TokensDTO;
+import uz.pdp.WebAuto.dtos.company.CompanyDTO;
+import uz.pdp.WebAuto.dtos.service.CompanyRequestDTO;
+import uz.pdp.WebAuto.dtos.token.RefreshTokenRequestDTO;
+import uz.pdp.WebAuto.dtos.token.RefreshTokenResponseDTO;
+import uz.pdp.WebAuto.dtos.user.UserRequestDTO;
+import uz.pdp.WebAuto.dtos.user.UserResponseDTO;
+import uz.pdp.WebAuto.entity.User;
 
-import java.util.HashSet;
 import java.util.Optional;
 
-import static uz.pdp.WebAuto.mapper.UserMapper.USER_MAPPER;
+public interface UserService {
 
-@Service
-public class UserService {
+    UserResponseDTO register(AuthRequestDTO authRequestDTO);
 
-    private final UserRepository userRepository;
-    private final RoleService roleService;
-    private final PasswordEncoder passwordEncoder;
+    TokensDTO login(AuthRequestDTO authRequestDTO);
 
-    public UserService(UserRepository userRepository, @Lazy RoleService roleService, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.roleService = roleService;
-        this.passwordEncoder = passwordEncoder;
-    }
+    RefreshTokenResponseDTO refreshToken(RefreshTokenRequestDTO refreshTokenRequestDTO);
 
-    public void save(AuthUserDTO user) {
-        AuthUser authUser = USER_MAPPER.toEntity(user); // DTO dan entity ga o'tish
-        HashSet<Role> roles = new HashSet<>();
+    UserResponseDTO me();
 
-        roles.add(roleService.findByName(UserRoleName.USER).orElseThrow(() ->
-                new RuntimeException("Role not found"))); // Role topilmasa exception
-        authUser.setRoles(roles);
+    CompanyDTO createCompany(CompanyRequestDTO companyRequestDTO);
 
-        authUser.setPassword(passwordEncoder.encode(authUser.getPassword()));
+    Optional<User> findById(Long id);
 
-        userRepository.save(authUser);
-    }
+    CompanyDTO saveLogo(MultipartFile logo);
 
-    @Transactional
-    public void save(AuthUser user) {
-        userRepository.save(user);
-    }
-
-    public void isDeleted(AuthUserDTO user) {
-        if (userRepository.idDeleted(USER_MAPPER.toEntity(user).getUsername())) {
-            throw new UserDeletedException("User is deleted");
-        }
-    }
-
-    public Long getIdWithUsername(String username) {
-        return userRepository.getIdWithUsername(username);
-    }
-
-    public Optional<AuthUser> findById(Long userId) {
-        return userRepository.findById(userId);
-    }
-
-    public UserDataDTO getUserById(Long id) {
-        return USER_MAPPER.toDto(findById(id).orElseThrow(() ->
-                new UserNotFoundException("User not found")
-        ));
-    }
-
-    public Optional<AuthUser> findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
+    User findByUsername(String username);
 }

@@ -1,21 +1,21 @@
 package uz.pdp.WebAuto.config;
 
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
 
-//@Configuration
+@Configuration
 public class AwsS3Config {
 
     @Value("${cloud.aws.credentials.access-key}")
     private String ACCESS_KEY;
     @Value("${cloud.aws.credentials.secret-key}")
     private String SECRET_KEY;
-    @Value("${cloud.aws.s3.bucket}")
+    @Value("${cloud.aws.s3.bucket.name}")
     private String BUCKET_NAME;
     @Value("${cloud.aws.region.static}")
     private String REGION;
@@ -25,14 +25,12 @@ public class AwsS3Config {
     }
 
     @Bean
-    public AmazonS3 amazonS3() {
-        BasicAWSCredentials basicAWSCredentials = new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY);
+    public S3Client s3Client() {
+        AwsBasicCredentials awsBasicCredentials = AwsBasicCredentials.create(ACCESS_KEY, SECRET_KEY);
         System.out.println("Creating AmazonS3 client with region: " + REGION);
-        return AmazonS3ClientBuilder.standard()
-                .withCredentials(new AWSStaticCredentialsProvider(basicAWSCredentials))
-                .withRegion(REGION)
+        return S3Client.builder()
+                .region(Region.of(REGION))
+                .credentialsProvider(StaticCredentialsProvider.create(awsBasicCredentials))
                 .build();
     }
-
-
 }

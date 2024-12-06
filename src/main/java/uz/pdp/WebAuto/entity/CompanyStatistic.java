@@ -1,9 +1,8 @@
 package uz.pdp.WebAuto.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "company_statistics")
@@ -11,8 +10,12 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder(toBuilder = true)
 public class CompanyStatistic extends BaseEntity {
+
+    @OneToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
 
     @Column(name = "total_cars")
     private Long totalCars;

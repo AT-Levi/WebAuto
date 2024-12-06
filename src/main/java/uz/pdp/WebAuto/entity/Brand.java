@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 
@@ -14,6 +15,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@SuperBuilder(toBuilder = true)
 public class Brand extends BaseEntity {
 
     private String name;
@@ -28,7 +30,7 @@ public class Brand extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
-    private AuthUser owner;
+    private User owner;
 
     private String country;
 

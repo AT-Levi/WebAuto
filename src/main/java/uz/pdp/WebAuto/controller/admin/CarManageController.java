@@ -1,38 +1,33 @@
 package uz.pdp.WebAuto.controller.admin;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uz.pdp.WebAuto.dtos.CreateCarDTO;
-import uz.pdp.WebAuto.service.CarServiceImp;
-import uz.pdp.WebAuto.service.imps.CarService;
+import uz.pdp.WebAuto.dtos.car.CarDTO;
+import uz.pdp.WebAuto.dtos.car.CarRequestDTO;
+import uz.pdp.WebAuto.entity.Car;
+import uz.pdp.WebAuto.exception.NotFoundException;
+import uz.pdp.WebAuto.service.CarService;
+import uz.pdp.WebAuto.util.ResponseDTO;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("admin/car/**")
-public class CarManageController {
+@RequestMapping("/admin/car")
+public record CarManageController(CarService car) {
 
-    private final CarServiceImp carService;
-
-    public CarManageController(CarServiceImp carService) {
-        this.carService = carService;
-    }
-/*
     @GetMapping("/get/{id}")
-    public ResponseEntity<Car> getCarById(@PathVariable Long id){
-        Car car = carService.get(id).orElseThrow(() -> new RuntimeException("Car not found"));
-        return ResponseEntity.ok(car);
+    public ResponseDTO<CarDTO> getCarById(@PathVariable Long id){
+        return ResponseDTO.ok(car.findById(id)).getBody();
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Car> createCar(CreateCarDTO dto){
-        Car car = carService.create(dto);
-        return ResponseEntity.ok(car);
+    public ResponseDTO<CarDTO> createCar(@RequestBody CarRequestDTO dto){
+        CarDTO save = car.save(dto);
+        return ResponseDTO.ok(save).getBody();
     }
 
     @GetMapping("/all-cars")
-    public ResponseEntity<List<Car>> getAllCars(){
-        List<Car> allCars = carService.getAllCars();
-        return ResponseEntity.ok(allCars);
-    }*/
+    public ResponseDTO<List<CarDTO>> getAllCars(){
+        List<CarDTO> allCars = car.getAllCars();
+        return ResponseDTO.ok(allCars).getBody();
+    }
 }

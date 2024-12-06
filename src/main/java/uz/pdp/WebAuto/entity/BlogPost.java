@@ -2,6 +2,7 @@ package uz.pdp.WebAuto.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder(toBuilder = true)
 public class BlogPost extends BaseEntity {
 
     private String title;
@@ -20,7 +21,7 @@ public class BlogPost extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id", nullable = false, updatable = false)
-    private AuthUser author;
+    private User author;
 
     private LocalDate date;
 

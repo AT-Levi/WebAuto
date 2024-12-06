@@ -3,8 +3,9 @@ package uz.pdp.WebAuto.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import uz.pdp.WebAuto.enums.UserRoleName;
+import uz.pdp.WebAuto.enums.UserRole;
 
 import java.util.Set;
 
@@ -13,17 +14,17 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder(toBuilder = true)
 @EntityListeners(AuditingEntityListener.class)
 public class Role extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20, unique = true)
-    private UserRoleName name;
+    private UserRole name;
 
     private String description;
 
     @JsonBackReference
     @ManyToMany(mappedBy = "roles")
-    private Set<AuthUser> users;
+    private Set<User> users;
 }

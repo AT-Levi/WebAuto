@@ -1,4 +1,4 @@
 package uz.pdp.WebAuto.service;
 
-public class CompanyStatisticService {
+public interface CompanyStatisticService {
 }

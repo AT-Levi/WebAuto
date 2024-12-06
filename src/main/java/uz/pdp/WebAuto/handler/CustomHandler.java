@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import uz.pdp.WebAuto.dtos.AppErrorDTO;
+import uz.pdp.WebAuto.dtos.error.ErrorResDTO;
 
 import java.io.IOException;
 
@@ -22,30 +22,30 @@ public class CustomHandler {
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
         return (request, response, accessDeniedException) -> {
-            AppErrorDTO appErrorDto = new AppErrorDTO(
+            ErrorResDTO errorResDto = new ErrorResDTO(
                     accessDeniedException.getMessage(),
                     request.getRequestURI(),
                     request.getRequestURL().toString(),
                     403
             );
-            writeErrorResponse(response, 403, appErrorDto);
+            writeErrorResponse(response, 403, errorResDto);
         };
     }
 
     @Bean
     public AuthenticationEntryPoint authenticationEntryPoint() {
         return (request, response, authException) -> {
-            AppErrorDTO appErrorDto = new AppErrorDTO(
+            ErrorResDTO errorResDto = new ErrorResDTO(
                     authException.getMessage(),
                     request.getRequestURI(),
                     request.getRequestURL().toString(),
                     401
             );
-            writeErrorResponse(response, 401, appErrorDto);
+            writeErrorResponse(response, 401, errorResDto);
         };
     }
 
-    private void writeErrorResponse(jakarta.servlet.http.HttpServletResponse response, int statusCode, AppErrorDTO errorDto) throws IOException {
+    private void writeErrorResponse(jakarta.servlet.http.HttpServletResponse response, int statusCode, ErrorResDTO errorDto) throws IOException {
         response.setStatus(statusCode);
         response.setContentType("application/json");
         try (ServletOutputStream outputStream = response.getOutputStream()) {

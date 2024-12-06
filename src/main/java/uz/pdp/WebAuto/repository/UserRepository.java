@@ -1,19 +1,11 @@
 package uz.pdp.WebAuto.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import uz.pdp.WebAuto.entity.AuthUser;
+import uz.pdp.WebAuto.entity.User;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<AuthUser, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<AuthUser> findByUsername(String username);
-
-    @Query("SELECT a.deleted FROM AuthUser a WHERE a.username = :username")
-    boolean idDeleted(String username);
-
-    @Query("SELECT au.id FROM AuthUser au WHERE au.username = :username")
-    Long getIdWithUsername(@Param("username") String username);
+    Optional<User> findByUsername(String username);
 }

@@ -1,4 +1,4 @@
 package uz.pdp.WebAuto.service;
 
-public class ImageService {
+public interface ImageService {
 }

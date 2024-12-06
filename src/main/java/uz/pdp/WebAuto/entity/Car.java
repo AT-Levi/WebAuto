@@ -1,5 +1,6 @@
 package uz.pdp.WebAuto.entity;
 
+import lombok.experimental.SuperBuilder;
 import uz.pdp.WebAuto.enums.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder(toBuilder = true)
 public class Car extends BaseEntity {
 
     private String model;
@@ -28,6 +30,8 @@ public class Car extends BaseEntity {
     private String description;
 
     private String color;
+
+    private String carNumber;
 
     private LocalDateTime warranty;
 
@@ -42,9 +46,9 @@ public class Car extends BaseEntity {
     @Column(name = "engine_type")
     private EngineType engineType;
 
-    @OneToOne
+    @OneToMany
     @JoinColumn(name = "car_type_id")
-    private CarType carTypeId;
+    private List<CarType> carTypes;
 
     private Long mileage;
 
@@ -59,4 +63,7 @@ public class Car extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Image> images;
+
+    @OneToOne
+    private CarDetails carDetails;
 }

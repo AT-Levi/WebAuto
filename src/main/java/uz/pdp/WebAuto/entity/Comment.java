@@ -1,5 +1,6 @@
 package uz.pdp.WebAuto.entity;
 
+import lombok.experimental.SuperBuilder;
 import uz.pdp.WebAuto.enums.ObjectType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,7 +11,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder(toBuilder = true)
 public class Comment extends BaseEntity {
 
     @Column(nullable = false)
@@ -18,7 +19,7 @@ public class Comment extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner_id", nullable = false)
-    private AuthUser ownerId;
+    private User ownerId;
 
     @Column(name = "object_type", nullable = false)
     private ObjectType objectType;

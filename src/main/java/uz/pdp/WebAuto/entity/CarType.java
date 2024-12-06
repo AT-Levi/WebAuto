@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "car_type")
@@ -15,6 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder(toBuilder = true)
 public class CarType extends BaseEntity {
     private String name;
 
@@ -22,3 +24,6 @@ public class CarType extends BaseEntity {
     @JoinColumn(name = "image_id", nullable = false)
     private Image icon;
 }
+
+
+
