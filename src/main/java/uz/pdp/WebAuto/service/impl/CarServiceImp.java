@@ -3,6 +3,7 @@ package uz.pdp.WebAuto.service.impl;
 import org.springframework.stereotype.Service;
 import uz.pdp.WebAuto.dtos.car.CarDTO;
 import uz.pdp.WebAuto.dtos.car.CarRequestDTO;
+import uz.pdp.WebAuto.entity.Brand;
 import uz.pdp.WebAuto.entity.Car;
 import uz.pdp.WebAuto.repository.CarRepository;
 import uz.pdp.WebAuto.service.CarService;

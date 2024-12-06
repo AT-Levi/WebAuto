@@ -12,7 +12,6 @@ import uz.pdp.WebAuto.dtos.company.CompanyDTO;
 import uz.pdp.WebAuto.dtos.service.CompanyRequestDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenRequestDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenResponseDTO;
-import uz.pdp.WebAuto.dtos.user.UserRequestDTO;
 import uz.pdp.WebAuto.dtos.user.UserResponseDTO;
 import uz.pdp.WebAuto.service.UserService;
 import uz.pdp.WebAuto.util.ResponseDTO;

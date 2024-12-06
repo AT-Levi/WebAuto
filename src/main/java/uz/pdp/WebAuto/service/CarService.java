@@ -2,6 +2,7 @@ package uz.pdp.WebAuto.service;
 
 import uz.pdp.WebAuto.dtos.car.CarDTO;
 import uz.pdp.WebAuto.dtos.car.CarRequestDTO;
+import uz.pdp.WebAuto.entity.Brand;
 import uz.pdp.WebAuto.entity.Car;
 import uz.pdp.WebAuto.entity.Service;
 
