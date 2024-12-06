@@ -11,11 +11,11 @@ import io.swagger.v3.oas.annotations.servers.Server;
 
 @OpenAPIDefinition(
         info = @Info(
-                title = "Bu menim dasturim",
-                description = "Bu dasturda Tasklar manege qilinadi",
+                title = "Bu bizning dasturimiz",
+                description = "Mashinalar bo`yicha ma`lumot",
                 termsOfService = "/termsOfApp",
                 contact = @Contact(
-                        name = "G40",
+                        name = "WEBAUTO",
                         url = "https://pdp.uz",
                         email = "pdp@gmail.com"
                 ),
