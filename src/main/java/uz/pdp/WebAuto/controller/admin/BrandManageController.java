@@ -1,65 +1,53 @@
 package uz.pdp.WebAuto.controller.admin;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import uz.pdp.WebAuto.dtos.BrandDTO;
+import uz.pdp.WebAuto.dtos.brand.BrandDTO;
+import uz.pdp.WebAuto.dtos.brand.BrandRequestDTO;
 import uz.pdp.WebAuto.entity.Brand;
 import uz.pdp.WebAuto.service.BrandService;
-import uz.pdp.WebAuto.service.impl.BrandServiceImp;
 import uz.pdp.WebAuto.util.ResponseDTO;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("admin/brand")
+@RequestMapping("/admin/brand")
+@PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN', 'DEALER')")
 public class BrandManageController {
 
-    private final BrandService brandService;
+    private final BrandService service;
 
-    public BrandManageController(BrandServiceImp brandService) {
-        this.brandService = brandService;
+    public BrandManageController(BrandService service) {
+        this.service = service;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseDTO<Brand>> getBrandById(@PathVariable Long id) {
-        return brandService.findById(id)
-                .map(brand -> ResponseDTO.ok(brand, "Brand found"))
-                .orElse(ResponseDTO.error("Brand not found"));
+        return ResponseDTO.ok(service.findById(id));
     }
 
     @PostMapping("/create")
-    public ResponseDTO<BrandDTO> createBrand(@RequestBody BrandDTO brandDTO) {
-        BrandDTO savedBrand = brandService.save(brandDTO);
-        return ResponseDTO.ok(savedBrand, "Brand successfully created").getBody();
+    public ResponseDTO<BrandDTO> createBrand(@RequestBody BrandRequestDTO brandDTO) {
+        BrandDTO save = service.save(brandDTO);
+        return ResponseDTO.ok(save).getBody();
     }
 
     @PutMapping("/update/{id}")
-    public ResponseDTO<BrandDTO> updateBrand(@PathVariable Long id, @RequestBody BrandDTO brandDTO) {
-        // Создаем копию BrandDTO с заданным ID
-        BrandDTO updatedBrand = new BrandDTO(
-                id,
-                brandDTO.name(),
-                brandDTO.description(),
-                brandDTO.logoUrl(),
-                brandDTO.websiteUrl(),
-                brandDTO.owner(),
-                brandDTO.country(),
-                brandDTO.createdDate(),
-                brandDTO.icon()
-        );
-        brandService.update(updatedBrand);
-        return ResponseDTO.ok(updatedBrand, "Brand successfully updated").getBody();
+    public ResponseDTO<BrandDTO> updateBrand(@RequestBody BrandDTO brandDTO) {
+        BrandDTO update = service.update(brandDTO);
+        return ResponseDTO.ok(update).getBody();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ResponseDTO<Object>> deleteBrand(@PathVariable Long id) {
-        brandService.delete(id);
-        return ResponseDTO.ok(null, "Brand successfully deleted");
+    public ResponseEntity<ResponseDTO<String>> deleteBrand(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseDTO.ok("Brand successfully deleted");
     }
 
     @GetMapping("/all")
     public ResponseDTO<List<BrandDTO>> getAllBrands() {
-        List<BrandDTO> allBrands = brandService.getAllBrands();
-        return ResponseDTO.ok(allBrands, "List of all brands").getBody();
+        List<BrandDTO> allBrands = service.getAllBrands();
+        return ResponseDTO.ok(allBrands).getBody();
     }
 }

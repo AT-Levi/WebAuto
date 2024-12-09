@@ -1,6 +1,9 @@
 package uz.pdp.WebAuto.controller.admin;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uz.pdp.WebAuto.entity.User;
 import uz.pdp.WebAuto.service.UserService;
@@ -8,14 +11,12 @@ import uz.pdp.WebAuto.service.UserService;
 import java.util.List;
 
 @RestController
-
+@RequiredArgsConstructor
+@RequestMapping("/admin/user")
+@PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
 public class UserManageController {
 
-    private final UserService userService;
-
-    public UserManageController(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userServiceImp;
 
     @GetMapping("/user/all")
     public List<User> getAllUsers() {

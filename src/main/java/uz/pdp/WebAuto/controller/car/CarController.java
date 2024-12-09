@@ -23,13 +23,11 @@ public class CarController {
         return ResponseEntity.ok(car);
     }
 
-    // Создание нового автомобиля
     @PostMapping
     public ResponseEntity<CarRequestDTO> createCar(@RequestBody CarRequestDTO carRequestDTO) {
         CarRequestDTO createdCar = carService.save(carRequestDTO);
         return ResponseEntity.ok(createdCar);
     }
-
 
     @GetMapping
     public ResponseEntity<List<CarRequestDTO>> getAllCars() {
@@ -37,13 +35,11 @@ public class CarController {
         return ResponseEntity.ok(cars);
     }
 
-
     @GetMapping("/brand/{brandId}")
     public ResponseEntity<List<CarRequestDTO>> getCarsByBrand(@PathVariable Long brandId) {
         List<CarRequestDTO> cars = carService.findByBrandId(brandId);
         return ResponseEntity.ok(cars);
     }
-
 
     @GetMapping("/fuel/{fuelType}")
     public ResponseEntity<List<CarRequestDTO>> getCarsByFuelType(@PathVariable String fuelType) {
@@ -51,20 +47,17 @@ public class CarController {
         return ResponseEntity.ok(cars);
     }
 
-
     @GetMapping("/transmission/{transmission}")
     public ResponseEntity<List<CarRequestDTO>> getCarsByTransmission(@PathVariable String transmission) {
         List<CarRequestDTO> cars = carService.findByTransmission(transmission);
         return ResponseEntity.ok(cars);
     }
 
-
     @GetMapping("/year/{year}")
     public ResponseEntity<List<CarRequestDTO>> getCarsByYear(@PathVariable int year) {
         List<CarRequestDTO> cars = carService.findByYear(year);
         return ResponseEntity.ok(cars);
     }
-
 
     @GetMapping("/price")
     public ResponseEntity<List<CarRequestDTO>> getCarsByPriceRange(

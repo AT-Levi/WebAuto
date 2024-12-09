@@ -83,11 +83,11 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public UserResponseDTO register(AuthRequestDTO authRequestDTO) {
-        var user = User
-                .builder()
-                .phoneNumber(authRequestDTO.phoneNumber())
-                .password(passwordEncoder.encode(authRequestDTO.password()))
+    public UserResponseDTO register(AuthRequestDTO dto) {
+        var user = User.builder()
+                .username(dto.username())
+                .phoneNumber(dto.phoneNumber())
+                .password(passwordEncoder.encode(dto.password()))
                 .roles(Set.of(roleRepository.findById(1L).orElseThrow(() -> new NotFoundException("Role"))))
                 .build();
         userRepository.save(user);

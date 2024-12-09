@@ -10,34 +10,35 @@ import java.util.List;
 
 @RestController
 @RequestMapping("admin/car")
-public record CarManageController(CarServiceImp carService) {
+public class CarManageController{
+    private final CarServiceImp carService;
 
-    @GetMapping("/get/{id}")
-    public ResponseDTO<CarRequestDTO> getCarById(@PathVariable Long id){
-        return ResponseDTO.ok(carService.findById(id), "Car successfully updated").getBody();
+    public CarManageController(CarServiceImp carService) {
+        this.carService = carService;
     }
 
+    @GetMapping("/get/{id}")
+    public ResponseDTO<CarRequestDTO> getCarById(@PathVariable Long id) {
+        return ResponseDTO.ok(carService.findById(id)).getBody();
+    }
 
-    // Создать новый автомобиль
     @PostMapping("/create")
     public ResponseDTO<CarRequestDTO> createCar(@RequestBody CarRequestDTO dto) {
         CarRequestDTO savedCar = carService.save(dto);
-        return ResponseDTO.ok(savedCar, "Car successfully updated").getBody();
+        return ResponseDTO.ok(savedCar).getBody();
     }
 
-    // Получить все автомобили
     @GetMapping("/all-cars")
     public ResponseDTO<List<CarRequestDTO>> getAllCars() {
         List<CarRequestDTO> allCars = carService.getAllCars();
-        return ResponseDTO.ok(allCars, "Car successfully updated").getBody();
+        return ResponseDTO.ok(allCars).getBody();
     }
 
-    // Удалить автомобиль по ID
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseDTO<Object>> deleteCar(@PathVariable Long id) {
         boolean deleted = carService.delete(id);
         if (deleted) {
-            return ResponseDTO.ok(null, "Car successfully updated");
+            return ResponseDTO.ok("Car successfully updated");
         }
         return ResponseDTO.error("Car not found or couldn't be deleted");
     }
@@ -45,7 +46,6 @@ public record CarManageController(CarServiceImp carService) {
     @PutMapping("/update/{id}")
     public ResponseDTO<CarRequestDTO> updateCar(@PathVariable Long id, @RequestBody CarRequestDTO carRequestDTO) {
         CarRequestDTO updatedCar = carService.update(id, carRequestDTO);
-        return ResponseDTO.ok(updatedCar, "Car successfully updated").getBody();
+        return ResponseDTO.ok(updatedCar).getBody();
     }
-
 }

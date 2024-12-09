@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import uz.pdp.WebAuto.dtos.car.CarRequestDTO;
 import uz.pdp.WebAuto.entity.Brand;
 import uz.pdp.WebAuto.entity.Car;
-import uz.pdp.WebAuto.entity.CarType;
 import uz.pdp.WebAuto.mapper.CarMapper;
 import uz.pdp.WebAuto.repository.BrandRepository;
 import uz.pdp.WebAuto.repository.CarRepository;
@@ -33,19 +32,14 @@ public class CarServiceImp implements CarService {
 
     @Override
     public CarRequestDTO save(CarRequestDTO dto) {
-        // Извлекаем бренд из DTO
-        Long brandId = dto.getBrandDTO().id();
+        Long brandId = dto.getBrandId();
         Brand brand = brandRepository.findById(brandId)
                 .orElseThrow(() -> new IllegalArgumentException("Brand not found with id: " + brandId));
 
-        // Преобразуем DTO в сущность
         Car car = carMapper.toEntity(dto);
         car.setBrand(brand);
 
-        // Сохраняем автомобиль
         car = carRepository.save(car);
-
-        // Преобразуем обратно в DTO для ответа
         return carMapper.toDto(car);
     }
 
@@ -106,7 +100,7 @@ public class CarServiceImp implements CarService {
 
     @Override
     public CarRequestDTO update(Long id, CarRequestDTO carRequestDTO) {
-        return carRepository.findById(id)
+        /*return carRepository.findById(id)
                 .map(existingCar -> {
                     // Обновляем данные автомобиля
                     existingCar.setModel(carRequestDTO.getModel());
@@ -123,14 +117,14 @@ public class CarServiceImp implements CarService {
                     existingCar.setPrice(carRequestDTO.getPrice());
 
                     // Обновляем бренд, если он указан
-                    if (carRequestDTO.getBrandDTO() != null) {
+                    if (carRequestDTO.getBrandId() != null) {
                         Brand brand = brandRepository.findById(carRequestDTO.getBrandDTO().id())
                                 .orElseThrow(() -> new RuntimeException("Brand not found"));
                         existingCar.setBrand(brand);
                     }
 
                     // Обновляем изображения, если они указаны
-                    if (carRequestDTO.getImages() != null) {
+                    if (carRequestDTO.getCarImages() != null) {
                         existingCar.setImages(carRequestDTO.getImages());
                     }
 
@@ -140,7 +134,9 @@ public class CarServiceImp implements CarService {
                     // Конвертируем обратно в DTO и возвращаем
                     return carMapper.toDto(updatedCar);
                 })
-                .orElseThrow(() -> new RuntimeException("Car with ID " + id + " not found"));
+                .orElseThrow(() -> new RuntimeException("Car with ID " + id + " not found"));*/
+
+        return new CarRequestDTO();
     }
 
 

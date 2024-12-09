@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 version = "v0.0.1"
         ),
         servers = {
-                @Server(url = "http://localhost:8090",description = "For Local Mode"),
+                @Server(url = "http://localhost:8080",description = "For Local Mode"),
                 @Server(url = "http://123.10.10.4.18:8080",description = "For Production Mode")
         }
 )

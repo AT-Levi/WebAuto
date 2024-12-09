@@ -8,19 +8,19 @@ import java.util.List;
 import java.util.Optional;
 
 @Mapper(componentModel = "spring")
-public interface BrandMapper extends EntityMapper<Optional<Brand>, Brand> {
+public interface BrandMapper extends EntityMapper<BrandDTO, Brand> {
 
     @Override
-    Brand toEntity(Optional<Brand> dto);
+    Brand toEntity(BrandDTO dto);
 
     @Override
-    Optional<Brand> toDto(Brand entity);
-
-    List<Brand> toEntity(BrandDTO list);
+    BrandDTO toDto(Brand entity);
 
     @Override
-    List<Optional<Brand>> toDto(List<Brand> list);
+    List<Brand> toEntity(List<BrandDTO> list);
 
+    @Override
+    List<BrandDTO> toDto(List<Brand> list);
 
 
 }
