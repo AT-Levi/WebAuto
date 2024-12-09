@@ -10,11 +10,14 @@ import uz.pdp.WebAuto.repository.shop.ProductRepository;
 
 @Service
 public class CartService {
-    @Autowired
-    private CartRepository cartRepository;
+    private final CartRepository cartRepository;
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+
+    public CartService(CartRepository cartRepository, ProductRepository productRepository) {
+        this.cartRepository = cartRepository;
+        this.productRepository = productRepository;
+    }
 
     public Cart getCartByUserId(String userId) {
         return cartRepository.findByUserId(userId)

@@ -8,7 +8,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface AddressMapper extends EntityMapper<AddressDTO, Address> {
-
     @Override
     Address toEntity(AddressDTO dto);
 

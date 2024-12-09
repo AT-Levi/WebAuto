@@ -18,16 +18,17 @@ public class Image extends BaseEntity {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @Column(name = "generated_name", nullable = false)
-    private String generatedName;
-
     @Column(name = "original_name", nullable = false)
     private String originalName;
+
+    private String prefix;
+/*
+    @Column(name = "generated_name", nullable = false)
+    private String generatedName;
 
     @Column(name = "mime_type")
     private String mimeType;
 
-    private String extension;
+    private String extension;*/
 
-    private String prefix;
 }

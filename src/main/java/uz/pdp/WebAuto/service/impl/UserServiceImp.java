@@ -122,7 +122,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public CompanyDTO createCompany(CompanyRequestDTO companyRequestDTO) {
-        return null;
+        return companyServiceImp.save(companyRequestDTO);
     }
 
     @Override

@@ -26,6 +26,14 @@ public class AddressServiceImp implements AddressService {
 
     @Override
     public AddressDTO save(AddressRequestDTO dto) {
-        return null;
+
+        Address address = addressRepository.save(Address.builder()
+                .street(dto.getStreet())
+                .number(dto.getNumber())
+                .description(dto.getDescription())
+                .city(dto.getCity())
+                .build());
+
+        return addressMapper.toDto(address);
     }
 }

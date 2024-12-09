@@ -17,16 +17,12 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 public class Address extends BaseEntity {
 
-    private String street;
-
     private String city;
 
-    private String country;
+    private String street;
 
-    private String house;
+    private String number;
 
-    private Double latitude;
-
-    private Double longitude;
+    private String description;
 
 }
