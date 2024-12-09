@@ -3,6 +3,7 @@ package uz.pdp.WebAuto.service;
 import uz.pdp.WebAuto.dtos.BrandDTO;
 import uz.pdp.WebAuto.entity.Brand;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface BrandService {
@@ -11,10 +12,11 @@ public interface BrandService {
 
     void update(BrandDTO updatedBrand);
 
-    BrandDTO save(BrandDTO brandDTO);
+    Optional<Brand> save(BrandDTO brandDTO);
 
     Brand save(Brand brand);
 
     void delete(Long id);
 
+    List<BrandDTO> getAllBrands();
 }

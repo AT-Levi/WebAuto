@@ -23,37 +23,37 @@ public record AuthController (UserService service) {
     @PostMapping("/register")
     @Operation(summary = "Register")
     public ResponseEntity<ResponseDTO<UserResponseDTO>> register(@RequestBody AuthRequestDTO authRequestDTO) {
-        return ResponseDTO.ok(service.register(authRequestDTO));
+        return ResponseDTO.ok(service.register(authRequestDTO), "Car successfully updated");
     }
 
     @PostMapping("/login")
     @Operation(summary = "Login")
     public ResponseEntity<ResponseDTO<TokensDTO>> login(@RequestBody AuthRequestDTO authRequestDTO) {
-        return ResponseDTO.ok(service.login(authRequestDTO));
+        return ResponseDTO.ok(service.login(authRequestDTO), "Car successfully updated");
     }
 
     @PostMapping("/refresh")
     @Operation(summary = "Refresh token")
     public ResponseEntity<ResponseDTO<RefreshTokenResponseDTO>> refresh(@RequestBody RefreshTokenRequestDTO refreshTokenRequestDTO) {
-        return ResponseDTO.ok(service.refreshToken(refreshTokenRequestDTO));
+        return ResponseDTO.ok(service.refreshToken(refreshTokenRequestDTO), "Car successfully updated");
     }
 
     @GetMapping("/me")
     @Operation(summary = "me")
     public ResponseEntity<ResponseDTO<UserResponseDTO>> me() {
-        return ResponseDTO.ok(service.me());
+        return ResponseDTO.ok(service.me(), "Car successfully updated");
     }
 
     @PostMapping("/company")
     @Operation(summary = "Create Company. Register qilgan odam company yaratishi shart")
     public ResponseEntity<ResponseDTO<CompanyDTO>> createCompany(@Valid @RequestBody CompanyRequestDTO dto) {
-        return ResponseDTO.ok(service.createCompany(dto));
+        return ResponseDTO.ok(service.createCompany(dto), "Car successfully updated");
     }
 
     @PostMapping(value = "/logo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "logo")
     public ResponseEntity<ResponseDTO<CompanyDTO>> logo(@RequestPart("logo") MultipartFile logo) {
-        return ResponseDTO.ok(service.saveLogo(logo));
+        return ResponseDTO.ok(service.saveLogo(logo), "Car successfully updated");
     }
 
 }

@@ -1,9 +1,9 @@
 package uz.pdp.WebAuto.service.impl;
 
+import org.springframework.stereotype.Service;
 import uz.pdp.WebAuto.dtos.BrandDTO;
 import uz.pdp.WebAuto.entity.Brand;
 import uz.pdp.WebAuto.repository.BrandRepository;
-import org.springframework.stereotype.Service;
 import uz.pdp.WebAuto.service.BrandService;
 
 import java.util.List;
@@ -20,54 +20,65 @@ public class BrandServiceImp implements BrandService {
         this.brandRepository = brandRepository;
     }
 
-    public Brand getByID(Long id) {
-        return brandRepository.findById(id)
-                .orElseThrow(RuntimeException::new);
-    }
-
-
-    public List<Brand> getAllBrands() {
-        return brandRepository.findAll();
-    }
-
-    public Optional<Brand> getBrandById(Long id) {
+    @Override
+    public Optional<Brand> findById(Long id) {
         return brandRepository.findById(id);
+    }
+
+    public Optional<Brand> save(Optional<Brand> brandDTO) {
+        Brand brand = (Brand) BRAND_MAPPER.toEntity(brandDTO);
+        Brand savedBrand = brandRepository.save(brand);
+        return BRAND_MAPPER.toDto(savedBrand);
+    }
+
+    @Override
+    public Brand save(Brand brand) {
+        return null;
     }
 
     @Override
     public void update(BrandDTO brandDTO) {
-        Brand searchedBrand = findById(brandDTO.id())
-                .map(brand -> {
-                    brand.setName(brandDTO.name());
-                    brand.setDescription(brandDTO.description());
-                    brand.setLogoUrl(brandDTO.logoUrl());
-                    brand.setWebsiteUrl(brandDTO.websiteUrl());
-                    brand.setOwner(brandDTO.owner());
-                    brand.setCountry(brandDTO.country());
-                    brand.setCreatedDate(brandDTO.createdDate());
-                    brand.setIcon(brandDTO.icon());
-                    return brandRepository.save(brand);
-                })
-                .orElseThrow(() -> new RuntimeException("Brand not found"));
+        Brand brand = findById(brandDTO.id())
+                .orElseThrow(() -> new RuntimeException("Brand not found with id: " + brandDTO.id()));
+
+        brand.setName(brandDTO.name());
+        brand.setDescription(brandDTO.description());
+        brand.setLogoUrl(brandDTO.logoUrl());
+        brand.setWebsiteUrl(brandDTO.websiteUrl());
+        brand.setOwner(brandDTO.owner());
+        brand.setCountry(brandDTO.country());
+        brand.setCreatedDate(brandDTO.createdDate());
+        brand.setIcon(brandDTO.icon());
+
+        brandRepository.save(brand);
     }
 
     @Override
     public void delete(Long id) {
+        if (!brandRepository.existsById(id)) {
+            throw new RuntimeException("Brand not found with id: " + id);
+        }
         brandRepository.deleteById(id);
     }
 
-    public Brand save(Brand entity) {
-        return brandRepository.save(entity);
+
+    public List<BrandDTO> getAllBrands() {
+        return brandRepository.findAll().stream()
+                .map(BRAND_MAPPER::toDto)
+                .toList();
     }
 
-    @Override
-    public Optional<Brand> findById(Long id) {
-        return Optional.empty();
+
+    public Optional<Brand> getById(Long id) {
+        Brand brand = brandRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Brand not found with id: " + id));
+        return BRAND_MAPPER.toDto(brand);
     }
 
-    @Override
-    public BrandDTO save(BrandDTO dto) {
-        Brand brand = BRAND_MAPPER.toEntity(dto);
-        return BRAND_MAPPER.toDto(brandRepository.save(brand));
+
+    public Optional<Brand> getByName(String name) {
+        Object brand = brandRepository.findByName(name)
+               .orElseThrow(() -> new RuntimeException("Brand not found with name: " + name));
+        return BRAND_MAPPER.toDto((Brand) brand);
     }
 }
