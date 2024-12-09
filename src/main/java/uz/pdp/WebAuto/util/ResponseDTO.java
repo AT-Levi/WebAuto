@@ -43,7 +43,7 @@ public class ResponseDTO<T> {
         this.pageableResponse = pageableResponse;
     }
 
-    public static <T> ResponseEntity<ResponseDTO<T>> ok(T data) {
+    public static <T> ResponseEntity<ResponseDTO<T>> ok(T data, String carSuccessfullyUpdated) {
         return ResponseEntity.ok(new ResponseDTO<>(true, HttpStatus.OK.value(), data));
     }
 

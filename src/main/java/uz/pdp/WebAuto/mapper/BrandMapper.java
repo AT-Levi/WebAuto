@@ -5,19 +5,22 @@ import uz.pdp.WebAuto.dtos.brand.BrandDTO;
 import uz.pdp.WebAuto.entity.Brand;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper(componentModel = "spring")
-public interface BrandMapper extends EntityMapper<BrandDTO, Brand> {
+public interface BrandMapper extends EntityMapper<Optional<Brand>, Brand> {
 
     @Override
-    Brand toEntity(BrandDTO dto);
+    Brand toEntity(Optional<Brand> dto);
 
     @Override
-    BrandDTO toDto(Brand entity);
+    Optional<Brand> toDto(Brand entity);
+
+    List<Brand> toEntity(BrandDTO list);
 
     @Override
-    List<Brand> toEntity(List<BrandDTO> list);
+    List<Optional<Brand>> toDto(List<Brand> list);
 
-    @Override
-    List<BrandDTO> toDto(List<Brand> list);
+
+
 }
