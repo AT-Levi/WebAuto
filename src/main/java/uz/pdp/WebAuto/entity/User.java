@@ -54,7 +54,7 @@ public class User extends BaseEntity implements UserDetails {
     @Builder.Default
     private UserStatus status = UserStatus.ACTIVE;
 
-//    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(name = "phone_number")

@@ -1,19 +1,22 @@
 package uz.pdp.WebAuto.service;
 
-import uz.pdp.WebAuto.dtos.company.CompanyDTO;
-import uz.pdp.WebAuto.dtos.service.CompanyRequestDTO;
+import org.springframework.web.multipart.MultipartFile;
+import uz.pdp.WebAuto.dtos.company.CompanyDataDTO;
+import uz.pdp.WebAuto.dtos.company.CompanyRequestDTO;
+import uz.pdp.WebAuto.dtos.company.CompanyResponseDTO;
 import uz.pdp.WebAuto.entity.Company;
-
-import java.util.Optional;
 
 public interface CompanyService {
 
-    CompanyDTO save(CompanyRequestDTO dto);
+    CompanyDataDTO save(CompanyRequestDTO dto);
 
-    CompanyDTO save(Company dto);
+    CompanyDataDTO save(Company company);
+    
+    CompanyDataDTO update(CompanyDataDTO company);
 
-    Optional<Company> findById(Long id);
+    Company findById(Long id);
 
-    Company findByOwnerId(Long user);
+    Company findByOwnerId(Long ownerId);
 
+    CompanyDataDTO refreshCompanyLogo(Long companyId, MultipartFile logo);
 }

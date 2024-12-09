@@ -1,23 +1,26 @@
 package uz.pdp.WebAuto.mapper;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
-import uz.pdp.WebAuto.dtos.image.ImageResponseDTO;
+import org.mapstruct.Mapping;
+import uz.pdp.WebAuto.dtos.role.RoleDTO;
 import uz.pdp.WebAuto.dtos.user.UserResponseDTO;
-import uz.pdp.WebAuto.entity.Image;
+import uz.pdp.WebAuto.entity.Role;
 import uz.pdp.WebAuto.entity.User;
 
 import java.util.List;
+import java.util.Set;
 
-@Mapper(componentModel = "spring")
+@Mapper(
+        componentModel = "spring",
+        uses = {RoleMapper.class}
+)
 public interface UserMapper extends EntityMapper<UserResponseDTO, User> {
-
-    UserMapper USER_MAPPER = Mappers.getMapper(UserMapper.class);
 
     @Override
     User toEntity(UserResponseDTO dto);
 
     @Override
+    @Mapping(target = "roles", source = "roles")
     UserResponseDTO toDto(User entity);
 
     @Override
@@ -25,4 +28,8 @@ public interface UserMapper extends EntityMapper<UserResponseDTO, User> {
 
     @Override
     List<UserResponseDTO> toDto(List<User> list);
+
+    Set<Role> mapRoleDTOsToRoles(Set<RoleDTO> roleDTOs);
+
+    Set<RoleDTO> mapRolesToRoleDTOs(Set<Role> roles);
 }

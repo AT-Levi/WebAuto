@@ -12,7 +12,6 @@ import uz.pdp.WebAuto.dtos.image.ImageRequestDTO;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequestDTO {
-
     private String username;
     private String password;
     private String firstName;

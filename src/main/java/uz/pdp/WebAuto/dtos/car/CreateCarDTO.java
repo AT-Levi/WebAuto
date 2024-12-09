@@ -1,4 +1,4 @@
-package uz.pdp.WebAuto.dtos;
+package uz.pdp.WebAuto.dtos.car;
 
 import uz.pdp.WebAuto.entity.Brand;
 import uz.pdp.WebAuto.entity.Image;

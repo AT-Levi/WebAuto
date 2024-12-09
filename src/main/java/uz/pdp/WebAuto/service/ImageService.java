@@ -13,4 +13,10 @@ public interface ImageService {
     ImageDataDTO getImageData(Long id);
 
     ImageResponseDTO findById(Long id);
+
+    Image refresh(Long entityId, MultipartFile file);
+
+    Image findByCompanyId(Long companyId);
+
+    void deleteById(Long id);
 }

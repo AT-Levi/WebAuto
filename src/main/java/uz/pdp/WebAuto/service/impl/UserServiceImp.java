@@ -2,24 +2,22 @@ package uz.pdp.WebAuto.service.impl;
 
 import uz.pdp.WebAuto.config.CurrentUser;
 import uz.pdp.WebAuto.config.JWTService;
-import uz.pdp.WebAuto.config.service.StorageService;
 import uz.pdp.WebAuto.dtos.auth.AuthRequestDTO;
-import uz.pdp.WebAuto.dtos.auth.TokensDTO;
-import uz.pdp.WebAuto.dtos.company.CompanyDTO;
-import uz.pdp.WebAuto.dtos.service.CompanyRequestDTO;
+import uz.pdp.WebAuto.dtos.auth.AuthResponseDTO;
+import uz.pdp.WebAuto.dtos.company.CompanyDataDTO;
+import uz.pdp.WebAuto.dtos.company.CompanyRequestDTO;
+import uz.pdp.WebAuto.dtos.role.RoleDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenRequestDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenResponseDTO;
 import uz.pdp.WebAuto.dtos.user.UserResponseDTO;
-import uz.pdp.WebAuto.entity.Company;
-import uz.pdp.WebAuto.entity.Image;
 import uz.pdp.WebAuto.entity.Role;
 import uz.pdp.WebAuto.entity.User;
 import uz.pdp.WebAuto.exception.NotFoundException;
+import uz.pdp.WebAuto.mapper.RoleMapper;
 import uz.pdp.WebAuto.mapper.UserMapper;
 import uz.pdp.WebAuto.repository.RoleRepository;
 import uz.pdp.WebAuto.repository.UserRepository;
 import uz.pdp.WebAuto.service.CompanyService;
-import uz.pdp.WebAuto.service.ImageService;
 import uz.pdp.WebAuto.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,6 +29,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -46,13 +45,11 @@ public class UserServiceImp implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final CurrentUser currentUser;
-    private final StorageService storageService;
     private final CompanyService companyServiceImp;
-    private final ImageService imageServiceImp;
-    private static final String COMPANY_FOLDER = "company";
+    private final RoleMapper roleMapper;
 
     @Override
-    public TokensDTO login(AuthRequestDTO dto) {
+    public AuthResponseDTO login(AuthRequestDTO dto) {
 
         var user = userRepository.findByUsername(dto.username())
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
@@ -75,11 +72,13 @@ public class UserServiceImp implements UserService {
                 .stream()
                 .map(role -> role.getName().name()) // Map orqali nomlarni olish
                 .collect(Collectors.toSet()); // To'plamga yig'ish
+        List<RoleDTO> rolesDto = roleMapper.toDto((List<Role>) user.getRoles());
 
-        return TokensDTO
+        return AuthResponseDTO
                 .builder()
                 .accessToken(jwtService.accessToken(dto.username(), roleNames))
                 .refreshToken(jwtService.refreshToken(dto.username(), roleNames))
+                .roles(rolesDto)
                 .build();
     }
 
@@ -122,7 +121,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public CompanyDTO createCompany(CompanyRequestDTO companyRequestDTO) {
+    public CompanyDataDTO createCompany(CompanyRequestDTO companyRequestDTO) {
         return companyServiceImp.save(companyRequestDTO);
     }
 
@@ -132,23 +131,12 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public CompanyDTO saveLogo(MultipartFile logo) {
-        Image save = imageServiceImp.save(logo);
-        Company company = companyServiceImp.findByOwnerId(
-                userRepository.findByUsername(currentUser.getCurrentUsername())
-                        .orElseThrow(() -> new NotFoundException("User ")).getId());
-        company.setLogo(save);
-        return companyServiceImp.save(company);
+    public CompanyDataDTO refreshCompanyLogo(Long companyId, MultipartFile logo) {
+        return companyServiceImp.refreshCompanyLogo(companyId, logo);
     }
 
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("User "));
-    }
-
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new UsernameNotFoundException("User not found with username: " + username));
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.getAuthorities());
     }
 }

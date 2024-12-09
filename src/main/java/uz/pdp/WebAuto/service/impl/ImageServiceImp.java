@@ -63,6 +63,21 @@ public class ImageServiceImp implements ImageService {
         return imageMapper.toDto(image);
     }
 
+    @Override
+    public Image refresh(Long entityId, MultipartFile file) {
+        return null;
+    }
+
+    @Override
+    public Image findByCompanyId(Long companyId) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        imageRepository.deleteByImageId(id);
+    }
+
     private static String getFilenameExtension(MultipartFile file) {
         return StringUtils.getFilenameExtension(file.getOriginalFilename());
     }

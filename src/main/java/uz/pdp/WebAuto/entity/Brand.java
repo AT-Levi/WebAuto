@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -22,22 +23,14 @@ public class Brand extends BaseEntity {
 
     private String description;
 
-    @Column(name = "logo_url")
-    private String logoUrl;
-
     @Column(name = "website_url")
     private String websiteUrl;
-
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private User owner;
 
     private String country;
 
     @Column(name = "created_date")
-    private Date createdDate;
+    private String createdDate;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Image icon;
-
 }

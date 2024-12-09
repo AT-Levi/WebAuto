@@ -1,11 +1,9 @@
 package uz.pdp.WebAuto.dtos.car;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uz.pdp.WebAuto.dtos.BrandDTO;
-import uz.pdp.WebAuto.entity.Brand;
+import uz.pdp.WebAuto.dtos.brand.BrandDTO;
 import uz.pdp.WebAuto.entity.CarType;
 import uz.pdp.WebAuto.entity.Image;
 import uz.pdp.WebAuto.enums.CarCondition;

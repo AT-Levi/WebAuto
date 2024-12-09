@@ -1,4 +1,4 @@
-package uz.pdp.WebAuto.dtos.service;
+package uz.pdp.WebAuto.dtos.company;
 
 import uz.pdp.WebAuto.dtos.address.AddressRequestDTO;
 import jakarta.validation.constraints.NotBlank;
@@ -24,5 +24,5 @@ public class CompanyRequestDTO {
 
     private String description;
 
-    private Long userId;
+    private Long ownerId;
 }
