@@ -1,21 +1,21 @@
 package uz.pdp.WebAuto.dtos.image;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ImageDataDTO {
 
-    private String generatedName;
+    private Long id;
+
+    private String fileName;
 
     private String originalName;
 
     private String url;
-
-    private String prefix;
 
     private String mimeType;
 

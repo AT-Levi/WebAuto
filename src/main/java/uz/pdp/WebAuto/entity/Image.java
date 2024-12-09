@@ -15,20 +15,18 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 public class Image extends BaseEntity {
 
-    @Column(name = "image_url")
-    private String imageUrl;
-
     @Column(name = "original_name", nullable = false)
     private String originalName;
 
-    private String prefix;
-/*
     @Column(name = "generated_name", nullable = false)
-    private String generatedName;
+    private String fileName;
+
+    @Column(name = "image_url")
+    private String url;
 
     @Column(name = "mime_type")
     private String mimeType;
 
-    private String extension;*/
+    private String extension;
 
 }

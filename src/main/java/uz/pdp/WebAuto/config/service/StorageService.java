@@ -30,9 +30,8 @@ public class StorageService {
         this.client = client;
     }
 
-    public String uploadFile(MultipartFile file, String folder) {
+    public String uploadFile(MultipartFile file, String folder, String fileName) {
         File fileObj = convertMultiPartFileToFile(file);
-        String fileName = UUID.randomUUID() + "." + getFilenameExtension(file);
         String fullPath = folder + "/" + fileName;
         try {
             PutObjectRequest putObjectRequest = PutObjectRequest.builder()
@@ -52,10 +51,6 @@ public class StorageService {
                 fileObj.delete();
             }
         }
-    }
-
-    private static String getFilenameExtension(MultipartFile file) {
-        return StringUtils.getFilenameExtension(file.getOriginalFilename());
     }
 
     private File convertMultipartFileToFile(MultipartFile file) {

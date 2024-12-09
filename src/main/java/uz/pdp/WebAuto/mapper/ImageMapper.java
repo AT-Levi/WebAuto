@@ -1,24 +1,23 @@
 package uz.pdp.WebAuto.mapper;
 
 import org.mapstruct.Mapper;
-import uz.pdp.WebAuto.dtos.image.ImageRequestDTO;
+import uz.pdp.WebAuto.dtos.image.ImageResponseDTO;
 import uz.pdp.WebAuto.entity.Image;
-import uz.pdp.WebAuto.image.ImageDTO;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface ImageMapper extends EntityMapper<ImageDTO, Image> {
+public interface ImageMapper extends EntityMapper<ImageResponseDTO, Image> {
 
     @Override
-    Image toEntity(ImageDTO dto);
+    Image toEntity(ImageResponseDTO dto);
 
     @Override
-    ImageDTO toDto(Image entity);
+    ImageResponseDTO toDto(Image entity);
 
     @Override
-    List<Image> toEntity(List<ImageDTO> list);
+    List<Image> toEntity(List<ImageResponseDTO> list);
 
     @Override
-    List<ImageDTO> toDto(List<Image> list);
+    List<ImageResponseDTO> toDto(List<Image> list);
 }
