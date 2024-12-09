@@ -9,12 +9,13 @@ import java.util.Optional;
 
 
 public interface BlogPostService {
-     List<BlogPost> getAllPosts() ;
 
-   Optional<BlogPost> getPostById(Long id)  ;
+    List<BlogPost> getAllPosts();
 
-     BlogPost createPost(BlogPost blogPost);
+    Optional<BlogPost> getPostById(Long id);
 
-     void deletePost(Long id) ;
+    BlogPost createPost(BlogPost blogPost);
+
+    void deletePost(Long id);
 }
 

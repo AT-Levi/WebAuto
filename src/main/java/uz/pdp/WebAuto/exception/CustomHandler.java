@@ -1,4 +1,4 @@
-package uz.pdp.WebAuto.handler;
+package uz.pdp.WebAuto.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletOutputStream;

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import uz.pdp.WebAuto.entity.Role;
 import uz.pdp.WebAuto.entity.User;
 import uz.pdp.WebAuto.enums.UserRole;
-import uz.pdp.WebAuto.handler.exception.UserNotFoundException;
 import uz.pdp.WebAuto.repository.RoleRepository;
 import uz.pdp.WebAuto.service.UserService;
 

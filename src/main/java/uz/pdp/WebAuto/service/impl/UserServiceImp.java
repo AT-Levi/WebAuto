@@ -9,7 +9,6 @@ import uz.pdp.WebAuto.dtos.company.CompanyDTO;
 import uz.pdp.WebAuto.dtos.service.CompanyRequestDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenRequestDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenResponseDTO;
-import uz.pdp.WebAuto.dtos.user.UserRequestDTO;
 import uz.pdp.WebAuto.dtos.user.UserResponseDTO;
 import uz.pdp.WebAuto.entity.Company;
 import uz.pdp.WebAuto.entity.Image;
@@ -17,9 +16,10 @@ import uz.pdp.WebAuto.entity.Role;
 import uz.pdp.WebAuto.entity.User;
 import uz.pdp.WebAuto.exception.NotFoundException;
 import uz.pdp.WebAuto.mapper.UserMapper;
-import uz.pdp.WebAuto.repository.CompanyRepository;
 import uz.pdp.WebAuto.repository.RoleRepository;
 import uz.pdp.WebAuto.repository.UserRepository;
+import uz.pdp.WebAuto.service.CompanyService;
+import uz.pdp.WebAuto.service.ImageService;
 import uz.pdp.WebAuto.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,8 +47,9 @@ public class UserServiceImp implements UserService {
     private final RoleRepository roleRepository;
     private final CurrentUser currentUser;
     private final StorageService storageService;
+    private final CompanyService companyServiceImp;
+    private final ImageService imageServiceImp;
     private static final String COMPANY_FOLDER = "company";
-    private final CompanyServiceImp companyServiceImp;
 
     @Override
     public TokensDTO login(AuthRequestDTO dto) {
@@ -122,7 +123,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public CompanyDTO createCompany(CompanyRequestDTO companyRequestDTO) {
-        return null;
+        return companyServiceImp.save(companyRequestDTO);
     }
 
     @Override
@@ -132,17 +133,11 @@ public class UserServiceImp implements UserService {
 
     @Override
     public CompanyDTO saveLogo(MultipartFile logo) {
-        String path = storageService.uploadFile(logo, COMPANY_FOLDER);
+        Image save = imageServiceImp.save(logo);
         Company company = companyServiceImp.findByOwnerId(
                 userRepository.findByUsername(currentUser.getCurrentUsername())
-                        .orElseThrow(() -> new NotFoundException("User")).getId());
-        company.setLogo(
-                Image.builder()
-                        .imageUrl(path)
-                        .originalName(company.getName())
-                        .prefix(COMPANY_FOLDER)
-                        .build()
-        );
+                        .orElseThrow(() -> new NotFoundException("User ")).getId());
+        company.setLogo(save);
         return companyServiceImp.save(company);
     }
 
