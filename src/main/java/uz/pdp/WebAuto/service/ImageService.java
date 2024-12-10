@@ -6,6 +6,8 @@ import uz.pdp.WebAuto.dtos.image.ImageRequestDTO;
 import uz.pdp.WebAuto.dtos.image.ImageResponseDTO;
 import uz.pdp.WebAuto.entity.Image;
 
+import java.util.List;
+
 public interface ImageService {
 
     Image save(MultipartFile file);
@@ -19,4 +21,6 @@ public interface ImageService {
     Image findByCompanyId(Long companyId);
 
     void deleteById(Long id);
+
+    List<Image> saveImages(List<ImageRequestDTO> carImages);
 }

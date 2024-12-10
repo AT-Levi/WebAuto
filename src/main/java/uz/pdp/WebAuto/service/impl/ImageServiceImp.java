@@ -6,6 +6,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.WebAuto.config.service.StorageService;
 import uz.pdp.WebAuto.dtos.image.ImageDataDTO;
+import uz.pdp.WebAuto.dtos.image.ImageRequestDTO;
 import uz.pdp.WebAuto.dtos.image.ImageResponseDTO;
 import uz.pdp.WebAuto.entity.Image;
 import uz.pdp.WebAuto.exception.NotFoundException;
@@ -13,6 +14,7 @@ import uz.pdp.WebAuto.mapper.ImageMapper;
 import uz.pdp.WebAuto.repository.ImageRepository;
 import uz.pdp.WebAuto.service.ImageService;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -40,9 +42,16 @@ public class ImageServiceImp implements ImageService {
                 .originalName(originalFilename)
                 .build();
 
-        Image saveImage = imageRepository.save(image);
-        return saveImage;
+        return imageRepository.save(image);
     }
+
+    @Override
+    public List<Image> saveImages(List<ImageRequestDTO> carImages) {
+        return carImages.stream()
+                .map(imageRequestDTO -> save(imageRequestDTO.getImage()))
+                .toList();
+    }
+
 
     @Override
     public ImageDataDTO getImageData(Long id) {

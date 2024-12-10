@@ -2,9 +2,10 @@ package uz.pdp.WebAuto.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,10 +36,12 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "profile_image")
-    private String profileImage;
+    @OneToOne
+    @JoinColumn(name = "profile_image_id", referencedColumnName = "id")
+    private Image profileImage;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
@@ -54,9 +57,11 @@ public class User extends BaseEntity implements UserDetails {
     @Builder.Default
     private UserStatus status = UserStatus.ACTIVE;
 
-    @Column(nullable = false, unique = true)
+    @Email
+    @Column(unique = true)
     private String email;
 
+    @Pattern(regexp = "^(\\+\\d{1,3}[- ]?)?\\d{10}$")
     @Column(name = "phone_number")
     private String phoneNumber;
 
@@ -66,4 +71,11 @@ public class User extends BaseEntity implements UserDetails {
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public String toString() {
+        return "User{id=" + getId() + ", username='" + username + "', firstName='" + firstName + "', lastName='" + lastName + "'}";
+    }
+
+
 }

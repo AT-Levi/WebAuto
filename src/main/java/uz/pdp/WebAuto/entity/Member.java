@@ -28,7 +28,7 @@ public class Member extends BaseEntity {
     private User user;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "center_id")
+    @JoinColumn(name = "company_id")
     private Company company;
 
     @Enumerated(EnumType.STRING)

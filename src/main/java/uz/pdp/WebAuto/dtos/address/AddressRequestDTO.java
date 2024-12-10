@@ -18,4 +18,7 @@ public class AddressRequestDTO {
     private String number;
 
     private String description;
+
+    private Long longitude;
+    private Long latitude;
 }

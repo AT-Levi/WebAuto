@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import uz.pdp.WebAuto.dtos.role.RoleDTO;
 
-import java.util.List;
 import java.util.Set;
 
 @Getter

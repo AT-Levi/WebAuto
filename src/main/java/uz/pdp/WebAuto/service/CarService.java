@@ -1,24 +1,39 @@
 package uz.pdp.WebAuto.service;
 
-import uz.pdp.WebAuto.dtos.car.CarRequestDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import uz.pdp.WebAuto.dtos.car.CarDTO;
+import uz.pdp.WebAuto.dtos.car.CreateCarDTO;
 import uz.pdp.WebAuto.entity.Car;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 public interface CarService {
 
-    CarRequestDTO findById(Long id);
+    CarDTO findById(Long id);
 
-    CarRequestDTO save(CarRequestDTO dto);
+    CarDTO save(CreateCarDTO dto);
 
-    CarRequestDTO save(Car dto);
+    CarDTO save(Car dto);
 
-    List<CarRequestDTO> getAllCars();
+    List<CarDTO> getAll();
 
     boolean delete(Long id);
 
-    CarRequestDTO update(Long id, CarRequestDTO carRequestDTO);
+    List<CarDTO> findByBrandId(Long brandId);
 
+    List<CarDTO> findByFuelType(String fuelType);
 
+    List<CarDTO> findByTransmission(String transmission);
+
+    List<CarDTO> findByYear(int year);
+
+    List<CarDTO> findByPriceRange(BigDecimal minPrice, BigDecimal maxPrice);
+
+    List<CarDTO> getAllForPage(Pageable pageRequest);
+
+    CarDTO update(Car car);
+
+    Page<CarDTO> findAllForPage(Pageable pageRequest);
 }

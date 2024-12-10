@@ -22,7 +22,7 @@ public class Company extends BaseEntity {
     private String legalName;   // Qonuniy nomi
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
     @OneToOne(cascade = CascadeType.ALL)

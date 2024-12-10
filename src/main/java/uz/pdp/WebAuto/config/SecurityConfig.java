@@ -55,7 +55,7 @@ public class SecurityConfig {
     };
 
     @Lazy
-public SecurityConfig(@Qualifier("urlBasedCorsConfig") CorsConfigurationSource corsConfigurationSource,
+    public SecurityConfig(@Qualifier("urlBasedCorsConfig") CorsConfigurationSource corsConfigurationSource,
                           CustomUserDetailsService customUserDetailsService,
                           AuthenticationEntryPoint authenticationEntryPoint,
                           AccessDeniedHandler accessDeniedHandler) {
@@ -73,20 +73,24 @@ public SecurityConfig(@Qualifier("urlBasedCorsConfig") CorsConfigurationSource c
                 .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource))
 
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers(WHITE_LIST).permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers(WHITE_LIST).permitAll() // Ochiq so'rovlar
+                        .anyRequest().authenticated()) // Boshqa barcha so'rovlar autentifikatsiya qilinishi kerak
 
                 .sessionManagement((session) -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless sessiyalar
+
                 .exceptionHandling((exception) -> exception
-                        .authenticationEntryPoint(authenticationEntryPoint)
-                        .accessDeniedHandler(accessDeniedHandler)
-                )
-                .userDetailsService(userDetailsService)
-                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+                        .authenticationEntryPoint(authenticationEntryPoint) // Kirish uchun xatolik
+                        .accessDeniedHandler(accessDeniedHandler)) // Kirish uchun ruxsat etilmagan xatolik
+
+                .userDetailsService(userDetailsService) // Custom UserDetailsService
+                .passwordManagement(password -> passwordEncoder()) // PasswordEncoder qo'shish
+
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class); // JWT token filtri qo'shish
 
         return http.build();
     }
+
 
     @Bean("urlBasedCorsConfig")
     public CorsConfigurationSource corsConfig() {

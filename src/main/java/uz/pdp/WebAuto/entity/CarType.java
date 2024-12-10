@@ -1,14 +1,13 @@
 package uz.pdp.WebAuto.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+
+import java.util.List;
 
 @Entity
 @Table(name = "car_type")
@@ -18,11 +17,15 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder(toBuilder = true)
 public class CarType extends BaseEntity {
-    private String name;
+
+    private String typeName;
 
     @OneToOne
-    @JoinColumn(name = "image_id", nullable = false)
+    @JoinColumn(name = "logo_id", nullable = false)
     private Image icon;
+
+    @OneToMany(mappedBy = "carType", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Car> cars;
 }
 
 

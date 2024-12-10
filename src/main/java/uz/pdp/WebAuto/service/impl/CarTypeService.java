@@ -1,6 +1,5 @@
 package uz.pdp.WebAuto.service.impl;
 
-
 import org.springframework.stereotype.Service;
 import uz.pdp.WebAuto.entity.CarType;
 import uz.pdp.WebAuto.repository.CarTypeRepository;
@@ -32,7 +31,7 @@ public class CarTypeService {
     public CarType updateCarType(Long id, CarType carTypeDetails) {
         return carTypeRepository.findById(id)
                 .map(carType -> {
-                    carType.setName(carTypeDetails.getName());
+                    carType.setTypeName(carTypeDetails.getTypeName());
                     carType.setIcon(carTypeDetails.getIcon());
                     return carTypeRepository.save(carType);
                 })

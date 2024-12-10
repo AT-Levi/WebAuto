@@ -32,8 +32,15 @@ public class AddressServiceImp implements AddressService {
                 .number(dto.getNumber())
                 .description(dto.getDescription())
                 .city(dto.getCity())
+                .latitude(dto.getLatitude())
+                .longitude(dto.getLongitude())
                 .build());
 
         return addressMapper.toDto(address);
+    }
+
+    @Override
+    public Address save(Address address) {
+        return addressRepository.save(address);
     }
 }

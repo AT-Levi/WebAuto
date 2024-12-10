@@ -31,8 +31,6 @@ public class Car extends BaseEntity {
 
     private String color;
 
-    private String carNumber;
-
     private LocalDateTime warranty;
 
     @Enumerated(EnumType.STRING)
@@ -46,9 +44,9 @@ public class Car extends BaseEntity {
     @Column(name = "engine_type")
     private EngineType engineType;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "car_type_id")
-    private List<CarType> carTypes;
+    private CarType carType;
 
     private Long mileage;
 

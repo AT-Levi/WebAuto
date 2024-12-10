@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.WebAuto.dtos.auth.AuthRequestDTO;
-import uz.pdp.WebAuto.dtos.auth.AuthResponseDTO;
+import uz.pdp.WebAuto.dtos.auth.TokensDTO;
 import uz.pdp.WebAuto.dtos.company.CompanyDataDTO;
 import uz.pdp.WebAuto.dtos.company.CompanyRequestDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenRequestDTO;
@@ -28,7 +28,7 @@ public record AuthController (UserService service) {
 
     @PostMapping("/login")
     @Operation(summary = "Login")
-    public ResponseEntity<ResponseDTO<AuthResponseDTO>> login(@RequestBody AuthRequestDTO authRequestDTO) {
+    public ResponseEntity<ResponseDTO<TokensDTO>> login(@RequestBody AuthRequestDTO authRequestDTO) {
         return ResponseDTO.ok(service.login(authRequestDTO));
     }
 

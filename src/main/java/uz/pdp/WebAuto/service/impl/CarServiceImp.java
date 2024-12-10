@@ -1,13 +1,21 @@
 package uz.pdp.WebAuto.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import uz.pdp.WebAuto.dtos.car.CarRequestDTO;
-import uz.pdp.WebAuto.entity.Brand;
-import uz.pdp.WebAuto.entity.Car;
+import uz.pdp.WebAuto.dtos.car.CarDTO;
+import uz.pdp.WebAuto.dtos.car.CreateCarDTO;
+import uz.pdp.WebAuto.dtos.image.ImageRequestDTO;
+import uz.pdp.WebAuto.entity.*;
+import uz.pdp.WebAuto.enums.FuelType;
+import uz.pdp.WebAuto.enums.TransmissionType;
 import uz.pdp.WebAuto.mapper.CarMapper;
 import uz.pdp.WebAuto.repository.BrandRepository;
+import uz.pdp.WebAuto.repository.CarDetailsRepository;
 import uz.pdp.WebAuto.repository.CarRepository;
+import uz.pdp.WebAuto.repository.CarTypeRepository;
 import uz.pdp.WebAuto.service.CarService;
 
 import java.math.BigDecimal;
@@ -22,71 +30,92 @@ public class CarServiceImp implements CarService {
     private final CarRepository carRepository;
     private final BrandRepository brandRepository;
     private final CarMapper carMapper;
+    private final CarTypeRepository carTypeRepository;
+    private final CarDetailsRepository carDetailsRepository;
+    private final ImageServiceImp imageServiceImp;
 
     @Override
-    public CarRequestDTO findById(Long id) {
+    public CarDTO findById(Long id) {
         Car car = carRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Car not found with id: " + id));
         return carMapper.toDto(car);
     }
 
     @Override
-    public CarRequestDTO save(CarRequestDTO dto) {
-        Long brandId = dto.getBrandId();
-        Brand brand = brandRepository.findById(brandId)
-                .orElseThrow(() -> new IllegalArgumentException("Brand not found with id: " + brandId));
+    @Transactional
+    public CarDTO save(CreateCarDTO dto) {
+        List<ImageRequestDTO> carImages = dto.getCarImages();
+        List<Image> images = imageServiceImp.saveImages(carImages);
+        Brand brand = brandRepository.findById(dto.getBrandId())
+                .orElseThrow(() -> new IllegalArgumentException("Brand not found with id: " + dto.getBrandId()));
+        CarType carType = carTypeRepository.findById(dto.getCarTypeId())
+                .orElseThrow(() -> new IllegalArgumentException("Brand not found with id: " + dto.getCarTypeId()));
 
-        Car car = carMapper.toEntity(dto);
-        car.setBrand(brand);
+        Car newCar = Car.builder()
+                .brand(brand)
+                .carType(carType)
+                .carDetails(null)
+                .color(dto.getColor())
+                .year(dto.getYear())
+                .condition(dto.getCondition())
+                .description(dto.getDescription())
+                .engineType(dto.getEngineType())
+                .fuelType(dto.getFuelType())
+                .mileage(dto.getMileage())
+                .images(images)
+                .model(dto.getModel())
+                .warranty(dto.getWarranty())
+                .transmission(dto.getTransmission())
+                .price(dto.getPrice())
+                .build();
 
-        car = carRepository.save(car);
-        return carMapper.toDto(car);
+        return save(newCar);
     }
 
     @Override
-    public CarRequestDTO save(Car car) {
-        Car savedCar = carRepository.save(car);
+    public CarDTO save(Car newCar) {
+        Car savedCar = carRepository.save(newCar);
         return carMapper.toDto(savedCar);
     }
 
-
-
     @Override
-    public List<CarRequestDTO> getAllCars() {
-        List<Car> cars = carRepository.findAll();
-        return cars.stream().map(carMapper::toDto).collect(Collectors.toList());
+    public List<CarDTO> getAll() {
+        return carMapper.toDto(carRepository.findAll());
     }
 
 
-    public List<CarRequestDTO> findByBrandId(Long brandId) {
+    @Override
+    public List<CarDTO> getAllForPage(Pageable pageRequest) {
+        List<Car> allCars = carRepository.getCarsForPage(pageRequest);
+        return carMapper.toDto(allCars);
+    }
+
+    public List<CarDTO> findByBrandId(Long brandId) {
         List<Car> cars = carRepository.findByBrandId(brandId);
         return cars.stream().map(carMapper::toDto).collect(Collectors.toList()).reversed();
     }
 
-
-    public List<CarRequestDTO> findByFuelType(String fuelType) {
+    public List<CarDTO> findByFuelType(String fuelTypeStr) {
+        FuelType fuelType = FuelType.valueOf(fuelTypeStr);
         List<Car> cars = carRepository.findByFuelType(fuelType);
         return cars.stream().map(carMapper::toDto).collect(Collectors.toList()).reversed();
     }
 
-
-    public List<CarRequestDTO> findByTransmission(String transmission) {
-        List<Car> cars = carRepository.findByTransmission(transmission);
+    public List<CarDTO> findByTransmission(String transmission) {
+        TransmissionType transmissionType = TransmissionType.valueOf(transmission);
+        List<Car> cars = carRepository.findByTransmission(transmissionType);
         return cars.stream().map(carMapper::toDto).collect(Collectors.toList()).reversed();
     }
 
-
-    public List<CarRequestDTO> findByYear(int year) {
+    public List<CarDTO> findByYear(int year) {
         List<Car> cars = carRepository.findByYear(year);
         return cars.stream().map(carMapper::toDto).collect(Collectors.toList()).reversed();
     }
 
-
-    public List<CarRequestDTO> findByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
+    public List<CarDTO> findByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
         List<Car> cars = carRepository.findByPriceBetween(minPrice, maxPrice);
         return cars.stream().map(carMapper::toDto).collect(Collectors.toList()).reversed();
     }
-
 
     @Override
     public boolean delete(Long id) {
@@ -99,45 +128,13 @@ public class CarServiceImp implements CarService {
     }
 
     @Override
-    public CarRequestDTO update(Long id, CarRequestDTO carRequestDTO) {
-        /*return carRepository.findById(id)
-                .map(existingCar -> {
-                    // Обновляем данные автомобиля
-                    existingCar.setModel(carRequestDTO.getModel());
-                    existingCar.setYear(carRequestDTO.getYear());
-                    existingCar.setDescription(carRequestDTO.getDescription());
-                    existingCar.setColor(carRequestDTO.getColor());
-                    existingCar.setWarranty(carRequestDTO.getWarranty());
-                    existingCar.setFuelType(carRequestDTO.getFuelType());
-                    existingCar.setTransmission(carRequestDTO.getTransmission());
-                    existingCar.setEngineType(carRequestDTO.getEngineType());
-                    existingCar.setCarTypes((List<CarType>) carRequestDTO.getCarTypeId());
-                    existingCar.setMileage(carRequestDTO.getMileage());
-                    existingCar.setCondition(carRequestDTO.getCondition());
-                    existingCar.setPrice(carRequestDTO.getPrice());
-
-                    // Обновляем бренд, если он указан
-                    if (carRequestDTO.getBrandId() != null) {
-                        Brand brand = brandRepository.findById(carRequestDTO.getBrandDTO().id())
-                                .orElseThrow(() -> new RuntimeException("Brand not found"));
-                        existingCar.setBrand(brand);
-                    }
-
-                    // Обновляем изображения, если они указаны
-                    if (carRequestDTO.getCarImages() != null) {
-                        existingCar.setImages(carRequestDTO.getImages());
-                    }
-
-                    // Сохраняем изменения
-                    Car updatedCar = carRepository.save(existingCar);
-
-                    // Конвертируем обратно в DTO и возвращаем
-                    return carMapper.toDto(updatedCar);
-                })
-                .orElseThrow(() -> new RuntimeException("Car with ID " + id + " not found"));*/
-
-        return new CarRequestDTO();
+    public CarDTO update(Car car) {
+        return carMapper.toDto(carRepository.save(car));
     }
 
+    @Override
+    public Page<CarDTO> findAllForPage(Pageable pageRequest) {
+        return null;
+    }
 
 }

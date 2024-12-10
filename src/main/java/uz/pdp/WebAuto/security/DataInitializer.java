@@ -7,13 +7,17 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import uz.pdp.WebAuto.entity.Address;
 import uz.pdp.WebAuto.entity.Role;
 import uz.pdp.WebAuto.entity.User;
 import uz.pdp.WebAuto.enums.UserRole;
+import uz.pdp.WebAuto.enums.UserStatus;
+import uz.pdp.WebAuto.repository.AddressRepository;
 import uz.pdp.WebAuto.repository.RoleRepository;
 import uz.pdp.WebAuto.repository.UserRepository;
 
 import java.util.HashSet;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -22,6 +26,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AddressRepository addressRepository;
 
     @Transactional
     @Override
@@ -30,6 +35,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         Role userRole = createRoleIfNotFound(UserRole.USER, UserRole.USER.getDescription());
         Role dealerRole = createRoleIfNotFound(UserRole.DEALER, UserRole.DEALER.getDescription());
         Role superAdminRole = createRoleIfNotFound(UserRole.SUPER_ADMIN, UserRole.SUPER_ADMIN.getDescription());
+        Role employeeRole = createRoleIfNotFound(UserRole.EMPLOYEE, UserRole.EMPLOYEE.getDescription());
 
         if (userRepository.findByUsername("admin").isEmpty()) {
             HashSet<Role> roles = new HashSet<>();
@@ -37,15 +43,48 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             roles.add(userRole);
             roles.add(superAdminRole);
             roles.add(dealerRole);
+            roles.add(employeeRole);
+
+            Address addressAdmin = Address.builder()
+                    .city("Tashkent")
+                    .street("Chilanzar")
+                    .number("234A")
+                    .longitude(41L)
+                    .latitude(69L)
+                    .build();
+            Address addressSuperAdmin = Address.builder()
+                    .city("Tashkent")
+                    .street("Olmazor")
+                    .number("23")
+                    .longitude(32L)
+                    .latitude(29L)
+                    .build();
+
+            addressRepository.save(addressAdmin);
+            addressRepository.save(addressSuperAdmin);
+
+            var superAdmin = User.builder()
+                    .username("superadmin")
+                    .phoneNumber("1234567890")
+                    .email("superadmin@gmail.com")
+                    .address(addressSuperAdmin)
+                    .firstName("admin")
+                    .lastName("super")
+                    .status(UserStatus.ACTIVE)
+                    .password(passwordEncoder.encode("1"))
+                    .roles(Set.of(superAdminRole))
+                    .build();
 
             User adminUser = User.builder()
                     .username("admin")
-                    .password(passwordEncoder.encode("123"))
+                    .password(passwordEncoder.encode("2"))
                     .email("admin@gmail.com")
                     .roles(roles)
+                    .address(addressAdmin)
                     .build();
 
             userRepository.save(adminUser);
+            userRepository.save(superAdmin);
         }
     }
 

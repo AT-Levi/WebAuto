@@ -11,4 +11,6 @@ public interface AddressService {
     Optional<Address> findById(Long id);
 
     AddressDTO save(AddressRequestDTO dto);
+
+    Address save(Address address);
 }

@@ -1,5 +1,6 @@
 package uz.pdp.WebAuto.controller.admin;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/admin/user")
 @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+@SecurityRequirement(name = "bearerAuth")
 public class UserManageController {
 
     private final UserService userServiceImp;

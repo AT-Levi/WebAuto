@@ -45,5 +45,4 @@ public class CarDetails extends BaseEntity {
     private Integer numberOfDoors;
     private Integer numberOfCylinder;
 
-
 }

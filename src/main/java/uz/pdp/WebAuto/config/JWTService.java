@@ -19,14 +19,14 @@ import java.util.stream.Collectors;
 @Component
 public class JWTService {
 
-    @Value("${jwt.secret-key}")
+    @Value("${jwt.secret.key}")
     private String secretKey;
 
     @Value("${spring.jwt.accessTokenExpiration}")
-    private String accessTokenExpiration;
+    private String accessTokenExpirationStr;
 
     @Value("${spring.jwt.refreshTokenExpiration}")
-    private String refreshTokenExpiration;
+    private String refreshTokenExpirationStr;
 
     public String extractUsername(@NotNull String token) {
         return extractClaims(token).getSubject();
@@ -37,7 +37,7 @@ public class JWTService {
                 .setSubject(username)
                 .claim("roles", roles)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpiration))
+                .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(accessTokenExpirationStr)))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -47,7 +47,7 @@ public class JWTService {
                 .setSubject(username)
                 .claim("roles", roles)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpiration))
+                .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(refreshTokenExpirationStr)))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

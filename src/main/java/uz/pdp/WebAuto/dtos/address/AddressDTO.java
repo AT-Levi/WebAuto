@@ -16,4 +16,8 @@ public class AddressDTO {
     private String number;
 
     private String description;
+
+    private Long longitude;
+
+    private Long latitude;
 }
