@@ -37,6 +37,11 @@ public class BrandServiceImp implements BrandService {
         return null;
     }
 
+
+    public Optional<Brand> save(BrandDTO brandDTO) {
+        return Optional.empty();
+    }
+
     @Override
     public void delete(Long id) {
         brandRepository.deleteByBrandId(id);
