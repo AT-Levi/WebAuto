@@ -24,3 +24,4 @@ public interface BrandMapper extends EntityMapper<BrandDTO, Brand> {
 
 
 }
+

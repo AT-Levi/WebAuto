@@ -67,6 +67,10 @@ public class ResponseDTO<T> {
         return ResponseEntity.badRequest().body(new ResponseDTO<>(false, status.value(), null, errorData, errorData.getErrorMessage()));
     }
 
+    public static <T> ResponseEntity<ResponseDTO<T>> ok(T data, String message) {
+        return ResponseEntity.ok(new ResponseDTO<>(true, HttpStatus.OK.value(), data, message, null));
+    }
+
     public static <T> ResponseEntity<ResponseDTO<List<T>>> page(Page<T> pageContent){
         return ResponseEntity.ok(
                 new ResponseDTO<>(
