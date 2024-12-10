@@ -1,6 +1,8 @@
 package uz.pdp.WebAuto.controller.admin;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.WebAuto.dtos.car.CarRequestDTO;
 import uz.pdp.WebAuto.service.impl.CarServiceImp;
@@ -9,7 +11,9 @@ import uz.pdp.WebAuto.util.ResponseDTO;
 import java.util.List;
 
 @RestController
-@RequestMapping("admin/car")
+@RequestMapping("/admin/car")
+@PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN', 'DEALER')")
+@SecurityRequirement(name = "bearerAuth")
 public class CarManageController{
     private final CarServiceImp carService;
 

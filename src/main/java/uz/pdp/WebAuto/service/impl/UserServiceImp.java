@@ -1,6 +1,7 @@
 package uz.pdp.WebAuto.service.impl;
 
-import uz.pdp.WebAuto.config.CurrentUser;
+import jakarta.transaction.Transactional;
+import uz.pdp.WebAuto.config.service.CurrentUser;
 import uz.pdp.WebAuto.config.JWTService;
 import uz.pdp.WebAuto.dtos.auth.AuthRequestDTO;
 import uz.pdp.WebAuto.dtos.auth.AuthResponseDTO;
@@ -12,6 +13,7 @@ import uz.pdp.WebAuto.dtos.token.RefreshTokenResponseDTO;
 import uz.pdp.WebAuto.dtos.user.UserResponseDTO;
 import uz.pdp.WebAuto.entity.Role;
 import uz.pdp.WebAuto.entity.User;
+import uz.pdp.WebAuto.enums.UserRole;
 import uz.pdp.WebAuto.exception.NotFoundException;
 import uz.pdp.WebAuto.mapper.RoleMapper;
 import uz.pdp.WebAuto.mapper.UserMapper;
@@ -23,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -84,14 +85,27 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserResponseDTO register(AuthRequestDTO dto) {
+        var userRole = roleRepository.findByName(UserRole.USER)
+                .orElseThrow(() -> new NotFoundException("Role 'USER' not found"));
         var user = User.builder()
                 .username(dto.username())
                 .phoneNumber(dto.phoneNumber())
                 .password(passwordEncoder.encode(dto.password()))
-                .roles(Set.of(roleRepository.findById(1L).orElseThrow(() -> new NotFoundException("Role"))))
+                .roles(Set.of(userRole))
                 .build();
         userRepository.save(user);
         return userMapper.toDto(user);
+    }
+
+    @Transactional
+    public void updateUserRole(Long userId, UserRole roleName) {
+        var user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+        var role = roleRepository.findByName(roleName)
+                .orElseThrow(() -> new NotFoundException("Role not found"));
+
+        user.setRoles(Set.of(role));
+        userRepository.save(user);
     }
 
     @Override

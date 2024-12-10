@@ -1,4 +1,4 @@
-package uz.pdp.WebAuto.config;
+package uz.pdp.WebAuto.config.service;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;

@@ -10,6 +10,7 @@ import uz.pdp.WebAuto.dtos.token.RefreshTokenRequestDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenResponseDTO;
 import uz.pdp.WebAuto.dtos.user.UserResponseDTO;
 import uz.pdp.WebAuto.entity.User;
+import uz.pdp.WebAuto.enums.UserRole;
 
 import java.util.Optional;
 
@@ -30,4 +31,6 @@ public interface UserService {
     CompanyDataDTO refreshCompanyLogo(Long companyId, MultipartFile logo);
 
     User findByUsername(String username);
+
+    void updateUserRole(Long userId, UserRole roleName);
 }

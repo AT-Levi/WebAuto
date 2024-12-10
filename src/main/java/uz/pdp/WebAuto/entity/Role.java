@@ -19,7 +19,7 @@ import java.util.Set;
 public class Role extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20, unique = true)
+    @Column(length = 20, unique = true, nullable = false)
     private UserRole name;
 
     private String description;

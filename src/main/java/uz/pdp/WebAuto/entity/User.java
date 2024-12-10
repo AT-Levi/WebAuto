@@ -38,7 +38,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "profile_image")
     private String profileImage;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
