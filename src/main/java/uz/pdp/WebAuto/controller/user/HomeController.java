@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.WebAuto.dtos.car.CarDTO;
@@ -17,11 +18,11 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/home")
 @SecurityRequirement(name = "bearerAuth")
+@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPER_ADMIN', 'EMPLOYEE', 'DEALER')")
 @RequiredArgsConstructor
-
-public class UserController {
+public class HomeController {
 
     private final CarService carService;
     private final UserService userService;

@@ -1,6 +1,7 @@
 package uz.pdp.WebAuto.controller.admin;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -16,13 +17,10 @@ import java.util.List;
 @RequestMapping("/admin/car-type")
 @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN', 'DEALER', 'EMPLOYEE')")
 @SecurityRequirement(name = "bearerAuth")
+@RequiredArgsConstructor
 public class CarTypeController {
 
     private final CarTypeService carTypeService;
-
-    public CarTypeController(CarTypeService carTypeService) {
-        this.carTypeService = carTypeService;
-    }
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO<CarTypeResponseDTO>> createCarType(@RequestBody CreateCarTypeDTO carTypeDTO) {

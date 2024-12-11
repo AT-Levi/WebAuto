@@ -22,7 +22,7 @@ public class CarBrandController {
 
     private final BrandService brandService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<ResponseDTO<Brand>> getBrandById(@PathVariable Long id) {
         return ResponseDTO.ok(brandService.findById(id));
     }
@@ -45,7 +45,7 @@ public class CarBrandController {
         return ResponseDTO.ok("Brand successfully deleted");
     }
 
-    @GetMapping("/all")
+    @GetMapping("/get-all")
     public ResponseDTO<List<BrandDTO>> getAllBrands() {
         List<BrandDTO> allBrands = brandService.getAllBrands();
         return ResponseDTO.ok(allBrands).getBody();

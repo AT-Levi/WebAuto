@@ -2,13 +2,13 @@ package uz.pdp.WebAuto.controller.admin;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.WebAuto.dtos.car.CarDTO;
 import uz.pdp.WebAuto.dtos.car.CreateCarDTO;
-import uz.pdp.WebAuto.entity.Car;
 import uz.pdp.WebAuto.service.impl.CarServiceImp;
 import uz.pdp.WebAuto.util.ResponseDTO;
 
@@ -18,12 +18,9 @@ import java.util.List;
 @RequestMapping("/admin/car")
 @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
 @SecurityRequirement(name = "bearerAuth")
+@RequiredArgsConstructor
 public class CarManageController {
     private final CarServiceImp carService;
-
-    public CarManageController(CarServiceImp carService) {
-        this.carService = carService;
-    }
 
     @Operation(summary = "Mashina ma'lumotlarini olish", description = "Berilgan ID bo'yicha mashinaning batafsil ma'lumotlarini qaytaradi.")
     @GetMapping("/get/{id}")

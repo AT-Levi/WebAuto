@@ -23,7 +23,7 @@ public class CarDetailsController {
         this.carDetailsService = carDetailsService;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseDTO<CarDetailsDTO> create(@RequestBody CarDetailsDTO carDetailsDTO) {
         CarDetailsDTO saved = carDetailsService.save(carDetailsDTO);
         return ResponseDTO.ok(saved).getBody();
@@ -34,7 +34,7 @@ public class CarDetailsController {
         return ResponseDTO.ok(carDetailsService.getById(id)).getBody();
     }
 
-    @GetMapping
+    @GetMapping("/get-all")
     public ResponseEntity<ResponseDTO<List<CarDetailsDTO>>> getAll() {
         return ResponseDTO.ok(carDetailsService.getAll());
     }

@@ -1,7 +1,10 @@
 package uz.pdp.WebAuto.controller.shop;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.WebAuto.entity.shop.OrderDetails;
 import uz.pdp.WebAuto.entity.shop.OrderDetailsRequest;
@@ -11,14 +14,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/order-details")
+@RequiredArgsConstructor
+@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'DEALER')")
+@SecurityRequirement(name = "bearerAuth")
 public class OrderDetailsController {
 
     private final OrderDetailsService orderDetailsService;
-
-    @Autowired
-    public OrderDetailsController(OrderDetailsService orderDetailsService) {
-        this.orderDetailsService = orderDetailsService;
-    }
 
     @Operation(
             summary = "Buyurtma tafsilotlarini saqlash",

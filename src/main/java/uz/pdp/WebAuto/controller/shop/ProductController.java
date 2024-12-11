@@ -2,8 +2,10 @@ package uz.pdp.WebAuto.controller.shop;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.WebAuto.entity.shop.CartItem;
 import uz.pdp.WebAuto.entity.shop.Product;
@@ -13,6 +15,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
+@PreAuthorize("hasAnyRole('DEALER', 'ADMIN')")
+@SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class ProductController {
 

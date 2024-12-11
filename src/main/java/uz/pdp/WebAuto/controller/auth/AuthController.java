@@ -1,11 +1,8 @@
 package uz.pdp.WebAuto.controller.auth;
 
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.Valid;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.WebAuto.dtos.auth.AuthRequestDTO;
 import uz.pdp.WebAuto.dtos.auth.LoginDTO;
 import uz.pdp.WebAuto.dtos.auth.TokensDTO;

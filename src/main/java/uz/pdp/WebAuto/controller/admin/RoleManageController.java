@@ -16,7 +16,7 @@ import uz.pdp.WebAuto.service.UserService;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/admin/roles")
+@RequestMapping("/admin/role")
 @RequiredArgsConstructor
 @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
 @SecurityRequirement(name = "bearerAuth")

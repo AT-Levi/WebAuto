@@ -27,6 +27,6 @@ public class BlogPost extends BaseEntity {
 
     @OneToMany
     @JoinColumn(name = "picture_id", nullable = false)
-    private List<Image> picture;
+    private List<Image> pictures;
 
 }

@@ -3,8 +3,11 @@ package uz.pdp.WebAuto.controller.shop;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.WebAuto.entity.shop.LoanHistory;
 import uz.pdp.WebAuto.service.shop.LoanCalculatorService;
@@ -12,11 +15,13 @@ import uz.pdp.WebAuto.service.shop.LoanCalculatorService;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/loans")
+@PreAuthorize("hasAnyRole('DEALER', 'ADMIN')")
+@SecurityRequirement(name = "bearerAuth")
+@RequestMapping("/api/cart")
+@RequiredArgsConstructor
 public class LoanCalculatorController {
 
-    @Autowired
-    private LoanCalculatorService loanCalculatorService;
+    private final LoanCalculatorService loanCalculatorService;
 
     @Operation(
             summary = "Kreditni hisoblash",

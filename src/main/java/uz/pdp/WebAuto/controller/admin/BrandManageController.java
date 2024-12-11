@@ -2,6 +2,7 @@ package uz.pdp.WebAuto.controller.admin;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +18,10 @@ import java.util.List;
 @RequestMapping("/admin/brand")
 @SecurityRequirement(name = "bearerAuth")
 @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN', 'DEALER')")
+@RequiredArgsConstructor
 public class BrandManageController {
 
     private final BrandService service;
-
-    public BrandManageController(BrandService service) {
-        this.service = service;
-    }
 
     @GetMapping("/{id}")
     @Operation(summary = "Brandni Id- si bo`yicha olish.", description = "Berilgan ID bo'yicha brand ma'lumotlarini qaytaradi.")
@@ -52,7 +50,7 @@ public class BrandManageController {
         return ResponseDTO.ok("Brand successfully deleted");
     }
 
-    @GetMapping("/all")
+    @GetMapping("/get-all")
     @Operation(summary = "Barcha brandlarni ko`rish", description = "Tizimda mavjud barcha brandlarning ro'yxatini qaytaradi.")
     public ResponseDTO<List<BrandDTO>> getAllBrands() {
         List<BrandDTO> allBrands = service.getAllBrands();

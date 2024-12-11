@@ -11,14 +11,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.WebAuto.dtos.car.CarDTO;
 import uz.pdp.WebAuto.dtos.car.CreateCarDTO;
-import uz.pdp.WebAuto.entity.Car;
 import uz.pdp.WebAuto.service.CarService;
 import uz.pdp.WebAuto.util.ResponseDTO;
 
 import java.util.List;
 
 @RequestMapping("/dealer/car")
-@PreAuthorize("hasAnyRole()")
+@PreAuthorize("hasAnyRole('DEALER', 'SUPER_ADMIN', 'ADMIN')")
 @SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 @RestController

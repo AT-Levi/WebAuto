@@ -1,21 +1,25 @@
 package uz.pdp.WebAuto.service;
 
-import org.springframework.stereotype.Service;
+import uz.pdp.WebAuto.dtos.blogpost.BlogPostDTO;
+import uz.pdp.WebAuto.dtos.blogpost.BlogPostRequestDTO;
+import uz.pdp.WebAuto.dtos.brand.BrandDTO;
 import uz.pdp.WebAuto.entity.BlogPost;
-import uz.pdp.WebAuto.repository.BlogPostRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 
 public interface BlogPostService {
 
-    List<BlogPost> getAllPosts();
+    List<BlogPostDTO> getAllPosts();
 
-    Optional<BlogPost> getPostById(Long id);
+    BlogPostDTO getPostById(Long id);
 
-    BlogPost createPost(BlogPost blogPost);
+    BlogPostDTO save(BlogPostRequestDTO blogPost);
 
-    void deletePost(Long id);
+    void delete(Long id);
+
+    List<BlogPost> findPostsByOwnerId(Long ownerId);
+
+    BlogPostDTO update(BlogPostDTO blogPostDTO);
 }
 

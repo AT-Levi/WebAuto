@@ -33,6 +33,7 @@ import uz.pdp.WebAuto.repository.UserRepository;
 import uz.pdp.WebAuto.service.ImageService;
 import uz.pdp.WebAuto.service.UserService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -109,11 +110,6 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public List<User> getAllAdmin() {
-        return List.of();
-    }
-
-    @Override
     public ImageResponseDTO saveProfileImage(MultipartFile profileImage) {
         User user = findByUsername(currentUser.getCurrentUser().getUsername());
         Image image = imageService.save(profileImage);
@@ -156,8 +152,21 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public List<User> getUsersByRole(String role) {
-        return List.of();
+    public List<User> getUsersByRole(String roleStr) {
+        List<User> usersByRole = new ArrayList<>();
+
+        if (roleStr.equals(UserRole.USER.name())) {
+            usersByRole = userRepository.findUsersByRoleId(2);
+        } else if (roleStr.equals(UserRole.ADMIN.name())) {
+            usersByRole = userRepository.findUsersByRoleId(1);
+        } else if (roleStr.equals(UserRole.SUPER_ADMIN.name())) {
+            usersByRole = userRepository.findUsersByRoleId(4);
+        } else if (roleStr.equals(UserRole.EMPLOYEE.name())) {
+            usersByRole = userRepository.findUsersByRoleId(5);
+        } else if (roleStr.equals(UserRole.DEALER.name())) {
+            usersByRole = userRepository.findUsersByRoleId(3);
+        }
+        return usersByRole;
     }
 
     @Override
