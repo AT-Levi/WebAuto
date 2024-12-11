@@ -2,22 +2,27 @@ package uz.pdp.WebAuto.controller.user;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.WebAuto.dtos.car.CarDTO;
+import uz.pdp.WebAuto.dtos.image.ImageResponseDTO;
 import uz.pdp.WebAuto.service.CarService;
+import uz.pdp.WebAuto.service.UserService;
 import uz.pdp.WebAuto.util.ResponseDTO;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/")
 @SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class UserController {
 
     private final CarService carService;
+    private final UserService userService;
 
     @GetMapping("/{id}")
     public ResponseEntity<CarDTO> getCarById(@PathVariable Long id) {
@@ -61,5 +66,11 @@ public class UserController {
             @RequestParam(required = false) BigDecimal maxPrice) {
         List<CarDTO> cars = carService.findByPriceRange(minPrice, maxPrice);
         return ResponseEntity.ok(cars);
+    }
+
+    @PostMapping(value = "/profileImage", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<ResponseDTO<ImageResponseDTO>> profileImage(
+            @RequestPart("profileImage") MultipartFile profileImage) {
+        return ResponseDTO.ok(userService.saveProfileImage(profileImage));
     }
 }

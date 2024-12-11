@@ -1,11 +1,12 @@
 package uz.pdp.WebAuto.service;
 
 import org.springframework.web.multipart.MultipartFile;
+import uz.pdp.WebAuto.controller.user.UserController;
 import uz.pdp.WebAuto.dtos.auth.AuthRequestDTO;
 import uz.pdp.WebAuto.dtos.auth.LoginDTO;
 import uz.pdp.WebAuto.dtos.auth.TokensDTO;
 import uz.pdp.WebAuto.dtos.company.CompanyDataDTO;
-import uz.pdp.WebAuto.dtos.company.CompanyRequestDTO;
+import uz.pdp.WebAuto.dtos.image.ImageResponseDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenRequestDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenResponseDTO;
 import uz.pdp.WebAuto.dtos.user.UserResponseDTO;
@@ -27,11 +28,11 @@ public interface UserService {
 
     Optional<User> findById(Long id);
 
-    CompanyDataDTO refreshCompanyLogo(Long companyId, MultipartFile logo);
-
     User findByUsername(String username);
 
     void updateUserRole(Long userId, UserRole roleName);
 
     List<User> getAllAdmin();
+
+    ImageResponseDTO saveProfileImage(MultipartFile profileImage);
 }

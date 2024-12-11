@@ -29,7 +29,7 @@ public class Brand extends BaseEntity {
     private String country;
 
     @Column(name = "created_date")
-    private String createdDate;
+    private LocalDateTime createdDate;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Image icon;

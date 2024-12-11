@@ -2,17 +2,18 @@ package uz.pdp.WebAuto.service;
 
 import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.WebAuto.dtos.company.CompanyDataDTO;
-import uz.pdp.WebAuto.dtos.company.CompanyRequestDTO;
 import uz.pdp.WebAuto.dtos.company.CompanyResponseDTO;
+import uz.pdp.WebAuto.dtos.company.CreateCompanyDTO;
+import uz.pdp.WebAuto.dtos.image.ImageResponseDTO;
 import uz.pdp.WebAuto.entity.Company;
 
 import java.util.List;
 
 public interface CompanyService {
 
-    CompanyDataDTO save(CompanyRequestDTO dto);
+    CompanyDataDTO save(CreateCompanyDTO dto);
 
-    CompanyDataDTO save(Company company);
+    Company save(Company company);
 
     CompanyDataDTO update(CompanyDataDTO company);
 
@@ -22,10 +23,11 @@ public interface CompanyService {
 
     Company findByName(String companyName);
 
-    CompanyDataDTO refreshCompanyLogo(Long companyId, MultipartFile logo);
+//    CompanyDataDTO refreshCompanyLogo(Long companyId, MultipartFile logo);
 
     void deleteById(Long companyId);
 
     List<CompanyResponseDTO> findAll();
 
+    CompanyResponseDTO saveLogo(MultipartFile logo);
 }

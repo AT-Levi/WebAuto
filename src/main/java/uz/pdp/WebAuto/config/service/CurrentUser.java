@@ -2,8 +2,10 @@ package uz.pdp.WebAuto.config.service;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import uz.pdp.WebAuto.entity.User;
 import uz.pdp.WebAuto.service.impl.UserServiceImp;
@@ -29,7 +31,7 @@ public class CurrentUser {
         return userDetails != null ? userDetails.getUsername() : null;
     }
 
-    public User getCurrentUser(){
+    public User getCurrentUser() {
         String username = getCurrentUsername();
         return service.findByUsername(username);
     }

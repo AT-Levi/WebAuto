@@ -16,18 +16,24 @@ import uz.pdp.WebAuto.dtos.auth.AuthRequestDTO;
 import uz.pdp.WebAuto.dtos.auth.LoginDTO;
 import uz.pdp.WebAuto.dtos.auth.TokensDTO;
 import uz.pdp.WebAuto.dtos.company.CompanyDataDTO;
-import uz.pdp.WebAuto.dtos.company.CompanyRequestDTO;
+import uz.pdp.WebAuto.dtos.company.CompanyResponseDTO;
+import uz.pdp.WebAuto.dtos.image.ImageResponseDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenRequestDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenResponseDTO;
+import uz.pdp.WebAuto.dtos.user.UserDataDTO;
 import uz.pdp.WebAuto.dtos.user.UserResponseDTO;
+import uz.pdp.WebAuto.entity.Company;
+import uz.pdp.WebAuto.entity.Image;
 import uz.pdp.WebAuto.entity.Role;
 import uz.pdp.WebAuto.entity.User;
 import uz.pdp.WebAuto.enums.UserRole;
 import uz.pdp.WebAuto.exception.NotFoundException;
+import uz.pdp.WebAuto.mapper.ImageMapperImpl;
 import uz.pdp.WebAuto.mapper.UserMapper;
 import uz.pdp.WebAuto.repository.RoleRepository;
 import uz.pdp.WebAuto.repository.UserRepository;
 import uz.pdp.WebAuto.service.CompanyService;
+import uz.pdp.WebAuto.service.ImageService;
 import uz.pdp.WebAuto.service.UserService;
 
 import java.util.List;
@@ -46,9 +52,7 @@ public class UserServiceImp implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final CurrentUser currentUser;
-    private final CompanyService companyServiceImp;
-    @Lazy
-    private final DynamicRoleServiceImp dynamicRoleServiceImp;
+    private final ImageService imageService;
 
     @Override
     public TokensDTO login(LoginDTO dto) {
@@ -111,6 +115,17 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public ImageResponseDTO saveProfileImage(MultipartFile profileImage) {
+        User user = findByUsername(currentUser.getCurrentUser().getUsername());
+        Image image = imageService.save(profileImage);
+        user.setProfileImage(image);
+        return ImageResponseDTO.builder()
+                .id(image.getId())
+                .url(image.getUrl())
+                .build();
+    }
+
+    @Override
     public RefreshTokenResponseDTO refreshToken(RefreshTokenRequestDTO refreshTokenRequestDTO) {
         var refreshToken = refreshTokenRequestDTO.getRefreshToken();
         var username = jwtService.extractUsername(refreshToken);
@@ -139,11 +154,6 @@ public class UserServiceImp implements UserService {
     @Override
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
-    }
-
-    @Override
-    public CompanyDataDTO refreshCompanyLogo(Long companyId, MultipartFile logo) {
-        return companyServiceImp.refreshCompanyLogo(companyId, logo);
     }
 
     @Override
