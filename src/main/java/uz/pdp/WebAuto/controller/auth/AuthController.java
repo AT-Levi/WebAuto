@@ -10,7 +10,6 @@ import uz.pdp.WebAuto.dtos.auth.AuthRequestDTO;
 import uz.pdp.WebAuto.dtos.auth.LoginDTO;
 import uz.pdp.WebAuto.dtos.auth.TokensDTO;
 import uz.pdp.WebAuto.dtos.company.CompanyDataDTO;
-import uz.pdp.WebAuto.dtos.company.CompanyRequestDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenRequestDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenResponseDTO;
 import uz.pdp.WebAuto.dtos.user.UserResponseDTO;
@@ -43,13 +42,6 @@ public record AuthController (UserService service) {
     @Operation(summary = "me")
     public ResponseEntity<ResponseDTO<UserResponseDTO>> me() {
         return ResponseDTO.ok(service.me());
-    }
-
-    @PostMapping(value = "/logo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    @Operation(summary = "logo")
-    public ResponseEntity<ResponseDTO<CompanyDataDTO>> refreshCompanyLogo(
-            @RequestParam("companyId") Long companyId, @RequestPart("logo") MultipartFile logo) {
-        return ResponseDTO.ok(service.refreshCompanyLogo(companyId, logo));
     }
 
 }

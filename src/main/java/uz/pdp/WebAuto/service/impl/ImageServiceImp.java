@@ -14,8 +14,10 @@ import uz.pdp.WebAuto.mapper.ImageMapper;
 import uz.pdp.WebAuto.repository.ImageRepository;
 import uz.pdp.WebAuto.service.ImageService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +28,7 @@ public class ImageServiceImp implements ImageService {
     private final ImageMapper imageMapper;
 
     @Override
-    public ImageResponseDTO save(MultipartFile file) {
+    public Image save(MultipartFile file) {
         String originalFilename = file.getOriginalFilename();
         String extension = getFilenameExtension(file);
         String fileName = UUID.randomUUID() + "." + extension;
@@ -42,16 +44,13 @@ public class ImageServiceImp implements ImageService {
                 .originalName(originalFilename)
                 .build();
 
-        return imageMapper.toDto(imageRepository.save(image));
-    }
-
-    @Override
+        return imageRepository.save(image);
+    }@Override
     public List<Image> saveImages(List<ImageRequestDTO> carImages) {
-        return imageMapper.toEntity(carImages.stream()
-                .map(imageRequestDTO -> save(imageRequestDTO.getLogo()))
-                .toList());
+        return carImages.stream()
+                .map(carImage -> save(carImage.getLogo()))
+                .collect(Collectors.toList());
     }
-
 
     @Override
     public ImageDataDTO getImageData(Long id) {

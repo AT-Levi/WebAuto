@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ImageService {
 
-    ImageResponseDTO save(MultipartFile file);
+    Image save(MultipartFile file);
 
     ImageDataDTO getImageData(Long id);
 

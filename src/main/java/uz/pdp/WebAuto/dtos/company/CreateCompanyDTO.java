@@ -4,12 +4,11 @@ import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.WebAuto.dtos.address.AddressRequestDTO;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import uz.pdp.WebAuto.dtos.image.ImageRequestDTO;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CompanyRequestDTO {
+public class CreateCompanyDTO {
     @NotBlank(message = "Center name is not blank")
     private String name;
 
@@ -19,7 +18,7 @@ public class CompanyRequestDTO {
 
     private String phone;
 
-    private ImageRequestDTO logo;
+    private MultipartFile logo;
 
     private String email;
 

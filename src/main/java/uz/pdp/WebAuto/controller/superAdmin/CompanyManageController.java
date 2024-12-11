@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.WebAuto.config.service.StorageService;
 import uz.pdp.WebAuto.dtos.company.CompanyDataDTO;
-import uz.pdp.WebAuto.dtos.company.CompanyRequestDTO;
 import uz.pdp.WebAuto.dtos.company.CompanyResponseDTO;
+import uz.pdp.WebAuto.dtos.company.CreateCompanyDTO;
 import uz.pdp.WebAuto.dtos.image.ImageResponseDTO;
 import uz.pdp.WebAuto.entity.Company;
 import uz.pdp.WebAuto.service.CompanyService;
@@ -33,14 +33,14 @@ public class CompanyManageController {
 
     @PostMapping(value = "/create")
     public ResponseEntity<ResponseDTO<CompanyDataDTO>> createCompany(
-            @RequestBody CompanyRequestDTO dto) {
+            @RequestBody CreateCompanyDTO dto) {
         return ResponseDTO.ok(companyService.save(dto));
     }
 
     @PostMapping(value = "/logo", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ResponseDTO<ImageResponseDTO>> logo(
             @RequestPart("logo") MultipartFile logo) {
-        return ResponseDTO.ok(imageService.save(logo));
+        return ResponseDTO.ok(companyService.saveLogo(logo).logo());
     }
 
     @GetMapping("get/{id}")

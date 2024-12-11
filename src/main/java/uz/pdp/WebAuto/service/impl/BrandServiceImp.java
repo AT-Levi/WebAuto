@@ -7,6 +7,7 @@ import uz.pdp.WebAuto.entity.Brand;
 import uz.pdp.WebAuto.entity.Image;
 import uz.pdp.WebAuto.exception.NotFoundException;
 import uz.pdp.WebAuto.mapper.BrandMapper;
+import uz.pdp.WebAuto.mapper.ImageMapper;
 import uz.pdp.WebAuto.repository.BrandRepository;
 import org.springframework.stereotype.Service;
 import uz.pdp.WebAuto.service.BrandService;
@@ -22,6 +23,7 @@ public class BrandServiceImp implements BrandService {
     private final BrandRepository brandRepository;
     private final BrandMapper brandMapper;
     private final ImageService imageServiceImp;
+    private final ImageMapper imageMapper;
 
     @Override
     public List<BrandDTO> getAllBrands() {
