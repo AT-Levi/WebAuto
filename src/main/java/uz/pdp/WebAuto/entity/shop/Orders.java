@@ -1,24 +1,28 @@
 package uz.pdp.WebAuto.entity.shop;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class LoanHistory {
+@SuperBuilder(toBuilder = true)
+public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private Double amount;
-    private Integer termInMonths;
-    private Double annualRate;
-    private Double monthlyPayment;
+    private int id;
+    private int count;
+    private int productId;
+    private int basketId;
 
 }

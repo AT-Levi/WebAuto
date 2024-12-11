@@ -6,19 +6,28 @@ import lombok.*;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
+    private int cartId;
+    private int productId;
+    private int quantity;
+    private boolean isPaid;
 
-    @ManyToOne
-    private Product product;
+    public CartItem(int id, int quantity, boolean b) {}
 
-    private Integer quantity;
+    public CartItem(int cartId, int productId, int quantity, boolean isPaid) {
+        this.cartId = cartId;
+        this.productId = productId;
+        this.quantity = quantity;
+        this.isPaid = false;
+    }
 
-    // Getters and Setters
+    public CartItem() {
+
+    }
 }
 

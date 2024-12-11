@@ -1,48 +1,73 @@
 package uz.pdp.WebAuto.service.shop;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import uz.pdp.WebAuto.entity.shop.CartItem;
 import uz.pdp.WebAuto.entity.shop.Product;
-import uz.pdp.WebAuto.repository.shop.ProductRepository;
+import uz.pdp.WebAuto.repository.shop.ProductsRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
-    @Autowired
-    private ProductRepository productRepository;
 
+    private final ProductsRepository productsRepository;
+    private final CartService cartService;
 
-    public Product addProduct(Product product) {
-        if (product.getPrice() <= 0) {
-            throw new RuntimeException("Narx nol yoki manfiy bo'lishi mumkin emas!");
-        }
-        if (product.getStock() < 0) {
-            throw new RuntimeException("Ombordagi mahsulot soni manfiy bo'lishi mumkin emas!");
-        }
-        return productRepository.save(product);
+    public void addProduct(String productCategory, String productName, int productPrice,
+                           String productDescription, int productCount, String productImageUrl, String base64Img) {
+        Product product = Product.builder()
+                .category(productCategory)
+                .name(productName)
+                .price(productPrice)
+                .description(productDescription)
+                .count(productCount)
+                .imageUrl(productImageUrl)
+                .imageBase64(base64Img)
+                .build();
+        productsRepository.save(product);
     }
 
+    public Product getProductById(int productId) {
+        return productsRepository.findById(productId)
+                .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + productId));
+    }
 
     public List<Product> getAllProducts() {
-        return productRepository.findAll();
+        return productsRepository.findAll();
     }
 
-    public List<Product> filterProducts(String category, Double minPrice, Double maxPrice, Double minPower, Double maxPower) {
-        return productRepository.findAll().stream()
-                .filter(p -> category == null || p.getCategory().equalsIgnoreCase(category))
-                .filter(p -> (minPrice == null || maxPrice == null) || (p.getPrice() >= minPrice && p.getPrice() <= maxPrice))
-                .filter(p -> (minPower == null || maxPower == null) || (p.getPower() >= minPower && p.getPower() <= maxPower))
+
+
+    public boolean deleteProductById(int id) {
+        if (productsRepository.existsById(id)) {
+            productsRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    public void reduceAmountOfProductByProductId(List<CartItem> items) {
+        items.forEach(item -> {
+            Product product = getProductById(item.getProductId());
+            if (product.getCount() > 0) {
+                product.setCount(product.getCount() - 1);
+                productsRepository.save(product);
+            }
+        });
+    }
+
+    public List<Product> getArchivedProductsByUserId(int userId) {
+        List<CartItem> cartItems = cartService.getCartItemsByUserId(userId);
+        List<Integer> archivedProductIds = cartItems.stream()
+                .filter(CartItem::isPaid)
+                .map(CartItem::getProductId)
                 .collect(Collectors.toList());
+        return productsRepository.findByIds(archivedProductIds);
     }
 
-    public Product getProductById(Long id) {
-        return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found"));
-    }
-
-    public List<Product> searchProducts(String query) {
-        return productRepository.searchByNameOrCategory(query);
-    }
 }
 
