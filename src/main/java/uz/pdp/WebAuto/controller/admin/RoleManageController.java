@@ -1,7 +1,9 @@
 package uz.pdp.WebAuto.controller.admin;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.WebAuto.dtos.role.RoleDTO;
 import uz.pdp.WebAuto.dtos.role.RoleRequestDTO;
@@ -16,19 +18,19 @@ import java.util.Set;
 @RestController
 @RequestMapping("/admin/roles")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+@SecurityRequirement(name = "bearerAuth")
 public class RoleManageController {
 
     private final RoleService roleService;
     private final UserService userService;
 
-    // Foydalanuvchining rollarini olish
     @GetMapping("/user/{username}")
     public ResponseEntity<Set<Role>> getUserRoles(@PathVariable String username) {
         Set<Role> roles = roleService.getRolesByUsername(username);
         return ResponseEntity.ok(roles);
     }
 
-    // Yangi rol qo'shish
     @PostMapping("/add")
     public ResponseEntity<RoleDTO> addRole(@RequestBody RoleRequestDTO roleRequestDTO) {
         if (roleService.roleExists(roleRequestDTO.name())) {
@@ -39,7 +41,6 @@ public class RoleManageController {
         return ResponseEntity.ok(createdRole);
     }
 
-    // Foydalanuvchining rolini qo'shish yoki o'zgartirish
     @PostMapping("/user/{username}/addRole")
     public ResponseEntity<String> assignRoleToUser(@PathVariable String username, @RequestBody RoleRequestDTO roleRequestDTO) {
         User user = userService.findByUsername(username);
@@ -52,12 +53,9 @@ public class RoleManageController {
         }
 
         roleService.addRole(roleRequestDTO.name());
-        // User'ga yangi rolni qo'shish (bu yerda sizning biznes logikangizga qarab, role qo'shiladi)
-        // user.addRole(roleService.findByName(UserRole.valueOf(roleRequestDTO.name().toUpperCase())).get());
         return ResponseEntity.ok("Role successfully assigned to user");
     }
 
-    // Foydalanuvchidan rolni olib tashlash
     @DeleteMapping("/user/{username}/removeRole")
     public ResponseEntity<String> removeRoleFromUser(@PathVariable String username, @RequestBody RoleRequestDTO roleRequestDTO) {
         User user = userService.findByUsername(username);
@@ -71,9 +69,6 @@ public class RoleManageController {
         if (roleToRemove == null || !userRoles.contains(roleToRemove)) {
             return ResponseEntity.badRequest().body("Role not assigned to this user");
         }
-
-        // User'dan rolni olib tashlash
-        // user.removeRole(roleToRemove);
         return ResponseEntity.ok("Role successfully removed from user");
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin/car")
-@PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN', 'DEALER')")
+@PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
 @SecurityRequirement(name = "bearerAuth")
 public class CarManageController {
     private final CarServiceImp carService;
@@ -51,7 +51,7 @@ public class CarManageController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseDTO<CarDTO>> updateCar(@RequestBody Car car) {
+    public ResponseEntity<ResponseDTO<CarDTO>> updateCar(@RequestBody CarDTO car) {
         CarDTO updatedCar = carService.update(car);
         return ResponseDTO.ok(updatedCar);
     }

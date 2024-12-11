@@ -20,7 +20,7 @@ public class UserManageController {
 
     private final UserService userServiceImp;
 
-    @GetMapping("/user/all")
+    @GetMapping("/all")
     public List<User> getAllUsers() {
         return null;
     }

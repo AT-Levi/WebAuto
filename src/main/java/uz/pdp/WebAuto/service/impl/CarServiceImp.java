@@ -128,8 +128,9 @@ public class CarServiceImp implements CarService {
     }
 
     @Override
-    public CarDTO update(Car car) {
-        return carMapper.toDto(carRepository.save(car));
+    public CarDTO update(CarDTO carDTO) {
+        Car entity = carMapper.toEntity(carDTO);
+        return carMapper.toDto(carRepository.save(entity));
     }
 
     @Override

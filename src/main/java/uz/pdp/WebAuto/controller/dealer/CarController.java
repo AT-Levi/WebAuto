@@ -10,13 +10,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.WebAuto.dtos.car.CarDTO;
 import uz.pdp.WebAuto.dtos.car.CreateCarDTO;
+import uz.pdp.WebAuto.entity.Car;
 import uz.pdp.WebAuto.service.CarService;
 import uz.pdp.WebAuto.util.ResponseDTO;
 
 import java.util.List;
 
 @RequestMapping("/dealer/car")
-@PreAuthorize("hasAnyRole('DEALER', 'SUPER_ADMIN')")
+@PreAuthorize("hasAnyRole()")
 @SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 @RestController
@@ -49,5 +50,20 @@ public class CarController {
         Pageable pageRequest = PageRequest.of(page, countOfItems);
         Page<CarDTO> allForPage = carService.findAllForPage(pageRequest);
         return ResponseDTO.page(allForPage);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ResponseDTO<Object>> deleteCar(@PathVariable Long id) {
+        boolean deleted = carService.delete(id);
+        if (deleted) {
+            return ResponseDTO.ok("Car successfully updated");
+        }
+        return ResponseDTO.error("Car not found or couldn't be deleted");
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ResponseDTO<CarDTO>> updateCar(@RequestBody CarDTO car) {
+        CarDTO updatedCar = carService.update(car);
+        return ResponseDTO.ok(updatedCar);
     }
 }

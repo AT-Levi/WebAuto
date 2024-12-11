@@ -33,7 +33,7 @@ public interface CarService {
 
     List<CarDTO> getAllForPage(Pageable pageRequest);
 
-    CarDTO update(Car car);
+    CarDTO update(CarDTO car);
 
     Page<CarDTO> findAllForPage(Pageable pageRequest);
 }

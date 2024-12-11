@@ -2,7 +2,6 @@ package uz.pdp.WebAuto.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,27 +11,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.WebAuto.config.JWTService;
 import uz.pdp.WebAuto.config.service.CurrentUser;
+import uz.pdp.WebAuto.dtos.address.AddressRequestDTO;
 import uz.pdp.WebAuto.dtos.auth.AuthRequestDTO;
 import uz.pdp.WebAuto.dtos.auth.LoginDTO;
 import uz.pdp.WebAuto.dtos.auth.TokensDTO;
-import uz.pdp.WebAuto.dtos.company.CompanyDataDTO;
-import uz.pdp.WebAuto.dtos.company.CompanyResponseDTO;
 import uz.pdp.WebAuto.dtos.image.ImageResponseDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenRequestDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenResponseDTO;
 import uz.pdp.WebAuto.dtos.user.UserDataDTO;
+import uz.pdp.WebAuto.dtos.user.UserDataRequestDTO;
 import uz.pdp.WebAuto.dtos.user.UserResponseDTO;
-import uz.pdp.WebAuto.entity.Company;
-import uz.pdp.WebAuto.entity.Image;
-import uz.pdp.WebAuto.entity.Role;
-import uz.pdp.WebAuto.entity.User;
+import uz.pdp.WebAuto.entity.*;
 import uz.pdp.WebAuto.enums.UserRole;
+import uz.pdp.WebAuto.enums.UserStatus;
 import uz.pdp.WebAuto.exception.NotFoundException;
-import uz.pdp.WebAuto.mapper.ImageMapperImpl;
+import uz.pdp.WebAuto.mapper.AddressMapperImpl;
+import uz.pdp.WebAuto.mapper.UserDataMapper;
 import uz.pdp.WebAuto.mapper.UserMapper;
 import uz.pdp.WebAuto.repository.RoleRepository;
 import uz.pdp.WebAuto.repository.UserRepository;
-import uz.pdp.WebAuto.service.CompanyService;
 import uz.pdp.WebAuto.service.ImageService;
 import uz.pdp.WebAuto.service.UserService;
 
@@ -53,6 +50,8 @@ public class UserServiceImp implements UserService {
     private final RoleRepository roleRepository;
     private final CurrentUser currentUser;
     private final ImageService imageService;
+    private final AddressMapperImpl addressMapperImpl;
+    private final UserDataMapper userDataMapper;
 
     @Override
     public TokensDTO login(LoginDTO dto) {
@@ -101,9 +100,9 @@ public class UserServiceImp implements UserService {
     @Transactional
     public void updateUserRole(Long userId, UserRole roleName) {
         var user = userRepository.findById(userId)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+                .orElseThrow(() -> new RuntimeException("User not found"));
         var role = roleRepository.findByName(roleName)
-                .orElseThrow(() -> new NotFoundException("Role not found"));
+                .orElseThrow(() -> new RuntimeException("Role not found"));
 
         user.setRoles(Set.of(role));
         userRepository.save(user);
@@ -126,6 +125,42 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public UserDataDTO updateUserData(UserDataRequestDTO userData) {
+        User user = userRepository.findByUsername(currentUser.getCurrentUsername()).get();
+        AddressRequestDTO address = userData.getAddress();
+        Address build = Address.builder()
+                .city(address.getCity())
+                .number(address.getNumber())
+                .latitude(address.getLatitude())
+                .longitude(address.getLongitude())
+                .street(address.getStreet())
+                .description(address.getDescription())
+                .build();
+        user.setAddress(build);
+        user.setEmail(userData.getEmail());
+        user.setPassword(passwordEncoder.encode(userData.getPassword()));
+        Image save = imageService.save(userData.getProfileImage());
+        user.setProfileImage(save);
+        user.setUsername(user.getUsername());
+        user.setPhoneNumber(userData.getPhoneNumber());
+        user.setLastName(userData.getLastName());
+        user.setFirstName(userData.getFirstName());
+        User savedUser = userRepository.save(user);
+        return userDataMapper.toDto(savedUser);
+    }
+
+    @Override
+    public void updateUserStatus(Long userId, String status) {
+        UserStatus userStatus = UserStatus.valueOf(status);
+        userRepository.updateUserStatus(userId, userStatus);
+    }
+
+    @Override
+    public List<User> getUsersByRole(String role) {
+        return List.of();
+    }
+
+    @Override
     public RefreshTokenResponseDTO refreshToken(RefreshTokenRequestDTO refreshTokenRequestDTO) {
         var refreshToken = refreshTokenRequestDTO.getRefreshToken();
         var username = jwtService.extractUsername(refreshToken);
@@ -144,11 +179,25 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public UserResponseDTO me() {
-        return userMapper.toDto(
-                userRepository
-                        .findByUsername(currentUser.getCurrentUsername())
-                        .orElseThrow(() -> new NotFoundException("User")));
+    public UserDataDTO me() {
+        User user = findByUsername(currentUser.getCurrentUsername());
+
+        List<String> rolesStr = getRolesStr(user.getRoles());
+
+        return UserDataDTO.builder()
+                .id(user.getId())
+                .lastName(user.getLastName())
+                .username(user.getUsername())
+                .firstName(user.getFirstName())
+                .status(user.getStatus().name())
+                .email(user.getEmail())
+                .phoneNumber(user.getPhoneNumber())
+                .roles(rolesStr)
+                .build();
+    }
+
+    private List<String> getRolesStr(Set<Role> roles) {
+        return roles.stream().map((role) -> role.getName().name()).toList();
     }
 
     @Override
