@@ -1,4 +1,5 @@
 package uz.pdp.WebAuto.controller.shop;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,10 @@ public class OrderDetailsController {
         this.orderDetailsService = orderDetailsService;
     }
 
-
+    @Operation(
+            summary = "Buyurtma tafsilotlarini saqlash",
+            description = "Buyurtma tafsilotlari va unga tegishli elementlarni saqlash uchun ishlatiladi."
+    )
     @PostMapping
     public ResponseEntity<Void> saveOrderDetails(@RequestBody OrderDetailsRequest orderDetailsRequest) {
         try {
@@ -30,6 +34,10 @@ public class OrderDetailsController {
         }
     }
 
+    @Operation(
+            summary = "Foydalanuvchi buyurtma arxivlarini olish",
+            description = "Foydalanuvchining barcha buyurtma arxivlarini ID asosida olish uchun ishlatiladi."
+    )
     @GetMapping("/archives/{userId}")
     public ResponseEntity<List<OrderDetails>> getOrderArchives(@PathVariable int userId) {
         List<OrderDetails> orderDetails = orderDetailsService.getArchives(userId);

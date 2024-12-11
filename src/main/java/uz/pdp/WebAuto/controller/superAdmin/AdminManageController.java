@@ -1,5 +1,6 @@
 package uz.pdp.WebAuto.controller.superAdmin;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,18 +23,24 @@ public class AdminManageController {
 
     private final UserService userService;
 
+
+    @Operation(
+            summary = "Foydalanuvchilarni rol bo‘yicha olish",
+            description = "Foydalanuvchilarni ularning roli asosida olish uchun endpoint. Ushbu endpoint ma'lum bir rolga mos keluvchi foydalanuvchilarni filtrlaydi."
+    )
     @GetMapping("/all-user-by-role")
-    public ResponseEntity<ResponseDTO<List<User>>> showAllAdmin(String userRole) {
-        List<User> admins = userService.getAllAdmin();
+    public ResponseEntity<ResponseDTO<List<User>>> showAllUsersByRole(String userRole) {
+        List<User> admins = userService.getAllAdmin(); // userRole uchun filtrni amalga oshirish
         return ResponseDTO.ok(admins);
     }
 
+    @Operation(
+            summary = "Barcha admin foydalanuvchilarni olish",
+            description = "Tizimdagi barcha admin foydalanuvchilar ro‘yxatini olish uchun endpoint. Ushbu endpoint faqat admin hisoblarni qaytaradi."
+    )
     @GetMapping("/all-admin")
-    public ResponseEntity<ResponseDTO<List<User>>> showAllAdmin() {
+    public ResponseEntity<ResponseDTO<List<User>>> showAllAdmins() {
         List<User> admins = userService.getAllAdmin();
         return ResponseDTO.ok(admins);
     }
-
-
 }
-
