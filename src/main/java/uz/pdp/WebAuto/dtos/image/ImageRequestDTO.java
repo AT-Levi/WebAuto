@@ -9,5 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ImageRequestDTO {
-    MultipartFile image;
+
+    private MultipartFile logo;
 }

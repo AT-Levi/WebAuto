@@ -1,19 +1,24 @@
 package uz.pdp.WebAuto.service;
 
+import uz.pdp.WebAuto.dtos.carType.CarTypeResponseDTO;
+import uz.pdp.WebAuto.dtos.carType.CreateCarTypeDTO;
 import uz.pdp.WebAuto.entity.CarType;
-import uz.pdp.WebAuto.util.ResponseDTO;
 
 import java.util.List;
 
 public interface CarTypeService {
 
-    ResponseDTO<CarType> save(CarType carType);
+    CarTypeResponseDTO saveByDto(CreateCarTypeDTO dto);
 
-    ResponseDTO<CarType> update(Long id, CarType carType);
+    CarTypeResponseDTO update(CarType carType);
 
-    ResponseDTO<Void> delete(Long id);
+    void delete(Long id);
 
-    ResponseDTO<CarType> findById(Long id);
+    CarTypeResponseDTO findById(Long id);
 
-    ResponseDTO<List<CarType>> findAll();
+    CarType getById(Long id);
+
+    List<CarTypeResponseDTO> findAll();
+
+    CarTypeResponseDTO save(CarType carType);
 }

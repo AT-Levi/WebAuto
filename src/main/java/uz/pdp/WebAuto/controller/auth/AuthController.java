@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.WebAuto.dtos.auth.AuthRequestDTO;
+import uz.pdp.WebAuto.dtos.auth.LoginDTO;
 import uz.pdp.WebAuto.dtos.auth.TokensDTO;
 import uz.pdp.WebAuto.dtos.company.CompanyDataDTO;
 import uz.pdp.WebAuto.dtos.company.CompanyRequestDTO;
@@ -28,8 +29,8 @@ public record AuthController (UserService service) {
 
     @PostMapping("/login")
     @Operation(summary = "Login")
-    public ResponseEntity<ResponseDTO<TokensDTO>> login(@RequestBody AuthRequestDTO authRequestDTO) {
-        return ResponseDTO.ok(service.login(authRequestDTO));
+    public ResponseEntity<ResponseDTO<TokensDTO>> login(@RequestBody LoginDTO loginDTO) {
+        return ResponseDTO.ok(service.login(loginDTO));
     }
 
     @PostMapping("/refresh")
@@ -42,12 +43,6 @@ public record AuthController (UserService service) {
     @Operation(summary = "me")
     public ResponseEntity<ResponseDTO<UserResponseDTO>> me() {
         return ResponseDTO.ok(service.me());
-    }
-
-    @PostMapping("/company")
-    @Operation(summary = "Create Company. Register qilgan odam company yaratishi shart")
-    public ResponseEntity<ResponseDTO<CompanyDataDTO>> createCompany(@Valid @RequestBody CompanyRequestDTO dto) {
-        return ResponseDTO.ok(service.createCompany(dto));
     }
 
     @PostMapping(value = "/logo", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

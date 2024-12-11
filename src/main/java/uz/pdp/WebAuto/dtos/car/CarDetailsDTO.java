@@ -2,6 +2,7 @@ package uz.pdp.WebAuto.dtos.car;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@AllArgsConstructor
 @ApiModel(description = "Avtomobilning turli texnik xususiyatlarini o'z ichiga olgan DTO. Ushbu klass avtomobilning o'lchamlari, yuk tashish imkoniyatlari, dvigatel va uzatish tizimi haqida ma'lumotlarni saqlaydi.")
 public class CarDetailsDTO {
 

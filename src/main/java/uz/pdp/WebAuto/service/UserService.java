@@ -2,6 +2,7 @@ package uz.pdp.WebAuto.service;
 
 import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.WebAuto.dtos.auth.AuthRequestDTO;
+import uz.pdp.WebAuto.dtos.auth.LoginDTO;
 import uz.pdp.WebAuto.dtos.auth.TokensDTO;
 import uz.pdp.WebAuto.dtos.company.CompanyDataDTO;
 import uz.pdp.WebAuto.dtos.company.CompanyRequestDTO;
@@ -18,13 +19,11 @@ public interface UserService {
 
     UserResponseDTO register(AuthRequestDTO authRequestDTO);
 
-    TokensDTO login(AuthRequestDTO authRequestDTO);
+    TokensDTO login(LoginDTO loginDTO);
 
     RefreshTokenResponseDTO refreshToken(RefreshTokenRequestDTO refreshTokenRequestDTO);
 
     UserResponseDTO me();
-
-    CompanyDataDTO createCompany(CompanyRequestDTO companyRequestDTO);
 
     Optional<User> findById(Long id);
 

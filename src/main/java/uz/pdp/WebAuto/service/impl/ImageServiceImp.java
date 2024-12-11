@@ -26,7 +26,7 @@ public class ImageServiceImp implements ImageService {
     private final ImageMapper imageMapper;
 
     @Override
-    public Image save(MultipartFile file) {
+    public ImageResponseDTO save(MultipartFile file) {
         String originalFilename = file.getOriginalFilename();
         String extension = getFilenameExtension(file);
         String fileName = UUID.randomUUID() + "." + extension;
@@ -42,14 +42,14 @@ public class ImageServiceImp implements ImageService {
                 .originalName(originalFilename)
                 .build();
 
-        return imageRepository.save(image);
+        return imageMapper.toDto(imageRepository.save(image));
     }
 
     @Override
     public List<Image> saveImages(List<ImageRequestDTO> carImages) {
-        return carImages.stream()
-                .map(imageRequestDTO -> save(imageRequestDTO.getImage()))
-                .toList();
+        return imageMapper.toEntity(carImages.stream()
+                .map(imageRequestDTO -> save(imageRequestDTO.getLogo()))
+                .toList());
     }
 
 

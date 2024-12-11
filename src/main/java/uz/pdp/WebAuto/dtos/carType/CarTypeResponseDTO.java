@@ -1,4 +1,4 @@
-package uz.pdp.WebAuto.dtos.car.carType;
+package uz.pdp.WebAuto.dtos.carType;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,4 +11,5 @@ public class CarTypeResponseDTO {
     private String name;
 
     private ImageResponseDTO carTypeIcon;
+
 }

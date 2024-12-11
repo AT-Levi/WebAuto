@@ -2,6 +2,7 @@ package uz.pdp.WebAuto.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.WebAuto.config.JWTService;
 import uz.pdp.WebAuto.config.service.CurrentUser;
 import uz.pdp.WebAuto.dtos.auth.AuthRequestDTO;
+import uz.pdp.WebAuto.dtos.auth.LoginDTO;
 import uz.pdp.WebAuto.dtos.auth.TokensDTO;
 import uz.pdp.WebAuto.dtos.company.CompanyDataDTO;
 import uz.pdp.WebAuto.dtos.company.CompanyRequestDTO;
@@ -45,17 +47,14 @@ public class UserServiceImp implements UserService {
     private final RoleRepository roleRepository;
     private final CurrentUser currentUser;
     private final CompanyService companyServiceImp;
+    @Lazy
     private final DynamicRoleServiceImp dynamicRoleServiceImp;
 
     @Override
-    public TokensDTO login(AuthRequestDTO dto) {
+    public TokensDTO login(LoginDTO dto) {
 
-        var user = userRepository.findByUsername(dto.username())
+        User user = userRepository.findByUsername(dto.username())
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
-
-        if (!user.getPhoneNumber().equals(dto.phoneNumber())) {
-            throw new RuntimeException("Bunday raqamli USER mavjud emas");
-        }
 
         if (!passwordEncoder.matches(dto.password(), user.getPassword())) {
             throw new RuntimeException("Password doesn't match");
@@ -81,15 +80,16 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserResponseDTO register(AuthRequestDTO dto) {
-        List<String> roles = dynamicRoleServiceImp.getRoles(dto.username());
+        Set<Role> defaultRole = Set.of(roleRepository.findByName(UserRole.USER).orElseThrow(RuntimeException::new));
 
         var user = User.builder()
                 .username(dto.username())
                 .email(dto.email())
                 .phoneNumber(dto.phoneNumber())
                 .password(passwordEncoder.encode(dto.password()))
-                .roles(Set.of(userRole))
+                .roles(defaultRole)
                 .build();
+
         userRepository.save(user);
         return userMapper.toDto(user);
     }
@@ -134,11 +134,6 @@ public class UserServiceImp implements UserService {
                 userRepository
                         .findByUsername(currentUser.getCurrentUsername())
                         .orElseThrow(() -> new NotFoundException("User")));
-    }
-
-    @Override
-    public CompanyDataDTO createCompany(CompanyRequestDTO companyRequestDTO) {
-        return companyServiceImp.save(companyRequestDTO);
     }
 
     @Override

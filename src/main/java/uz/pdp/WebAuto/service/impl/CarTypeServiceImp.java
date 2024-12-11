@@ -1,91 +1,71 @@
 package uz.pdp.WebAuto.service.impl;
 
-
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import uz.pdp.WebAuto.dtos.carType.CarTypeResponseDTO;
+import uz.pdp.WebAuto.dtos.carType.CreateCarTypeDTO;
 import uz.pdp.WebAuto.entity.CarType;
+import uz.pdp.WebAuto.entity.Image;
+import uz.pdp.WebAuto.mapper.CarTypeMapper;
 import uz.pdp.WebAuto.repository.CarTypeRepository;
 import uz.pdp.WebAuto.service.CarTypeService;
-import uz.pdp.WebAuto.util.ResponseDTO;
+import uz.pdp.WebAuto.service.ImageService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CarTypeServiceImp implements CarTypeService {
 
     final CarTypeRepository carTypeRepository;
+    private final CarTypeMapper carTypeMapper;
+    private final ImageService imageServiceImp;
 
-    public CarTypeServiceImp(CarTypeRepository carTypeRepository) {
+    public CarTypeServiceImp(CarTypeRepository carTypeRepository, CarTypeMapper carTypeMapper, ImageServiceImp imageServiceImp) {
         this.carTypeRepository = carTypeRepository;
-    }
-
-
-    @Override
-    public ResponseDTO<CarType> save(CarType carType) {
-        CarType saved = carTypeRepository.save(carType);
-        return new ResponseDTO<>(true, HttpStatus.OK.value(), saved, "CarType successfully created", null);
+        this.carTypeMapper = carTypeMapper;
+        this.imageServiceImp = imageServiceImp;
     }
 
     @Override
-    public ResponseDTO<CarType> update(Long id, CarType carType) {
-        CarType existing = carTypeRepository.findById(id)
+    public CarTypeResponseDTO saveByDto(CreateCarTypeDTO dto) {
+        Image icon = imageServiceImp.save(dto.icon());
+        CarType carType = CarType.builder()
+                .typeName(dto.typeName())
+                .icon(icon)
+                .cars(List.of())
+                .build();
+
+        return save(carType);
+    }
+
+    @Override
+    public CarTypeResponseDTO update(CarType carType) {
+        CarType updatedCarType = carTypeRepository.save(carType);
+        return carTypeMapper.toDto(updatedCarType);
+    }
+
+    @Override
+    public CarTypeResponseDTO save(CarType carType) {
+        return carTypeMapper.toDto(carTypeRepository.save(carType));
+    }
+
+    @Override
+    public void delete(Long id) {
+        carTypeRepository.deleteByCarTypeId(id);
+    }
+
+    @Override
+    public CarTypeResponseDTO findById(Long id) {
+        return carTypeMapper.toDto(getById(id));
+    }
+
+    @Override
+    public CarType getById(Long id) {
+        return carTypeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("CarType not found with id: " + id));
-        existing.setName(carType.getName());
-        existing.setIcon(carType.getIcon());
-        CarType updated = carTypeRepository.save(existing);
-        return new ResponseDTO<>(true, HttpStatus.OK.value(), updated, "CarType successfully updated", null);
     }
 
     @Override
-    public ResponseDTO<Void> delete(Long id) {
-        CarType existing = carTypeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("CarType not found with id: " + id));
-        carTypeRepository.delete(existing);
-        return new ResponseDTO<>(true, HttpStatus.OK.value(), null, "CarType successfully deleted", null);
+    public List<CarTypeResponseDTO> findAll() {
+        return carTypeMapper.toDto(carTypeRepository.findAll());
     }
-
-    @Override
-    public ResponseDTO<CarType> findById(Long id) {
-        CarType carType = carTypeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("CarType not found with id: " + id));
-        return new ResponseDTO<>(true, HttpStatus.OK.value(), carType, "CarType found", null);
-    }
-
-    @Override
-    public ResponseDTO<List<CarType>> findAll() {
-        List<CarType> carTypes = carTypeRepository.findAll();
-        return new ResponseDTO<>(true, HttpStatus.OK.value(), carTypes, "List of all CarTypes", null);
-    }
-
-
-
-
-
-
-    //    public List<CarType> getAllCarTypes() {
-//        return carTypeRepository.findAll();
-//    }
-//
-//    public Optional<CarType> getCarTypeById(Long id) {
-//        return carTypeRepository.findById(id);
-//    }
-//
-//    public CarType createCarType(CarType carType) {
-//        return carTypeRepository.save(carType);
-//    }
-//
-//    public CarType updateCarType(Long id, CarType carTypeDetails) {
-//        return carTypeRepository.findById(id)
-//                .map(carType -> {
-//                    carType.setName(carTypeDetails.getName());
-//                    carType.setIcon(carTypeDetails.getIcon());
-//                    return carTypeRepository.save(carType);
-//                })
-//                .orElseThrow(() -> new RuntimeException("Car Type not found"));
-//    }
-//
-//    public void deleteCarType(Long id) {
-//        carTypeRepository.deleteById(id);
-//    }
 }

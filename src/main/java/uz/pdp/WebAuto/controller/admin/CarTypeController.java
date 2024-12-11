@@ -2,6 +2,8 @@ package uz.pdp.WebAuto.controller.admin;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import uz.pdp.WebAuto.dtos.carType.CarTypeResponseDTO;
+import uz.pdp.WebAuto.dtos.carType.CreateCarTypeDTO;
 import uz.pdp.WebAuto.entity.CarType;
 import uz.pdp.WebAuto.service.CarTypeService;
 import uz.pdp.WebAuto.util.ResponseDTO;
@@ -19,27 +21,28 @@ public class CarTypeController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseDTO<CarType>> createCarType(@RequestBody CarType carType) {
-        return ResponseEntity.ok(carTypeService.save(carType));
+    public ResponseEntity<ResponseDTO<CarTypeResponseDTO>> createCarType(@RequestBody CreateCarTypeDTO carTypeDTO) {
+        return ResponseDTO.ok(carTypeService.saveByDto(carTypeDTO));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseDTO<CarType>> updateCarType(@PathVariable Long id, @RequestBody CarType carType) {
-        return ResponseEntity.ok(carTypeService.update(id, carType));
+    public ResponseEntity<ResponseDTO<CarTypeResponseDTO>> updateCarType(@RequestBody CarType carType) {
+        return ResponseDTO.ok(carTypeService.update(carType));
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseDTO<Void>> deleteCarType(@PathVariable Long id) {
-        return ResponseEntity.ok(carTypeService.delete(id));
+        carTypeService.delete(id);
+        return ResponseDTO.ok("Car Type is deleted with id : " + id);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDTO<CarType>> getCarTypeById(@PathVariable Long id) {
-        return ResponseEntity.ok(carTypeService.findById(id));
+    public ResponseEntity<ResponseDTO<CarTypeResponseDTO>> getCarTypeById(@PathVariable Long id) {
+        return ResponseDTO.ok(carTypeService.findById(id));
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ResponseDTO<List<CarType>>> getAllCarTypes() {
-        return ResponseEntity.ok(carTypeService.findAll());
+    public ResponseEntity<ResponseDTO<List<CarTypeResponseDTO>>> getAllCarTypes() {
+        return ResponseDTO.ok(carTypeService.findAll());
     }
 }

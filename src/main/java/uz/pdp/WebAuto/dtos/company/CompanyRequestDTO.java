@@ -1,9 +1,10 @@
 package uz.pdp.WebAuto.dtos.company;
 
+import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.WebAuto.dtos.address.AddressRequestDTO;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
+import uz.pdp.WebAuto.dtos.image.ImageRequestDTO;
 
 @Data
 @AllArgsConstructor
@@ -16,9 +17,9 @@ public class CompanyRequestDTO {
 
     private AddressRequestDTO address;
 
-    private MultipartFile image;
-
     private String phone;
+
+    private ImageRequestDTO logo;
 
     private String email;
 

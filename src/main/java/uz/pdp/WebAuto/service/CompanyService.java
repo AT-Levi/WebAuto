@@ -6,17 +6,26 @@ import uz.pdp.WebAuto.dtos.company.CompanyRequestDTO;
 import uz.pdp.WebAuto.dtos.company.CompanyResponseDTO;
 import uz.pdp.WebAuto.entity.Company;
 
+import java.util.List;
+
 public interface CompanyService {
 
     CompanyDataDTO save(CompanyRequestDTO dto);
 
     CompanyDataDTO save(Company company);
-    
+
     CompanyDataDTO update(CompanyDataDTO company);
 
     Company findById(Long id);
 
-    Company findByOwnerId(Long ownerId);
+    Company update(Company company);
+
+    Company findByName(String companyName);
 
     CompanyDataDTO refreshCompanyLogo(Long companyId, MultipartFile logo);
+
+    void deleteById(Long companyId);
+
+    List<CompanyResponseDTO> findAll();
+
 }

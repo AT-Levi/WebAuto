@@ -8,15 +8,19 @@ import uz.pdp.WebAuto.config.service.StorageService;
 import uz.pdp.WebAuto.dtos.address.AddressDTO;
 import uz.pdp.WebAuto.dtos.company.CompanyDataDTO;
 import uz.pdp.WebAuto.dtos.company.CompanyRequestDTO;
+import uz.pdp.WebAuto.dtos.company.CompanyResponseDTO;
 import uz.pdp.WebAuto.entity.Company;
 import uz.pdp.WebAuto.entity.Image;
 import uz.pdp.WebAuto.exception.NotFoundException;
 import uz.pdp.WebAuto.mapper.AddressMapper;
 import uz.pdp.WebAuto.mapper.CompanyMapper;
+import uz.pdp.WebAuto.mapper.CompanyResMapper;
 import uz.pdp.WebAuto.repository.CompanyRepository;
 import uz.pdp.WebAuto.service.AddressService;
 import uz.pdp.WebAuto.service.CompanyService;
 import uz.pdp.WebAuto.service.ImageService;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,12 +33,12 @@ public class CompanyServiceImp implements CompanyService {
     private final CompanyRepository companyRepository;
     private final CompanyMapper companyMapper;
     private final StorageService storageService;
+    private final CompanyResMapper companyResMapper;
 
     @Override
     public CompanyDataDTO save(CompanyRequestDTO dto) {
-
         AddressDTO addressDTO = addressServiceImp.save(dto.getAddress());
-        Image image = saveImage(dto.getImage());
+        storageService.downloadFile();
 
         Company company = Company.builder()
                 .owner(currentUser.getCurrentUser())
@@ -55,11 +59,6 @@ public class CompanyServiceImp implements CompanyService {
     @Override
     public Company findById(Long id) {
         return companyRepository.findById(id).orElseThrow(() -> new NotFoundException("Company "));
-    }
-
-    @Override
-    public Company findByOwnerId(Long ownerId) {
-        return companyRepository.findByOwnerId(ownerId);
     }
 
     @Override
@@ -89,7 +88,24 @@ public class CompanyServiceImp implements CompanyService {
         return companyMapper.toDto(updatedCompany);
     }
 
+    @Override
     public Company update(Company company) {
-        return null;
+        return companyRepository.save(company);
+    }
+
+    @Override
+    public Company findByName(String companyName) {
+        return companyRepository.findByName(companyName);
+    }
+
+    @Override
+    public void deleteById(Long companyId) {
+        companyRepository.deleteCompanyById(companyId);
+    }
+
+    @Override
+    public List<CompanyResponseDTO> findAll() {
+        List<Company> all = companyRepository.findAll();
+        return companyResMapper.toDto(all);
     }
 }

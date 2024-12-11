@@ -1,21 +1,18 @@
 package uz.pdp.WebAuto.exception;
 
-import uz.pdp.WebAuto.dtos.error.ErrorResDTO;
-import uz.pdp.WebAuto.enums.ErrorCode;
-import uz.pdp.WebAuto.util.ResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import uz.pdp.WebAuto.enums.ErrorCode;
+import uz.pdp.WebAuto.util.ResponseDTO;
 
 import java.util.Objects;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class GlobalException {
-
-
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ResponseDTO<Void>> handleNotFound(NotFoundException ex) {

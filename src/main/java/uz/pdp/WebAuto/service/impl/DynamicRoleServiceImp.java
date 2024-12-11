@@ -1,6 +1,6 @@
 package uz.pdp.WebAuto.service.impl;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import uz.pdp.WebAuto.dtos.role.RoleDTO;
 import uz.pdp.WebAuto.dtos.role.RoleRequestDTO;
@@ -9,16 +9,24 @@ import uz.pdp.WebAuto.entity.User;
 import uz.pdp.WebAuto.enums.UserRole;
 import uz.pdp.WebAuto.repository.RoleRepository;
 import uz.pdp.WebAuto.service.RoleService;
+import uz.pdp.WebAuto.service.UserService;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
-@RequiredArgsConstructor
 public class DynamicRoleServiceImp implements RoleService {
 
     private final Set<String> dynamicRoles = new HashSet<>();
     private final RoleRepository roleRepository;
-    private final UserServiceImp userServiceImp;
+    private final UserService userServiceImp;
+
+    public DynamicRoleServiceImp(RoleRepository roleRepository, @Lazy UserService userServiceImp) {
+        this.roleRepository = roleRepository;
+        this.userServiceImp = userServiceImp;
+    }
 
     @Override
     public RoleDTO save(RoleRequestDTO dto) {
