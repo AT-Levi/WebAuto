@@ -35,6 +35,8 @@ public class CarTypeServiceImp implements CarTypeService {
                 .build();
 
         return save(carType);
+
+
     }
 
     @Override

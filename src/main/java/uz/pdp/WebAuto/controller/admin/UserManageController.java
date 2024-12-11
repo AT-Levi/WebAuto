@@ -1,5 +1,6 @@
 package uz.pdp.WebAuto.controller.admin;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +22,7 @@ public class UserManageController {
     private final UserService userServiceImp;
 
     @GetMapping("/user/all")
+    @Operation(summary = "Barcha userlarni ko`rish.")
     public List<User> getAllUsers() {
         return null;
     }

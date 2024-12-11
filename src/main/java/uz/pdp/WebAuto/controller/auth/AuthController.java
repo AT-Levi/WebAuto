@@ -1,15 +1,11 @@
 package uz.pdp.WebAuto.controller.auth;
 
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.Valid;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.WebAuto.dtos.auth.AuthRequestDTO;
 import uz.pdp.WebAuto.dtos.auth.LoginDTO;
 import uz.pdp.WebAuto.dtos.auth.TokensDTO;
-import uz.pdp.WebAuto.dtos.company.CompanyDataDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenRequestDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenResponseDTO;
 import uz.pdp.WebAuto.dtos.user.UserResponseDTO;
@@ -21,25 +17,25 @@ import uz.pdp.WebAuto.util.ResponseDTO;
 public record AuthController (UserService service) {
 
     @PostMapping("/register")
-    @Operation(summary = "Register")
+    @Operation(summary = "Foydalanuvchini ro'yxatdan o'tkazish.", description = "Foydalanuvchi uchun yangi akkaunt yaratadi va kerakli ma'lumotlarni tizimga saqlaydi.")
     public ResponseEntity<ResponseDTO<UserResponseDTO>> register(@RequestBody AuthRequestDTO authRequestDTO) {
         return ResponseDTO.ok(service.register(authRequestDTO));
     }
 
     @PostMapping("/login")
-    @Operation(summary = "Login")
+    @Operation(summary = "Foydalanuvchini tizimga kirishi.", description = "Foydalanuvchi login ma'lumotlari orqali tizimga kiradi va autentifikatsiya qilinadi.")
     public ResponseEntity<ResponseDTO<TokensDTO>> login(@RequestBody LoginDTO loginDTO) {
         return ResponseDTO.ok(service.login(loginDTO));
     }
 
     @PostMapping("/refresh")
-    @Operation(summary = "Refresh token")
+    @Operation(summary = "Tokenni yangilash.", description = "Foydalanuvchi uchun mavjud bo'lgan tokenni yangilaydi.")
     public ResponseEntity<ResponseDTO<RefreshTokenResponseDTO>> refresh(@RequestBody RefreshTokenRequestDTO refreshTokenRequestDTO) {
         return ResponseDTO.ok(service.refreshToken(refreshTokenRequestDTO));
     }
 
     @GetMapping("/me")
-    @Operation(summary = "me")
+    @Operation(summary = "Foydalanuvchi ma'lumotlarini olish.", description = "Hozirgi foydalanuvchi haqida ma'lumotlarni qaytaradi.")
     public ResponseEntity<ResponseDTO<UserResponseDTO>> me() {
         return ResponseDTO.ok(service.me());
     }
