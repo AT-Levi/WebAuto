@@ -1,6 +1,5 @@
 package uz.pdp.WebAuto.controller.superAdmin;
 
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -8,14 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import uz.pdp.WebAuto.config.service.StorageService;
 import uz.pdp.WebAuto.dtos.company.CompanyDataDTO;
 import uz.pdp.WebAuto.dtos.company.CompanyResponseDTO;
 import uz.pdp.WebAuto.dtos.company.CreateCompanyDTO;
 import uz.pdp.WebAuto.dtos.image.ImageResponseDTO;
 import uz.pdp.WebAuto.entity.Company;
 import uz.pdp.WebAuto.service.CompanyService;
-import uz.pdp.WebAuto.service.ImageService;
 import uz.pdp.WebAuto.util.ResponseDTO;
 
 import java.util.List;
@@ -28,8 +25,6 @@ import java.util.List;
 public class CompanyManageController {
 
     private final CompanyService companyService;
-    private final ImageService imageService;
-    private final StorageService storageService;
 
     @PostMapping(value = "/create")
     public ResponseEntity<ResponseDTO<CompanyDataDTO>> createCompany(
