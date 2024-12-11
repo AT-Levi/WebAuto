@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -51,7 +52,10 @@ public class SecurityConfig {
             "/swagger-ui.html",
             "/swagger-ui/**",
 
-            "/file/**"
+            "/file/**",
+            "/api/faqs/**",
+            "/api/loans/**",
+            "/api/products/**"
     };
 
     @Lazy
@@ -72,8 +76,14 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource))
 
+
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers(WHITE_LIST).permitAll() // Ochiq so'rovlar
+                        .requestMatchers(HttpMethod.POST, "/api/faqs/**").hasRole("ADMIN") // Admin uchun POST
+                        .requestMatchers(HttpMethod.PUT, "/api/faqs/**").hasRole("ADMIN")  // Admin uchun PUT
+                        .requestMatchers(HttpMethod.DELETE, "/api/faqs/**").hasRole("ADMIN") // Admin uchun DELETE
+                        .requestMatchers(HttpMethod.GET, "/api/faqs/**").hasAnyRole("USER", "ADMIN") // Faqat USER va ADMIN uchun GET
+
                         .anyRequest().authenticated()) // Boshqa barcha so'rovlar autentifikatsiya qilinishi kerak
 
                 .sessionManagement((session) -> session

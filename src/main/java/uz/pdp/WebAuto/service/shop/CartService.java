@@ -1,69 +1,66 @@
 package uz.pdp.WebAuto.service.shop;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.pdp.WebAuto.entity.shop.Cart;
 import uz.pdp.WebAuto.entity.shop.CartItem;
-import uz.pdp.WebAuto.entity.shop.Product;
+import uz.pdp.WebAuto.repository.shop.CartItemRepository;
 import uz.pdp.WebAuto.repository.shop.CartRepository;
-import uz.pdp.WebAuto.repository.shop.ProductRepository;
+
+import java.util.Date;
+import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CartService {
+
     private final CartRepository cartRepository;
+    private final CartItemRepository cartItemRepository;
 
-    private final ProductRepository productRepository;
-
-    public CartService(CartRepository cartRepository, ProductRepository productRepository) {
-        this.cartRepository = cartRepository;
-        this.productRepository = productRepository;
-    }
-
-    public Cart getCartByUserId(String userId) {
+    public Cart getCartByUserId(int userId) {
         return cartRepository.findByUserId(userId)
-                .orElseGet(() -> {
-                    Cart newCart = new Cart();
-                    newCart.setUserId(userId);
-                    newCart.setTotalPrice(0.0);
-                    return cartRepository.save(newCart);
-                });
+                .orElseThrow(() -> new EntityNotFoundException("Cart not found for userId: " + userId));
     }
 
-    public Cart addProductToCart(String userId, Long productId, Integer quantity) {
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new RuntimeException("Mahsulot topilmadi"));
-
-        if (product.getStock() < quantity) {
-            throw new RuntimeException("Omborda yetarli mahsulot yo'q");
-        }
-
-        Cart cart = getCartByUserId(userId);
-
-        CartItem existingItem = cart.getItems().stream()
-                .filter(item -> item.getProduct().getId().equals(productId))
+    public void addProductToCart(int cartId, int productId, int quantity) {
+        CartItem item = cartItemRepository.findByCartId(cartId).stream()
+                .filter(ci -> ci.getProductId() == productId)
                 .findFirst()
-                .orElse(null);
+                .orElse(CartItem.builder()
+                        .cartId(cartId)
+                        .productId(productId)
+                        .quantity(0)
+                        .isPaid(false)
+                        .build());
+        item.setQuantity(item.getQuantity() + quantity);
+        cartItemRepository.save(item);
+    }
 
-        if (existingItem != null) {
-            existingItem.setQuantity(existingItem.getQuantity() + quantity);
-        } else {
-            CartItem newItem = new CartItem();
-            newItem.setProduct(product);
-            newItem.setQuantity(quantity);
-            cart.getItems().add(newItem);
-        }
+    public List<CartItem> getCartItems(int cartId) {
+        return cartItemRepository.findByCartId(cartId);
+    }
 
-        // Narxni hisoblash
-        double newTotalPrice = cart.getItems().stream()
-                .mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity())
-                .sum();
-        cart.setTotalPrice(newTotalPrice);
+    public void createCartForUser(int userId) {
+        Cart cart = Cart.builder()
+                .userId(userId)
+                .createDate(new Date())
+                .paid(false)
+                .build();
+        cartRepository.save(cart);
+    }
 
-        // Ombordagi mahsulotni kamaytirish
-        product.setStock(product.getStock() - quantity);
-        productRepository.save(product);
+    public void deleteItemsByCartId(int cartId) {
+        cartItemRepository.deleteAll(cartItemRepository.findByCartId(cartId));
+    }
 
-        return cartRepository.save(cart);
+    public void updateCartItemsPaidStatus(int userId, boolean isPaid) {
+        List<CartItem> items = cartItemRepository.findCartItemsByUserId(userId);
+        items.forEach(item -> item.setPaid(isPaid));
+        cartItemRepository.saveAll(items);
+    }
+
+    public List<CartItem> getCartItemsByUserId(int userId) {
+        return cartItemRepository.findCartItemsByUserId(userId);
     }
 }
-

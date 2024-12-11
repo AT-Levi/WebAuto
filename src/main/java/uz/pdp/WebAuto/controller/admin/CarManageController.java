@@ -1,5 +1,6 @@
 package uz.pdp.WebAuto.controller.admin;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -24,32 +25,37 @@ public class CarManageController {
         this.carService = carService;
     }
 
+    @Operation(summary = "Mashina ma'lumotlarini olish", description = "Berilgan ID bo'yicha mashinaning batafsil ma'lumotlarini qaytaradi.")
     @GetMapping("/get/{id}")
     public ResponseDTO<CarDTO> getCarById(@PathVariable Long id) {
         return ResponseDTO.ok(carService.findById(id)).getBody();
     }
 
+    @Operation(summary = "Yangi mashina yaratish", description = "Yangi mashina yaratish uchun ma'lumotlarni qabul qiladi va saqlaydi.")
     @PostMapping("/create")
     public ResponseDTO<CarDTO> createCar(@RequestBody CreateCarDTO dto) {
         CarDTO savedCar = carService.save(dto);
         return ResponseDTO.ok(savedCar).getBody();
     }
 
+    @Operation(summary = "Barcha mashinalar ro'yxatini olish", description = "Sahifalash parametrlariga muvofiq barcha mavjud mashinalarning ro'yxatini qaytaradi.")
     @GetMapping("/all-cars")
     public ResponseDTO<List<CarDTO>> getAllCars(Pageable pageable) {
         List<CarDTO> allCars = carService.getAll();
         return ResponseDTO.ok(allCars).getBody();
     }
 
+    @Operation(summary = "Mashina o'chirish", description = "Berilgan ID bo'yicha mashinani tizimdan o'chiradi.")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseDTO<Object>> deleteCar(@PathVariable Long id) {
         boolean deleted = carService.delete(id);
         if (deleted) {
-            return ResponseDTO.ok("Car successfully updated");
+            return ResponseDTO.ok("Mashina muvaffaqiyatli o'chirildi");
         }
-        return ResponseDTO.error("Car not found or couldn't be deleted");
+        return ResponseDTO.error("Mashina topilmadi yoki o'chirib bo'lmadi");
     }
 
+    @Operation(summary = "Mashina ma'lumotlarini yangilash", description = "Berilgan mashina ma'lumotlarini yangilash uchun foydalaniladi.")
     @PutMapping("/update/{id}")
     public ResponseEntity<ResponseDTO<CarDTO>> updateCar(@RequestBody CarDTO car) {
         CarDTO updatedCar = carService.update(car);

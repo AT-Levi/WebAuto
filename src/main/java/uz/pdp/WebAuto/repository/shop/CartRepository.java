@@ -5,8 +5,9 @@ import org.springframework.stereotype.Repository;
 import uz.pdp.WebAuto.entity.shop.Cart;
 
 import java.util.Optional;
-
-public interface CartRepository extends JpaRepository<Cart, Long> {
-    Optional<Cart> findByUserId(String userId);
+@Repository
+public interface CartRepository extends JpaRepository<Cart, Integer> {
+    Optional<Cart> findByUserId(int userId);
 }
+
 

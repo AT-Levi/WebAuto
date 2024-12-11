@@ -12,16 +12,25 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Product {
+public class Product{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     private String name;
+    private int price;
+    private String description;
+    private int count;
     private String category;
-    private Double price;
-    private Double power;
+    private String createDate;
+    private String imageBase64;
     private String imageUrl;
-    private Integer stock;
+
+    public Product(int id, String description, int price) {
+        this.id = id;
+        this.name = description;
+        this.price = price;
+    }
 
 }
+
 
