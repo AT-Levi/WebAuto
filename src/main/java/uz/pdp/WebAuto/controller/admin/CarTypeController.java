@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin/car-type")
-@PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN', 'DEALER', 'EMPLOYEE')")
+@PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN', 'DEALER')")
 @SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor
 public class CarTypeController {

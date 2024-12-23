@@ -13,7 +13,7 @@ import uz.pdp.WebAuto.util.ResponseDTO;
 import java.util.List;
 
 @RequiredArgsConstructor
-@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPER_ADMIN', 'DEALER', 'EMPLOYEE')")
+@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPER_ADMIN', 'DEALER')")
 @SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/comments")
 @RestController

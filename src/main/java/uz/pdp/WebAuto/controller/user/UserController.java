@@ -19,7 +19,7 @@ import uz.pdp.WebAuto.util.ResponseDTO;
 
 @RestController
 @RequestMapping("/user")
-@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPER_ADMIN', 'DEALER', 'EMPLOYEE')")
+@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPER_ADMIN', 'DEALER')")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "bearerAuth")
 public class UserController {

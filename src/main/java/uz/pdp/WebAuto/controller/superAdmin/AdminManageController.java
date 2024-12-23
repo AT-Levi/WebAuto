@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/superAdmin/admin")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "bearerAuth")
-@PreAuthorize("hasRole('SUPER_ADMIN', 'ADMIN')")
+@PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN')")
 @RestController
 public class AdminManageController {
 

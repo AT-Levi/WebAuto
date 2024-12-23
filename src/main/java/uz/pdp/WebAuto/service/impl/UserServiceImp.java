@@ -164,8 +164,6 @@ public class UserServiceImp implements UserService {
             usersByRole = userRepository.findUsersByRoleId(1);
         } else if (roleStr.equals(UserRole.SUPER_ADMIN.name())) {
             usersByRole = userRepository.findUsersByRoleId(4);
-        } else if (roleStr.equals(UserRole.EMPLOYEE.name())) {
-            usersByRole = userRepository.findUsersByRoleId(5);
         } else if (roleStr.equals(UserRole.DEALER.name())) {
             usersByRole = userRepository.findUsersByRoleId(3);
         }

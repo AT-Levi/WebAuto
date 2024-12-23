@@ -13,7 +13,7 @@ import uz.pdp.WebAuto.service.shop.FAQService;
 import java.util.List;
 
 @RequiredArgsConstructor
-@PreAuthorize("hasAnyRole('DEALER', 'USER', 'EMPLOYEE', 'ADMIN', 'SUPER_ADMIN')")
+@PreAuthorize("hasAnyRole('DEALER', 'USER', 'ADMIN', 'SUPER_ADMIN')")
 @SecurityRequirement(name = "bearerAuth")
 @RequestMapping("/shop/faqs")
 @RestController

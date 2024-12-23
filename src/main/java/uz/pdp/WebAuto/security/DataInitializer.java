@@ -35,7 +35,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
         Role userRole = createRoleIfNotFound(UserRole.USER, UserRole.USER.getDescription());
         Role dealerRole = createRoleIfNotFound(UserRole.DEALER, UserRole.DEALER.getDescription());
         Role superAdminRole = createRoleIfNotFound(UserRole.SUPER_ADMIN, UserRole.SUPER_ADMIN.getDescription());
-        Role employeeRole = createRoleIfNotFound(UserRole.EMPLOYEE, UserRole.EMPLOYEE.getDescription());
+
 
         if (userRepository.findByUsername("admin").isEmpty()) {
             HashSet<Role> roles = new HashSet<>();
@@ -43,7 +43,7 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
             roles.add(userRole);
             roles.add(superAdminRole);
             roles.add(dealerRole);
-            roles.add(employeeRole);
+
 
             Address addressAdmin = Address.builder()
                     .city("Tashkent")

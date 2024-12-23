@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/home")
 @SecurityRequirement(name = "bearerAuth")
-@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPER_ADMIN', 'EMPLOYEE', 'DEALER')")
+@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPER_ADMIN', 'DEALER')")
 @RequiredArgsConstructor
 public class HomeController {
 

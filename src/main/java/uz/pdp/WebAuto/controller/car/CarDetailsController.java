@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin/car-details")
-@PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN', 'DEALER', 'EMPLOYEE')")
+@PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN', 'DEALER')")
 @SecurityRequirement(name = "bearerAuth")
 public class CarDetailsController {
     private final CarDetailsService carDetailsService;
