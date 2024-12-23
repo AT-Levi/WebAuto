@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.WebAuto.config.JWTService;
 import uz.pdp.WebAuto.config.service.CurrentUser;
-import uz.pdp.WebAuto.dtos.address.AddressRequestDTO;
 import uz.pdp.WebAuto.dtos.auth.AuthRequestDTO;
 import uz.pdp.WebAuto.dtos.auth.LoginDTO;
 import uz.pdp.WebAuto.dtos.auth.TokensDTO;
@@ -126,14 +125,14 @@ public class UserServiceImp implements UserService {
                                       MultipartFile profileImage) {
         User user = userRepository.findByUsername(currentUser.getCurrentUsername())
                 .orElseThrow(() -> new NotFoundException("User not found"));
-        AddressRequestDTO address = userData.getAddress();
+
         Address build = Address.builder()
-                .city(address.getCity())
-                .number(address.getNumber())
-                .latitude(address.getLatitude())
-                .longitude(address.getLongitude())
-                .street(address.getStreet())
-                .description(address.getDescription())
+                .city(userData.getCity())
+                .number(userData.getNumber())
+                .latitude(userData.getLatitude())
+                .longitude(userData.getLongitude())
+                .street(userData.getStreet())
+                .description(userData.getDescription())
                 .build();
         user.setAddress(build);
         user.setEmail(userData.getEmail());

@@ -1,10 +1,12 @@
 package uz.pdp.WebAuto.controller.user;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,7 +16,6 @@ import uz.pdp.WebAuto.dtos.image.ImageResponseDTO;
 import uz.pdp.WebAuto.dtos.user.UserDataDTO;
 import uz.pdp.WebAuto.dtos.user.UserDataRequestDTO;
 import uz.pdp.WebAuto.service.UserService;
-import uz.pdp.WebAuto.service.impl.UserServiceImp;
 import uz.pdp.WebAuto.util.ResponseDTO;
 
 @RestController
@@ -25,6 +26,7 @@ import uz.pdp.WebAuto.util.ResponseDTO;
 public class UserController {
 
     private final UserService userService;
+    private final ObjectMapper objectMapper;
 
 
     @GetMapping("/about-me")
@@ -43,14 +45,21 @@ public class UserController {
         return ResponseDTO.ok(userService.saveProfileImage(profileImage));
     }
 
-    @PostMapping(value = "/update-data", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/update-data", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(summary = "Foydalanuvchi o'zi haqida qo'shimcha ma'lumot qo'shadi")
     public ResponseEntity<ResponseDTO<UserDataDTO>> updateUserData(
             @RequestPart("user")
-            @Parameter(description = "User details") UserDataRequestDTO userData,
+            @Parameter(description = "User details") String userData,
             @RequestPart("profileImage")
-            @Parameter(description = "User profile image", content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) MultipartFile profileImage) {
-        UserDataDTO userDataDTO = userService.updateUserData(userData, profileImage);
-        return ResponseDTO.ok(userDataDTO);
+            @Parameter(description = "User profile image") MultipartFile profileImage) {
+        UserDataRequestDTO userDataDTO;
+        try {
+            userDataDTO = objectMapper.readValue(userData, UserDataRequestDTO.class);
+        } catch (JsonProcessingException e) {
+            return ResponseDTO.error("Invalid JSON format", HttpStatus.HTTP_VERSION_NOT_SUPPORTED);
+        }
+
+        UserDataDTO updatedUser = userService.updateUserData(userDataDTO, profileImage);
+        return ResponseDTO.ok(updatedUser);
     }
 }

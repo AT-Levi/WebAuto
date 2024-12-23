@@ -7,8 +7,6 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
-import uz.pdp.WebAuto.dtos.address.AddressRequestDTO;
 
 @Data
 @Builder
@@ -23,8 +21,18 @@ public class UserDataRequestDTO {
     private String password;
     private String firstName;
     private String lastName;
-    @NotNull
-    private AddressRequestDTO address;
+
+    @NotBlank(message = "City name is required")
+    private String city;
+    @NotBlank(message = "Street name is required")
+    private String street;
+    @NotBlank(message = "Apartment number is required")
+    private String number;
+
+    private String description;
+
+    private Long longitude;
+    private Long latitude;
 
     @Email
     private String email;
