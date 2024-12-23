@@ -14,7 +14,6 @@ import uz.pdp.WebAuto.mapper.ImageMapper;
 import uz.pdp.WebAuto.repository.ImageRepository;
 import uz.pdp.WebAuto.service.ImageService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -34,7 +33,7 @@ public class ImageServiceImp implements ImageService {
         String fileName = UUID.randomUUID() + "." + extension;
         String mimeType = file.getContentType();
 
-        String imageUrl = storageServiceImp.uploadFile(file, "public/images", fileName);
+        String imageUrl = storageServiceImp.uploadFile(file, "/public", fileName);
 
         Image image = Image.builder()
                 .url(imageUrl)
@@ -44,8 +43,14 @@ public class ImageServiceImp implements ImageService {
                 .originalName(originalFilename)
                 .build();
 
+        return save(image);
+    }
+
+    public Image save(Image image){
         return imageRepository.save(image);
-    }@Override
+    }
+
+    @Override
     public List<Image> saveImages(List<ImageRequestDTO> carImages) {
         return carImages.stream()
                 .map(carImage -> save(carImage.getLogo()))

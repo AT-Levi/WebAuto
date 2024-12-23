@@ -71,11 +71,4 @@ public class User extends BaseEntity implements UserDetails {
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
     }
-
-    @Override
-    public String toString() {
-        return "User{id=" + getId() + ", username='" + username + "', firstName='" + firstName + "', lastName='" + lastName + "'}";
-    }
-
-
 }

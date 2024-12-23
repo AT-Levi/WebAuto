@@ -49,17 +49,11 @@ public class UserController {
     @Operation(summary = "Foydalanuvchi o'zi haqida qo'shimcha ma'lumot qo'shadi")
     public ResponseEntity<ResponseDTO<UserDataDTO>> updateUserData(
             @RequestPart("user")
-            @Parameter(description = "User details") String userData,
+            @Parameter(description = "User details") UserDataRequestDTO userData,
             @RequestPart("profileImage")
             @Parameter(description = "User profile image") MultipartFile profileImage) {
-        UserDataRequestDTO userDataDTO;
-        try {
-            userDataDTO = objectMapper.readValue(userData, UserDataRequestDTO.class);
-        } catch (JsonProcessingException e) {
-            return ResponseDTO.error("Invalid JSON format", HttpStatus.HTTP_VERSION_NOT_SUPPORTED);
-        }
 
-        UserDataDTO updatedUser = userService.updateUserData(userDataDTO, profileImage);
+        UserDataDTO updatedUser = userService.updateUserData(userData, profileImage);
         return ResponseDTO.ok(updatedUser);
     }
 }

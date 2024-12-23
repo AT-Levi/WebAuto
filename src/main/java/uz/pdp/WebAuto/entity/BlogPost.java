@@ -25,8 +25,6 @@ public class BlogPost extends BaseEntity {
 
     private LocalDate date;
 
-    @OneToMany
-    @JoinColumn(name = "picture_id", nullable = false)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Image> pictures;
-
 }

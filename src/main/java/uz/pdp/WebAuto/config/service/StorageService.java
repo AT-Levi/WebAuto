@@ -36,7 +36,7 @@ public class StorageService {
                     .bucket(bucketName)
                     .key(fullPath)
                     .build();
-            client.putObject(putObjectRequest, Paths.get(fileObj.getPath()));
+            client.putObject(putObjectRequest, Paths.get(Objects.requireNonNull(fileObj).getPath()));
             log.info("File uploaded: {}", fullPath);
 
             String fileUrl = String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, region, fullPath);
@@ -44,10 +44,6 @@ public class StorageService {
         } catch (S3Exception e) {
             log.error("Error uploading file: {}", e.awsErrorDetails().errorMessage());
             return "File upload failed: " + e.awsErrorDetails().errorMessage();
-        } finally {
-            if (fileObj.exists()) {
-                fileObj.delete();
-            }
         }
     }
 
@@ -58,7 +54,7 @@ public class StorageService {
         } catch (IOException e) {
             log.error("Error converting MultipartFile to File; {}", e.getMessage());
         }
-        return null;
+        return convertedFile;
     }
 
     public byte[] downloadFile(String fileName) {
