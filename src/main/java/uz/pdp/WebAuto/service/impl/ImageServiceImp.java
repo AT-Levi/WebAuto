@@ -34,7 +34,7 @@ public class ImageServiceImp implements ImageService {
         String fileName = UUID.randomUUID() + "." + extension;
         String mimeType = file.getContentType();
 
-        String imageUrl = storageServiceImp.uploadFile(file, "images", fileName);
+        String imageUrl = storageServiceImp.uploadFile(file, "public/images", fileName);
 
         Image image = Image.builder()
                 .url(imageUrl)
