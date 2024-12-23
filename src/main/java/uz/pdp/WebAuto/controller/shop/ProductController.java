@@ -14,7 +14,7 @@ import uz.pdp.WebAuto.service.shop.ProductService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/shop/products")
 @PreAuthorize("hasAnyRole('DEALER', 'ADMIN')")
 @SecurityRequirement(name = "bearerAuth")
 @RequiredArgsConstructor

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.WebAuto.dtos.car.CarDTO;
 import uz.pdp.WebAuto.dtos.image.ImageResponseDTO;
+import uz.pdp.WebAuto.dtos.user.UserDataDTO;
 import uz.pdp.WebAuto.service.CarService;
 import uz.pdp.WebAuto.service.UserService;
 import uz.pdp.WebAuto.util.ResponseDTO;
@@ -97,16 +98,6 @@ public class HomeController {
             @RequestParam(required = false) BigDecimal maxPrice) {
         List<CarDTO> cars = carService.findByPriceRange(minPrice, maxPrice);
         return ResponseEntity.ok(cars);
-    }
-
-    @Operation(
-            summary = "Foydalanuvchi profil rasmiga yuklash",
-            description = "Bu endpoint foydalanuvchi profil rasmiga yuklash imkoniyatini beradi."
-    )
-    @PostMapping(value = "/profileImage", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<ResponseDTO<ImageResponseDTO>> profileImage(
-            @RequestPart("profileImage") MultipartFile profileImage) {
-        return ResponseDTO.ok(userService.saveProfileImage(profileImage));
     }
 }
 

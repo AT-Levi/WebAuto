@@ -23,7 +23,6 @@ public class UserDataRequestDTO {
     private String password;
     private String firstName;
     private String lastName;
-    private MultipartFile profileImage;
     @NotNull
     private AddressRequestDTO address;
 

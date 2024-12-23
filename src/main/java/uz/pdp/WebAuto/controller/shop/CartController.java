@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @PreAuthorize("hasAnyRole('DEALER', 'ADMIN')")
 @SecurityRequirement(name = "bearerAuth")
-@RequestMapping("/api/cart")
+@RequestMapping("/shop/cart")
 @RequiredArgsConstructor
 public class CartController {
 

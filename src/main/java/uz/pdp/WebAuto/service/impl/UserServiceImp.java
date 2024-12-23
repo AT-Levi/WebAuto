@@ -4,6 +4,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,7 +27,6 @@ import uz.pdp.WebAuto.entity.*;
 import uz.pdp.WebAuto.enums.UserRole;
 import uz.pdp.WebAuto.enums.UserStatus;
 import uz.pdp.WebAuto.exception.NotFoundException;
-import uz.pdp.WebAuto.mapper.AddressMapperImpl;
 import uz.pdp.WebAuto.mapper.UserDataMapper;
 import uz.pdp.WebAuto.mapper.UserMapper;
 import uz.pdp.WebAuto.repository.RoleRepository;
@@ -33,10 +34,7 @@ import uz.pdp.WebAuto.repository.UserRepository;
 import uz.pdp.WebAuto.service.ImageService;
 import uz.pdp.WebAuto.service.UserService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,7 +49,6 @@ public class UserServiceImp implements UserService {
     private final RoleRepository roleRepository;
     private final CurrentUser currentUser;
     private final ImageService imageService;
-    private final AddressMapperImpl addressMapperImpl;
     private final UserDataMapper userDataMapper;
 
     @Override
@@ -63,17 +60,21 @@ public class UserServiceImp implements UserService {
         if (!passwordEncoder.matches(dto.password(), user.getPassword())) {
             throw new RuntimeException("Password doesn't match");
         }
+        Set<String> roleNames = user.getRoles()
+                .stream()
+                .map(role -> role.getName().name()) // Extract role names
+                .collect(Collectors.toSet());
+
+        Set<GrantedAuthority> authorities = roleNames.stream()
+                .map(roleName -> new SimpleGrantedAuthority("ROLE_" + roleName)) // Prefix role with "ROLE_"
+                .collect(Collectors.toSet());
 
         var authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 dto.username(),
-                dto.password()
+                dto.password(),
+                authorities
         ));
         SecurityContextHolder.getContext().setAuthentication(authenticate);
-
-        Set<String> roleNames = user.getRoles()
-                .stream()
-                .map(role -> role.getName().name()) // Rolar nomlarini olish
-                .collect(Collectors.toSet()); // To'plamga yig'ish
 
         return TokensDTO
                 .builder()
@@ -121,8 +122,10 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public UserDataDTO updateUserData(UserDataRequestDTO userData) {
-        User user = userRepository.findByUsername(currentUser.getCurrentUsername()).get();
+    public UserDataDTO updateUserData(UserDataRequestDTO userData,
+                                      MultipartFile profileImage) {
+        User user = userRepository.findByUsername(currentUser.getCurrentUsername())
+                .orElseThrow(() -> new NotFoundException("User not found"));
         AddressRequestDTO address = userData.getAddress();
         Address build = Address.builder()
                 .city(address.getCity())
@@ -135,7 +138,7 @@ public class UserServiceImp implements UserService {
         user.setAddress(build);
         user.setEmail(userData.getEmail());
         user.setPassword(passwordEncoder.encode(userData.getPassword()));
-        Image save = imageService.save(userData.getProfileImage());
+        Image save = imageService.save(profileImage);
         user.setProfileImage(save);
         user.setUsername(user.getUsername());
         user.setPhoneNumber(userData.getPhoneNumber());

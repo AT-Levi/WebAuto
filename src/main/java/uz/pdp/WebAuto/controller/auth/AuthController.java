@@ -8,8 +8,6 @@ import uz.pdp.WebAuto.dtos.auth.LoginDTO;
 import uz.pdp.WebAuto.dtos.auth.TokensDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenRequestDTO;
 import uz.pdp.WebAuto.dtos.token.RefreshTokenResponseDTO;
-import uz.pdp.WebAuto.dtos.user.UserDataDTO;
-import uz.pdp.WebAuto.dtos.user.UserDataRequestDTO;
 import uz.pdp.WebAuto.dtos.user.UserResponseDTO;
 import uz.pdp.WebAuto.service.UserService;
 import uz.pdp.WebAuto.util.ResponseDTO;
@@ -34,19 +32,6 @@ public record AuthController (UserService service) {
     @Operation(summary = "Refresh token")
     public ResponseEntity<ResponseDTO<RefreshTokenResponseDTO>> refresh(@RequestBody RefreshTokenRequestDTO refreshTokenRequestDTO) {
         return ResponseDTO.ok(service.refreshToken(refreshTokenRequestDTO));
-    }
-
-    @GetMapping("/about-me")
-    @Operation(summary = "foydalanuvchi o'zi haqidagi ma'lumotlarni oladi")
-    public ResponseEntity<ResponseDTO<UserDataDTO>> me() {
-        return ResponseDTO.ok(service.me());
-    }
-
-    @PostMapping("/update-data")
-    @Operation(summary = "Foydalanuvchi o'zi haqida qo'shimcha ma'lumot qo'shadi")
-    public ResponseEntity<ResponseDTO<UserDataDTO>> updateUserData(UserDataRequestDTO userData){
-        return ResponseDTO.ok(service.updateUserData(userData));
-
     }
 
 }

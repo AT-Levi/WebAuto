@@ -13,7 +13,7 @@ import uz.pdp.WebAuto.service.shop.OrderDetailsService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/order-details")
+@RequestMapping("/shop/order-details")
 @RequiredArgsConstructor
 @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'DEALER')")
 @SecurityRequirement(name = "bearerAuth")

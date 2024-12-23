@@ -28,6 +28,7 @@ public class CurrentUser {
 
     public String getCurrentUsername() {
         UserDetails userDetails = getCurrentUserDetails();
+        System.out.println(userDetails.getUsername());
         return userDetails != null ? userDetails.getUsername() : null;
     }
 

@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface CompanyService {
 
-    CompanyDataDTO save(CreateCompanyDTO dto);
+    CompanyDataDTO save(CreateCompanyDTO dto, MultipartFile logo);
 
     Company save(Company company);
 

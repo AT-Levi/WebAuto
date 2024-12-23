@@ -61,7 +61,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column(unique = true)
     private String email;
 
-    @Pattern(regexp = "^(\\+\\d{1,3}[- ]?)?\\d{10}$")
+    @Pattern(regexp = "^(\\+\\d{1,3}[- ]?)?\\d{10}$", message = "Telefon raqam noto‘g‘ri formatda!")
     @Column(name = "phone_number")
     private String phoneNumber;
 

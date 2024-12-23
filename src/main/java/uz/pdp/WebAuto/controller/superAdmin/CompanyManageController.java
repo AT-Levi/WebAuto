@@ -1,6 +1,8 @@
 package uz.pdp.WebAuto.controller.superAdmin;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -14,7 +16,9 @@ import uz.pdp.WebAuto.dtos.company.CreateCompanyDTO;
 import uz.pdp.WebAuto.dtos.image.ImageResponseDTO;
 import uz.pdp.WebAuto.entity.Company;
 import uz.pdp.WebAuto.service.CompanyService;
+import uz.pdp.WebAuto.service.impl.ImageServiceImp;
 import uz.pdp.WebAuto.util.ResponseDTO;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 import java.util.List;
 
@@ -26,15 +30,19 @@ import java.util.List;
 public class CompanyManageController {
 
     private final CompanyService companyService;
+    private final ImageServiceImp imageServiceImp;
 
     @Operation(
             summary = "Yangi kompaniya yaratish",
             description = "Bu endpoint orqali siz yangi kompaniya yaratishingiz mumkin, kompaniya ma'lumotlarini taqdim etish orqali."
     )
-    @PostMapping(value = "/create")
+    @PostMapping(value = "/create", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ResponseDTO<CompanyDataDTO>> createCompany(
-            @RequestBody CreateCompanyDTO dto) {
-        return ResponseDTO.ok(companyService.save(dto));
+            @RequestPart("company")
+            @RequestBody(description = "Company details", content = @Content(
+                    schema = @Schema(implementation = CreateCompanyDTO.class))) CreateCompanyDTO dto,
+            @RequestBody(description = "Company logo", content = @Content(mediaType = "image/png")) MultipartFile logo) {
+        return ResponseDTO.ok(companyService.save(dto, logo));
     }
 
     @Operation(

@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SUPER_ADMIN', 'DEALER', 'EMPLOYEE')")
 @SecurityRequirement(name = "bearerAuth")
-@RequestMapping("/api/comments")
+@RequestMapping("/comments")
 @RestController
 public class CommentController {
 

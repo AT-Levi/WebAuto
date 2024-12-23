@@ -18,8 +18,6 @@ public class CreateCompanyDTO {
 
     private String phone;
 
-    private MultipartFile logo;
-
     private String email;
 
     private String description;

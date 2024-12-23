@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.WebAuto.config.service.CurrentUser;
-import uz.pdp.WebAuto.config.service.StorageService;
 import uz.pdp.WebAuto.dtos.address.AddressDTO;
 import uz.pdp.WebAuto.dtos.company.CompanyDataDTO;
 import uz.pdp.WebAuto.dtos.company.CompanyResponseDTO;
@@ -35,9 +34,9 @@ public class CompanyServiceImp implements CompanyService {
     private final CompanyResMapper companyResMapper;
 
     @Override
-    public CompanyDataDTO save(CreateCompanyDTO dto) {
+    public CompanyDataDTO save(CreateCompanyDTO dto, MultipartFile companyLogo) {
         AddressDTO addressDTO = addressServiceImp.save(dto.getAddress());
-        Image logo = imageServiceImp.save(dto.getLogo());
+        Image logo = imageServiceImp.save(companyLogo);
 
         Company company = Company.builder()
                 .owner(currentUser.getCurrentUser())

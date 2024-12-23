@@ -13,12 +13,12 @@ import uz.pdp.WebAuto.util.ResponseDTO;
 
 import java.util.List;
 
-@RequestMapping("/dealer/")
+@RequestMapping("/dealer/brand")
 @PreAuthorize("hasAnyRole('DEALER')")
 @SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequiredArgsConstructor
-public class CarBrandController {
+public class BrandController {
 
     private final BrandService brandService;
 

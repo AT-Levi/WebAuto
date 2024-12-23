@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @PreAuthorize("hasAnyRole('DEALER', 'USER', 'EMPLOYEE', 'ADMIN', 'SUPER_ADMIN')")
 @SecurityRequirement(name = "bearerAuth")
-@RequestMapping("/api/faqs")
+@RequestMapping("/shop/faqs")
 @RestController
 public class FAQController {
 

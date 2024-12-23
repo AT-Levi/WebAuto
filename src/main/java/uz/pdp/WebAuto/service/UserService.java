@@ -34,7 +34,7 @@ public interface UserService {
 
     ImageResponseDTO saveProfileImage(MultipartFile profileImage);
 
-    UserDataDTO updateUserData(UserDataRequestDTO userData);
+    UserDataDTO updateUserData(UserDataRequestDTO userData, MultipartFile profileImage);
 
     void updateUserStatus(Long userId, String status);
 
